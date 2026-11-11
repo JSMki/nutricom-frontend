@@ -11,10 +11,12 @@ body {
     min-height: 100vh;
 }
 
-/* Panel Izquierdo */
+/* Panel Izquierdo con imagen de fondo y filtro verde */
 .login-left {
     flex: 1;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../img/img') center/cover no-repeat;
+    background: linear-gradient(rgba(26, 51, 40, 0.75), rgba(26, 51, 40, 0.75)), 
+                url('https://images.unsplash.com/photo-1610348725531-843dff563e2c?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
+    /* Si descargas la imagen localmente a src/img/login-bg.jpg, la ruta sería: url('../img/login-bg.jpg') */
     background-color: #234234;
     color: #ffffff;
     padding: 40px;
@@ -147,24 +149,6 @@ body {
 
 .btn-submit:hover {
     background-color: #1a3328;
-}
-
-.demo-box {
-    background-color: #f2f7f4;
-    border: 1px solid #d4e8dd;
-    padding: 12px;
-    border-radius: 6px;
-}
-
-.demo-box p {
-    margin: 0 0 4px 0;
-    color: #234234;
-    font-size: 12px;
-}
-
-.demo-box small {
-    color: #555555;
-    font-size: 11px;
 }
 
 /* Responsive */
