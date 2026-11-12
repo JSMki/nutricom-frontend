@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>NutriComunidad - Resumen</title>
+    <link rel="stylesheet" href="./src/css/home.css">
+</head>
+<body class="home-layout">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main">
+        <header class="home-welcome">
+            <div class="home-welcome__content">
+                <p class="home-welcome__date" id="dashboard-date">Resumen de tu comunidad</p>
+                <h1 class="home-welcome__title" id="dashboard-greeting">Buenos días</h1>
+                <p>Aquí tienes el resumen del impacto de tu comunidad.</p>
+            </div>
+            <a class="home-action home-action--primary" href="./donaciones.html">
+                <span aria-hidden="true">＋</span>
+                Nueva donación
+            </a>
+        </header>
+
+        <section class="home-stats" aria-label="Indicadores de impacto">
+            <article class="home-stat">
+                <div class="home-stat__header">
+                    <h2>Alimentos recuperados</h2>
+                    <span class="home-stat__icon home-stat__icon--green" aria-hidden="true">▣</span>
+                </div>
+                <p class="home-stat__value" id="kilos-recuperados">--</p>
+                <div class="home-stat__footer">
+                    <span>kg acumulados</span>
+                    <span class="home-stat__note">Impacto comunitario</span>
+                </div>
+            </article>
+            <article class="home-stat">
+                <div class="home-stat__header">
+                    <h2>Familias beneficiadas</h2>
+                    <span class="home-stat__icon home-stat__icon--gold" aria-hidden="true">♧</span>
+                </div>
+                <p class="home-stat__value" id="familias-activas">--</p>
+                <div class="home-stat__footer">
+                    <span>familias activas</span>
+                    <span class="home-stat__note">Apoyo directo</span>
+                </div>
+            </article>
+            <article class="home-stat">
+                <div class="home-stat__header">
+                    <h2>Donaciones pendientes</h2>
+                    <span class="home-stat__icon home-stat__icon--orange" aria-hidden="true">♡</span>
+                </div>
+                <p class="home-stat__value" id="donaciones-pendientes">--</p>
+                <div class="home-stat__footer">
+                    <span>requieren atención</span>
+                    <a class="home-stat__note" href="./donaciones.html">Ver donaciones</a>
+                </div>
+            </article>
+            <article class="home-stat">
+                <div class="home-stat__header">
+                    <h2>Por caducar</h2>
+                    <span class="home-stat__icon home-stat__icon--red" aria-hidden="true">♨</span>
+                </div>
+                <p class="home-stat__value" id="productos-por-caducar">--</p>
+                <div class="home-stat__footer">
+                    <span>productos en inventario</span>
+                    <span class="home-stat__note home-stat__note--warning">Revisar pronto</span>
+                </div>
+            </article>
+        </section>
+
+    </main>
+
+    <script type="module" src="./src/js/home.js"></script>
+</body>
+</html>
