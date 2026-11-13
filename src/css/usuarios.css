@@ -1,0 +1,63 @@
+/* Estilos específicos complementarios para la vista de usuarios y requests */
+code {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #edf1ee;
+  color: var(--color-secondary);
+  font-family: monospace;
+  font-size: 10px;
+}
+
+.beneficiarios-panel {
+  margin-top: 22px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.beneficiarios-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.beneficiarios-panel__header h2 {
+  color: var(--color-text-main);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.beneficiarios-panel__header p {
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
+
+.beneficiarios-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.beneficiarios-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 12px;
+}
+
+.beneficiarios-table th {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.beneficiarios-table td {
+  padding: 12px;
+  border-bottom: 1px solid #edf1ee;
+  color: var(--color-text-main);
+}

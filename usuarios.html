@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>NutriComunidad - Usuarios y Solicitudes</title>
+    <link rel="stylesheet" href="./src/css/home.css">
+    <link rel="stylesheet" href="./src/css/usuarios.css">
+</head>
+<body class="home-layout">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main">
+        <header class="home-welcome">
+            <div class="home-welcome__content">
+                <p class="home-welcome__date" id="usuarios-date">Gestión interna</p>
+                <h1 class="home-welcome__title">Directorio de Usuarios y Solicitudes</h1>
+                <p>Administra los perfiles del sistema y emite solicitudes de apoyo en nombre de los beneficiarios.</p>
+            </div>
+            <button type="button" class="home-action home-action--primary" id="btn-abrir-solicitud">
+                <span aria-hidden="true">＋</span>
+                Crear Solicitud (/api/requests)
+            </button>
+        </header>
+
+        <!-- Sección de Usuarios (Basado en el backend de usuarios) -->
+        <section class="beneficiarios-panel" aria-label="Tabla de usuarios">
+            <div class="beneficiarios-panel__header">
+                <div>
+                    <h2>Usuarios Registrados en Memoria</h2>
+                    <p>Endpoint: <code>GET /api/usuarios</code></p>
+                </div>
+            </div>
+            <div class="beneficiarios-table-wrapper">
+                <table class="beneficiarios-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Correo electrónico</th>
+                            <th>Rol del sistema</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-usuarios-body">
+                        <!-- Relleno por JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sección de Solicitudes (Basado en el backend de requests / cola) -->
+        <section class="beneficiarios-panel" aria-label="Tabla de solicitudes" style="margin-top: 30px;">
+            <div class="beneficiarios-panel__header">
+                <div>
+                    <h2>Cola de Solicitudes de Apoyo</h2>
+                    <p>Endpoint: <code>GET /api/requests</code> (Atendidas por orden de llegada)</p>
+                </div>
+            </div>
+            <div class="beneficiarios-table-wrapper">
+                <table class="beneficiarios-table">
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Titular</th>
+                            <th>Tipo de Apoyo</th>
+                            <th>Integrantes</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-solicitudes-body">
+                        <!-- Relleno por JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para Nueva Solicitud (Conecta con POST /api/requests) -->
+    <div class="benef-modal-overlay" id="modal-solicitud" hidden>
+        <div class="benef-modal-card" role="dialog" aria-modal="true">
+            <div class="benef-modal-header">
+                <h2>Nueva Solicitud (Backend Queue)</h2>
+                <button type="button" class="benef-modal-close" id="btn-cerrar-modal" aria-label="Cerrar">&times;</button>
+            </div>
+            <p class="benef-modal-subtitle">Se agregará al final de la fila de solicitudes pendientes.</p>
+
+            <form id="form-solicitud-backend" class="benef-form">
+                <div class="benef-form-group">
+                    <label for="input-titular">Nombre del Titular / Beneficiario</label>
+                    <input type="text" id="input-titular" placeholder="Ej. Lucía Gómez" required>
+                </div>
+                <div class="benef-form-row">
+                    <div class="benef-form-group">
+                        <label for="input-tipo">Tipo de Apoyo</label>
+                        <select id="input-tipo">
+                            <option value="Despensa Básica">Despensa Básica</option>
+                            <option value="Canasta Frutas y Verduras">Canasta Frutas y Verduras</option>
+                            <option value="Apoyo Nutricional Infantil">Apoyo Nutricional Infantil</option>
+                        </select>
+                    </div>
+                    <div class="benef-form-group">
+                        <label for="input-integrantes">Integrantes</label>
+                        <input type="number" id="input-integrantes" min="1" value="3" required>
+                    </div>
+                </div>
+                <div class="benef-modal-actions">
+                    <button type="button" class="benef-btn-cancel" id="btn-cancelar">Cancelar</button>
+                    <button type="submit" class="home-action home-action--primary">Enviar (POST)</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="./src/js/usuarios.js"></script>
+</body>
+</html>
