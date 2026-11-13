@@ -1,3 +1,5 @@
+@import './global.css';
+
 /* Estilos generales y paleta verde profesional */
 * {
   box-sizing: border-box;
