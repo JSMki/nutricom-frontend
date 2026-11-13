@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Alimentos e inventario - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/alimentos.css">
+</head>
+<body class="foods-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="foods-page__main">
+        <header class="foods-page__header">
+            <div class="foods-page__heading">
+                <p class="foods-page__eyebrow">Control de inventario</p>
+                <h1 class="foods-page__title">Alimentos e inventario</h1>
+                <p class="foods-page__description">Supervisa los alimentos, sus categorías y su información nutricional.</p>
+            </div>
+            <button class="foods-page__add-button" id="foods-add-button" type="button">
+                <span aria-hidden="true">＋</span>
+                Agregar alimento
+            </button>
+        </header>
+
+        <section class="foods-page__stats" aria-label="Estadísticas de alimentos">
+            <article class="foods-page__stat">
+                <span class="foods-page__stat-label">Total de alimentos</span>
+                <strong class="foods-page__stat-value" id="foods-total">0</strong>
+            </article>
+            <article class="foods-page__stat">
+                <span class="foods-page__stat-label">Disponibles</span>
+                <strong class="foods-page__stat-value foods-page__stat-value--available" id="foods-available">0</strong>
+            </article>
+            <article class="foods-page__stat">
+                <span class="foods-page__stat-label">Agotados</span>
+                <strong class="foods-page__stat-value foods-page__stat-value--empty" id="foods-empty">0</strong>
+            </article>
+            <article class="foods-page__stat">
+                <span class="foods-page__stat-label">Categorías activas</span>
+                <strong class="foods-page__stat-value" id="foods-categories">0</strong>
+            </article>
+        </section>
+
+        <aside class="foods-page__notice" id="foods-notice" aria-live="polite" hidden>
+            <span class="foods-page__notice-icon" aria-hidden="true">!</span>
+            <div class="foods-page__notice-copy">
+                <strong id="foods-notice-title"></strong>
+                <span>Actualiza el estado del inventario cuando haya nuevos alimentos disponibles.</span>
+            </div>
+            <a class="foods-page__notice-link" href="#foods-table">Revisar ahora <span aria-hidden="true">→</span></a>
+        </aside>
+
+        <section class="foods-page__table-card" id="foods-table" aria-label="Listado de alimentos">
+            <div class="foods-page__filters">
+                <label class="foods-page__search">
+                    <span class="foods-page__search-icon" aria-hidden="true">⌕</span>
+                    <span class="sr-only">Buscar alimento</span>
+                    <input id="foods-search" type="search" placeholder="Buscar alimento..." autocomplete="off">
+                </label>
+                <label class="foods-page__filter">
+                    <span class="sr-only">Filtrar por categoría</span>
+                    <select id="foods-category-filter">
+                        <option value="">Todas las categorías</option>
+                    </select>
+                </label>
+                <label class="foods-page__filter">
+                    <span class="sr-only">Filtrar por estado</span>
+                    <select id="foods-status-filter">
+                        <option value="">Todos los estados</option>
+                        <option value="disponible">Disponible</option>
+                        <option value="agotado">Agotado</option>
+                    </select>
+                </label>
+                <span class="foods-page__filter-count" id="foods-filter-count" aria-live="polite">0 filtros</span>
+            </div>
+
+            <div class="foods-page__table-scroll">
+                <table class="foods-page__table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Alimento</th>
+                            <th scope="col">Categoría</th>
+                            <th scope="col">Unidad</th>
+                            <th scope="col">Calorías / porción</th>
+                            <th scope="col">Proteínas</th>
+                            <th scope="col">Carbohidratos</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col"><span class="sr-only">Acciones</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="foods-table-body"></tbody>
+                </table>
+                <p class="foods-page__empty" id="foods-empty-message" hidden>No se encontraron alimentos con esos criterios.</p>
+            </div>
+
+            <footer class="foods-page__pagination">
+                <p class="foods-page__pagination-summary" id="foods-pagination-summary" aria-live="polite"></p>
+                <nav class="foods-page__pagination-controls" id="foods-pagination" aria-label="Paginación"></nav>
+            </footer>
+        </section>
+    </main>
+
+    <dialog class="foods-modal" id="foods-modal" aria-labelledby="foods-modal-title">
+        <div class="foods-modal__surface">
+            <header class="foods-modal__header">
+                <div>
+                    <p class="foods-modal__eyebrow" id="foods-modal-eyebrow">Inventario de alimentos</p>
+                    <h2 class="foods-modal__title" id="foods-modal-title">Agregar alimento</h2>
+                </div>
+                <button class="foods-modal__close" id="foods-modal-close" type="button" aria-label="Cerrar ventana">×</button>
+            </header>
+
+            <section class="foods-modal__details" id="foods-modal-details" hidden></section>
+
+            <form class="foods-modal__form" id="foods-modal-form" novalidate>
+                <div class="foods-modal__form-grid">
+                    <label class="foods-modal__field">
+                        <span>Nombre del alimento <span aria-hidden="true">*</span></span>
+                        <input name="nombre_alimento" type="text" maxlength="120" required>
+                    </label>
+                    <label class="foods-modal__field">
+                        <span>Categoría <span aria-hidden="true">*</span></span>
+                        <select name="id_categoria" id="foods-modal-category" required>
+                            <option value="">Selecciona una categoría</option>
+                        </select>
+                    </label>
+                    <label class="foods-modal__field">
+                        <span>Unidad de medida <span aria-hidden="true">*</span></span>
+                        <select name="unidad_medida" required>
+                            <option value="">Selecciona una unidad</option>
+                            <option value="Kilogramo">Kilogramo</option>
+                            <option value="Gramo">Gramo</option>
+                            <option value="Litro">Litro</option>
+                            <option value="Mililitro">Mililitro</option>
+                            <option value="Pieza">Pieza</option>
+                            <option value="Porción">Porción</option>
+                        </select>
+                    </label>
+                    <label class="foods-modal__field">
+                        <span>Estado <span aria-hidden="true">*</span></span>
+                        <select name="estado" required>
+                            <option value="disponible">Disponible</option>
+                            <option value="agotado">Agotado</option>
+                        </select>
+                    </label>
+                    <label class="foods-modal__field">
+                        <span>Calorías por porción <span aria-hidden="true">*</span></span>
+                        <input name="calorias_porcion" type="number" min="0" step="0.01" required>
+                    </label>
+                    <label class="foods-modal__field">
+                        <span>Proteínas (g) <span aria-hidden="true">*</span></span>
+                        <input name="proteinas" type="number" min="0" step="0.01" required>
+                    </label>
+                    <label class="foods-modal__field">
+                        <span>Carbohidratos (g) <span aria-hidden="true">*</span></span>
+                        <input name="carbohidratos" type="number" min="0" step="0.01" required>
+                    </label>
+                    <label class="foods-modal__field">
+                        <span>Grasas (g) <span aria-hidden="true">*</span></span>
+                        <input name="grasas" type="number" min="0" step="0.01" required>
+                    </label>
+                    <label class="foods-modal__field foods-modal__field--wide">
+                        <span>Descripción</span>
+                        <textarea name="descripcion" rows="3" maxlength="500"></textarea>
+                    </label>
+                </div>
+                <p class="foods-modal__error" id="foods-modal-error" role="alert" hidden></p>
+                <footer class="foods-modal__actions">
+                    <button class="foods-modal__button foods-modal__button--secondary" id="foods-modal-cancel" type="button">Cancelar</button>
+                    <button class="foods-modal__button foods-modal__button--primary" id="foods-modal-submit" type="submit">Guardar alimento</button>
+                </footer>
+            </form>
+
+            <footer class="foods-modal__actions" id="foods-modal-detail-actions" hidden>
+                <button class="foods-modal__button foods-modal__button--secondary" id="foods-modal-detail-close" type="button">Cerrar</button>
+                <button class="foods-modal__button foods-modal__button--primary" id="foods-modal-edit" type="button">Editar alimento</button>
+            </footer>
+        </div>
+    </dialog>
+
+    <script type="module" src="./src/js/alimentos.js"></script>
+</body>
+</html>

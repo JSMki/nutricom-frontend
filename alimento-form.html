@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Agregar alimento - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/alimento-form.css">
+</head>
+<body class="food-form-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="food-form-page__main">
+        <a class="food-form-page__back" href="./alimentos.html">← Volver a alimentos</a>
+        <section class="food-form-page__card">
+            <header class="food-form-page__header">
+                <p class="food-form-page__eyebrow">Control de inventario</p>
+                <h1 class="food-form-page__title" id="food-form-title">Agregar alimento</h1>
+                <p class="food-form-page__description">Registra la información general y nutricional del alimento.</p>
+            </header>
+
+            <form class="food-form-page__form" id="food-form" novalidate>
+                <div class="food-form-page__grid">
+                    <label class="food-form-page__field">
+                        <span>Nombre del alimento <span aria-hidden="true">*</span></span>
+                        <input name="nombre_alimento" type="text" maxlength="120" required>
+                    </label>
+
+                    <label class="food-form-page__field">
+                        <span>Categoría <span aria-hidden="true">*</span></span>
+                        <select name="id_categoria" id="food-category" required>
+                            <option value="">Selecciona una categoría</option>
+                        </select>
+                    </label>
+
+                    <label class="food-form-page__field">
+                        <span>Unidad de medida <span aria-hidden="true">*</span></span>
+                        <select name="unidad_medida" required>
+                            <option value="">Selecciona una unidad</option>
+                            <option value="Kilogramo">Kilogramo</option>
+                            <option value="Gramo">Gramo</option>
+                            <option value="Litro">Litro</option>
+                            <option value="Mililitro">Mililitro</option>
+                            <option value="Pieza">Pieza</option>
+                            <option value="Porción">Porción</option>
+                        </select>
+                    </label>
+
+                    <label class="food-form-page__field">
+                        <span>Estado <span aria-hidden="true">*</span></span>
+                        <select name="estado" required>
+                            <option value="disponible">Disponible</option>
+                            <option value="agotado">Agotado</option>
+                        </select>
+                    </label>
+
+                    <label class="food-form-page__field">
+                        <span>Calorías por porción <span aria-hidden="true">*</span></span>
+                        <input name="calorias_porcion" type="number" min="0" step="0.01" required>
+                    </label>
+
+                    <label class="food-form-page__field">
+                        <span>Proteínas (g) <span aria-hidden="true">*</span></span>
+                        <input name="proteinas" type="number" min="0" step="0.01" required>
+                    </label>
+
+                    <label class="food-form-page__field">
+                        <span>Carbohidratos (g) <span aria-hidden="true">*</span></span>
+                        <input name="carbohidratos" type="number" min="0" step="0.01" required>
+                    </label>
+
+                    <label class="food-form-page__field">
+                        <span>Grasas (g) <span aria-hidden="true">*</span></span>
+                        <input name="grasas" type="number" min="0" step="0.01" required>
+                    </label>
+
+                    <label class="food-form-page__field food-form-page__field--wide">
+                        <span>Descripción</span>
+                        <textarea name="descripcion" rows="3" maxlength="500"></textarea>
+                    </label>
+                </div>
+
+                <p class="food-form-page__error" id="food-form-error" role="alert" hidden></p>
+
+                <footer class="food-form-page__actions">
+                    <a class="food-form-page__button food-form-page__button--secondary" href="./alimentos.html">Cancelar</a>
+                    <button class="food-form-page__button food-form-page__button--primary" type="submit" id="food-form-submit">Guardar alimento</button>
+                </footer>
+            </form>
+        </section>
+    </main>
+
+    <script type="module" src="./src/js/alimento-form.js"></script>
+</body>
+</html>

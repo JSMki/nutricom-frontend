@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>NutriComunidad - Usuarios y beneficiarios</title>
+    <link rel="stylesheet" href="./src/css/home.css">
+    <link rel="stylesheet" href="./src/css/usuarios.css">
+</head>
+<body class="home-layout usuarios-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main">
+        <!-- Encabezado idéntico al diseño de Figma -->
+        <header class="home-welcome usuarios-page__welcome">
+            <div class="home-welcome__content">
+                <p class="home-welcome__date">GESTIÓN DE COMUNIDAD</p>
+                <h1 class="home-welcome__title">Usuarios y beneficiarios</h1>
+                <p>Administra las familias y personas registradas en el programa.</p>
+            </div>
+            <div class="usuarios-page__header-actions">
+                <button type="button" class="home-action usuarios-page__button usuarios-page__button--secondary" id="btn-abrir-solicitud">
+                    <span aria-hidden="true">＋</span> Hacer solicitud
+                </button>
+                <button type="button" class="home-action home-action--primary" id="btn-abrir-usuario">
+                    <span aria-hidden="true">＋</span> Agregar usuario
+                </button>
+            </div>
+        </header>
+
+        <!-- Las 3 píldoras de estadísticas exactas de la imagen -->
+        <section class="usuarios-page__summary" aria-label="Resumen de usuarios">
+            <div class="usuarios-page__summary-item">
+                <strong id="pill-total">5</strong>
+                <span>usuarios totales</span>
+            </div>
+            <div class="usuarios-page__summary-item">
+                <strong id="pill-activos">4</strong>
+                <span>activos</span>
+            </div>
+            <div class="usuarios-page__summary-item">
+                <strong id="pill-integrantes">20</strong>
+                <span>integrantes beneficiados</span>
+            </div>
+        </section>
+
+        <!-- Tarjeta principal con buscador, filtros y tabla -->
+        <section class="usuarios-page__directory" aria-label="Directorio de usuarios y beneficiarios">
+            <div class="usuarios-page__toolbar">
+                <div class="usuarios-page__search">
+                    <span class="usuarios-page__search-icon" aria-hidden="true">⌕</span>
+                    <input type="search" id="input-buscar" placeholder="Buscar por nombre, usuario o correo..." aria-label="Buscar por nombre, usuario o correo">
+                </div>
+
+                <div class="usuarios-page__filters">
+                    <select id="select-colonia" class="usuarios-page__filter" aria-label="Filtrar por colonia">
+                        <option value="todas">Todas las colonias</option>
+                        <option value="San Miguel">San Miguel</option>
+                        <option value="Las Flores">Las Flores</option>
+                        <option value="El Rosario">El Rosario</option>
+                        <option value="La Esperanza">La Esperanza</option>
+                        <option value="Centro">Centro</option>
+                    </select>
+
+                    <select id="select-estado" class="usuarios-page__filter" aria-label="Filtrar por estado">
+                        <option value="todos">Todos los estados</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="usuarios-page__table-scroll">
+                <table class="usuarios-page__table">
+                    <thead>
+                        <tr>
+                            <th>USUARIO</th>
+                            <th>NOMBRE COMPLETO</th>
+                            <th>FAMILIA</th>
+                            <th>COLONIA</th>
+                            <th>ESTADO</th>
+                            <th class="usuarios-page__table-heading usuarios-page__table-heading--actions">ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuarios-tbody">
+                        <!-- Filas renderizadas por JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <footer class="usuarios-page__pagination">
+                <span id="usuarios-count-label">Mostrando 1–5 de 5 usuarios</span>
+                <div class="usuarios-page__pages">
+                    <button type="button" class="usuarios-page__page-button" disabled aria-label="Anterior">←</button>
+                    <button type="button" class="usuarios-page__page-button usuarios-page__page-button--active">1</button>
+                    <button type="button" class="usuarios-page__page-button" disabled aria-label="Siguiente">→</button>
+                </div>
+            </footer>
+        </section>
+    </main>
+
+    <!-- MODAL 1: AGREGAR USUARIO (POST /api/usuarios) -->
+    <div class="usuarios-modal" id="modal-usuario" hidden>
+        <div class="usuarios-modal__card" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-user">
+            <div class="usuarios-modal__header">
+                <h2 id="titulo-modal-user">Agregar nuevo usuario</h2>
+                <button type="button" class="usuarios-modal__close" id="btn-cerrar-user" aria-label="Cerrar">&times;</button>
+            </div>
+            <form id="form-usuario" class="usuarios-modal__form">
+                <div class="usuarios-modal__form-row">
+                    <div class="usuarios-modal__field">
+                        <label for="u-username">Usuario</label>
+                        <input type="text" id="u-username" placeholder="ej. mlopez" required>
+                    </div>
+                    <div class="usuarios-modal__field">
+                        <label for="u-integrantes">Integrantes familia</label>
+                        <input type="number" id="u-integrantes" min="1" max="20" value="4" required>
+                    </div>
+                </div>
+                <div class="usuarios-modal__field">
+                    <label for="u-nombre">Nombre completo</label>
+                    <input type="text" id="u-nombre" placeholder="Ej. María López García" required>
+                </div>
+                <div class="usuarios-modal__field">
+                    <label for="u-correo">Correo electrónico</label>
+                    <input type="email" id="u-correo" placeholder="maria.lopez@email.com" required>
+                </div>
+                <div class="usuarios-modal__form-row">
+                    <div class="usuarios-modal__field">
+                        <label for="u-colonia">Colonia</label>
+                        <select id="u-colonia">
+                            <option value="San Miguel">San Miguel</option>
+                            <option value="Las Flores">Las Flores</option>
+                            <option value="El Rosario">El Rosario</option>
+                            <option value="La Esperanza">La Esperanza</option>
+                            <option value="Centro">Centro</option>
+                        </select>
+                    </div>
+                    <div class="usuarios-modal__field">
+                        <label for="u-estado">Estado</label>
+                        <select id="u-estado">
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="usuarios-modal__actions">
+                    <button type="button" class="usuarios-modal__cancel-button" id="btn-cancel-user">Cancelar</button>
+                    <button type="submit" class="home-action home-action--primary">Guardar usuario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: HACER SOLICITUD (POST /api/requests) -->
+    <div class="usuarios-modal" id="modal-solicitud" hidden>
+        <div class="usuarios-modal__card" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-sol">
+            <div class="usuarios-modal__header">
+                <h2 id="titulo-modal-sol">Nueva solicitud de apoyo</h2>
+                <button type="button" class="usuarios-modal__close" id="btn-cerrar-sol" aria-label="Cerrar">&times;</button>
+            </div>
+            <form id="form-solicitud" class="usuarios-modal__form">
+                <div class="usuarios-modal__field">
+                    <label for="s-titular">Beneficiario solicitante</label>
+                    <input type="text" id="s-titular" placeholder="Ej. María López García" required>
+                </div>
+                <div class="usuarios-modal__form-row">
+                    <div class="usuarios-modal__field">
+                        <label for="s-tipo">Tipo de despensa</label>
+                        <select id="s-tipo">
+                            <option value="Despensa Básica">Despensa Básica</option>
+                            <option value="Frutas y Verduras">Frutas y Verduras</option>
+                            <option value="Apoyo Infantil">Apoyo Infantil</option>
+                        </select>
+                    </div>
+                    <div class="usuarios-modal__field">
+                        <label for="s-integrantes">Integrantes</label>
+                        <input type="number" id="s-integrantes" min="1" value="4" required>
+                    </div>
+                </div>
+                <div class="usuarios-modal__actions">
+                    <button type="button" class="usuarios-modal__cancel-button" id="btn-cancel-sol">Cancelar</button>
+                    <button type="submit" class="home-action home-action--primary">Enviar solicitud</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="./src/js/usuarios.js"></script>
+</body>
+</html>
