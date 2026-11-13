@@ -101,11 +101,11 @@ export async function agregarUsuarioDirectorio(nuevoUsuario) {
 export async function eliminarUsuarioDirectorio(id) {
     try {
         const res = await fetch(`${API_BASE_URL}/usuarios/${id}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error('Backend no disponible');
-        return true;
+        return res.ok;
     } catch (error) {
+        const longitudInicial = usuariosExtrasMemoria.length;
         usuariosExtrasMemoria = usuariosExtrasMemoria.filter(u => u.id !== Number(id));
-        return true;
+        return usuariosExtrasMemoria.length < longitudInicial;
     }
 }
 
