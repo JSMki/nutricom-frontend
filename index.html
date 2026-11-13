@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,21 +7,27 @@
     <link rel="stylesheet" href="./src/css/index.css" />
   </head>
   <body>
-    <header>
-      <h1>Welcome to Nutricom</h1>
-      <nav>
+    <!-- Header moderno y adaptable -->
+    <header class="main-header">
+      <div class="nav-brand">
+        <h1>Nutricom</h1>
+      </div>
+      <nav class="nav-menu" id="navMenu">
         <ul>
-          <li><a href="./login.html">login</a></li>
-          <li><a href="./home.html">home</a></li>
+          <li><a href="./index.html" class="active">Inicio</a></li>
+          <li><a href="./login.html">Login</a></li>
+          <li><a href="./home.html">Home</a></li>
         </ul>
       </nav>
+      <!-- Botón hamburguesa para móvil -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
     </header>
 
     <main>
       <section class="hero">
         <h2>Your Health, Our Priority</h2>
         <p>Discover the best nutrition plans tailored for you.</p>
-        <button>Get Started</button>
+        <button class="btn-primary" data-open-modal>Get Started</button>
       </section>
 
       <section class="features">
@@ -47,13 +53,40 @@
 
       <section class="cta">
         <h2>Ready to Transform Your Health?</h2>
-        <button>Sign Up Now</button>
+        <button class="btn-secondary" data-open-modal>Sign Up Now</button>
       </section>
     </main>
 
     <footer>
-      <p>&copy; 2024 Nutricom. All rights reserved.</p>
+      <p>&copy; 2026 Nutricom. All rights reserved.</p>
     </footer>
 
-    <!-- Add your JavaScript files here -->
+    <!-- VENTANA EMERGENTE (MODAL) DE REGISTRO CON EFECTO BLUR -->
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h2>Crea tu cuenta en Nutricom</h2>
+            <p class="modal-sub">Regístrate sin salir de la página principal.</p>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre completo</label>
+                    <input type="text" id="nombre" placeholder="Tu nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="regCorreo">Correo electrónico</label>
+                    <input type="email" id="regCorreo" placeholder="correo@ejemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPass">Contraseña</label>
+                    <input type="password" id="regPass" placeholder="••••••••••••" required>
+                </div>
+                <button type="submit" class="btn-submit">Registrarse</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script modular con JavaScript -->
+    <script type="module" src="./src/js/main.js"></script>
   </body>
+</html>
