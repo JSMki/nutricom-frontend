@@ -136,7 +136,7 @@ footer {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(6px); /* Efecto blur solicitado */
+    backdrop-filter: blur(6px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -247,4 +247,4 @@ footer {
         text-align: center;
         gap: 15px;
     }
-}@import './global.css';
+}
