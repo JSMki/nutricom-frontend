@@ -6,79 +6,79 @@
     <title>Nutricom</title>
     <link rel="stylesheet" href="./src/css/index.css" />
   </head>
-  <body>
-    <header class="main-header">
-      <div class="nav-brand">
-        <h1>Nutricom</h1>
+  <body class="landing-page">
+    <header class="landing-header">
+      <div class="landing-header__brand">
+        <h1 class="landing-header__brand-name">Nutricom</h1>
       </div>
-      <nav class="nav-menu" id="navMenu">
-        <ul>
-          <li><a href="./index.html" class="active">Inicio</a></li>
-          <li><a href="./login.html">Login</a></li>
-          <li><a href="./home.html">Home</a></li>
+      <nav class="landing-nav" id="navMenu" aria-label="Navegación principal">
+        <ul class="landing-nav__list">
+          <li><a href="./index.html" class="landing-nav__link landing-nav__link--active">Inicio</a></li>
+          <li><a href="./login.html" class="landing-nav__link">Login</a></li>
+          <li><a href="./home.html" class="landing-nav__link">Home</a></li>
         </ul>
       </nav>
-      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+      <button type="button" class="landing-header__menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-controls="navMenu" aria-expanded="false">☰</button>
     </header>
 
-    <main>
-      <section class="hero">
-        <h2>Your Health, Our Priority</h2>
-        <p>Discover the best nutrition plans tailored for you.</p>
-        <button type="button" class="btn-primary" data-open-modal>Get Started</button>
+    <main class="landing-main">
+      <section class="landing-hero">
+        <h2 class="landing-hero__title">Your Health, Our Priority</h2>
+        <p class="landing-hero__description">Discover the best nutrition plans tailored for you.</p>
+        <button type="button" class="landing-button landing-button--primary" data-open-modal>Get Started</button>
       </section>
 
-      <section class="features">
-        <div class="feature">
-          <h3>Personalized Plans</h3>
+      <section class="landing-features">
+        <div class="landing-features__item">
+          <h3 class="landing-features__item-title">Personalized Plans</h3>
           <p>Get nutrition plans that fit your lifestyle and goals.</p>
         </div>
-        <div class="feature">
-          <h3>Expert Advice</h3>
+        <div class="landing-features__item">
+          <h3 class="landing-features__item-title">Expert Advice</h3>
           <p>Consult with certified nutritionists for guidance.</p>
         </div>
-        <div class="feature">
-          <h3>Community Support</h3>
+        <div class="landing-features__item">
+          <h3 class="landing-features__item-title">Community Support</h3>
           <p>Join our community to share experiences and tips.</p>
         </div>
       </section>
 
-      <section class="testimonials">
-        <h2>What Our Users Say</h2>
-        <blockquote>"Nutricom changed my life! I feel healthier and more energetic."</blockquote>
-        <blockquote>"The personalized plans are amazing. Highly recommend!"</blockquote>
+      <section class="landing-testimonials">
+        <h2 class="landing-testimonials__title">What Our Users Say</h2>
+        <blockquote class="landing-testimonials__quote">"Nutricom changed my life! I feel healthier and more energetic."</blockquote>
+        <blockquote class="landing-testimonials__quote">"The personalized plans are amazing. Highly recommend!"</blockquote>
       </section>
 
-      <section class="cta">
-        <h2>Ready to Transform Your Health?</h2>
-        <button type="button" class="btn-secondary" data-open-modal>Sign Up Now</button>
+      <section class="landing-cta">
+        <h2 class="landing-cta__title">Ready to Transform Your Health?</h2>
+        <button type="button" class="landing-button landing-button--secondary" data-open-modal>Sign Up Now</button>
       </section>
     </main>
 
-    <footer>
+    <footer class="landing-footer">
       <p>&copy; 2026 Nutricom. All rights reserved.</p>
     </footer>
 
-    <div class="modal-overlay" id="registerModal">
-      <div class="modal-card">
-        <button type="button" class="modal-close" id="closeModal" aria-label="Cerrar modal">&times;</button>
-        <h2>Crea tu cuenta en Nutricom</h2>
-        <p class="modal-sub">Regístrate sin salir de la página principal.</p>
+    <div class="landing-modal" id="registerModal" hidden>
+      <div class="landing-modal__card" role="dialog" aria-modal="true" aria-labelledby="register-title">
+        <button type="button" class="landing-modal__close" id="closeModal" aria-label="Cerrar modal">&times;</button>
+        <h2 class="landing-modal__title" id="register-title">Crea tu cuenta en Nutricom</h2>
+        <p class="landing-modal__description">Regístrate sin salir de la página principal.</p>
 
-        <form id="registerForm">
-          <div class="form-group">
-            <label for="nombre">Nombre completo</label>
-            <input type="text" id="nombre" placeholder="Tu nombre" required />
+        <form id="registerForm" class="landing-form">
+          <div class="landing-form__field">
+            <label class="landing-form__label" for="nombre">Nombre completo</label>
+            <input class="landing-form__input" type="text" id="nombre" placeholder="Tu nombre" required />
           </div>
-          <div class="form-group">
-            <label for="regCorreo">Correo electrónico</label>
-            <input type="email" id="regCorreo" placeholder="correo@ejemplo.com" required />
+          <div class="landing-form__field">
+            <label class="landing-form__label" for="regCorreo">Correo electrónico</label>
+            <input class="landing-form__input" type="email" id="regCorreo" placeholder="correo@ejemplo.com" required />
           </div>
-          <div class="form-group">
-            <label for="regPass">Contraseña</label>
-            <input type="password" id="regPass" placeholder="••••••••••••" required />
+          <div class="landing-form__field">
+            <label class="landing-form__label" for="regPass">Contraseña</label>
+            <input class="landing-form__input" type="password" id="regPass" placeholder="••••••••••••" required />
           </div>
-          <button type="submit" class="btn-submit">Registrarse</button>
+          <button type="submit" class="landing-button landing-button--submit">Registrarse</button>
         </form>
       </div>
     </div>

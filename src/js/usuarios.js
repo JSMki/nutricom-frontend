@@ -103,14 +103,14 @@ function renderizarTabla() {
         // Columna Usuario
         const tdUser = document.createElement('td');
         const cell = document.createElement('div');
-        cell.className = 'usuario-cell';
+        cell.className = 'usuarios-page__user-cell';
 
         const avatar = document.createElement('span');
-        avatar.className = `usuario-avatar usuario-avatar--${u.color || 'green'}`;
+        avatar.className = `usuarios-page__avatar usuarios-page__avatar--${u.color || 'green'}`;
         avatar.textContent = obtenerIniciales(u.nombre || 'Usuario');
 
         const meta = document.createElement('div');
-        meta.className = 'usuario-meta';
+        meta.className = 'usuarios-page__user-meta';
         const strong = document.createElement('strong');
         strong.textContent = u.username || u.correo.split('@')[0];
         const small = document.createElement('small');
@@ -138,18 +138,18 @@ function renderizarTabla() {
         const tdEstado = document.createElement('td');
         const badge = document.createElement('span');
         const estadoVal = u.estado || 'Activo';
-        badge.className = `usuario-badge ${estadoVal === 'Activo' ? 'usuario-badge--activo' : 'usuario-badge--inactivo'}`;
+        badge.className = `usuarios-page__badge ${estadoVal === 'Activo' ? 'usuarios-page__badge--active' : 'usuarios-page__badge--inactive'}`;
         badge.textContent = estadoVal;
         tdEstado.appendChild(badge);
 
         // Columna Acciones
         const tdAcciones = document.createElement('td');
         const actionsWrap = document.createElement('div');
-        actionsWrap.className = 'usuario-row-actions';
+        actionsWrap.className = 'usuarios-page__row-actions';
 
         const btnSol = document.createElement('button');
         btnSol.type = 'button';
-        btnSol.className = 'usuario-icon-btn';
+        btnSol.className = 'usuarios-page__icon-button';
         btnSol.title = 'Hacer solicitud para este usuario';
         btnSol.textContent = '＋';
         btnSol.addEventListener('click', () => {
@@ -160,7 +160,7 @@ function renderizarTabla() {
 
         const btnDel = document.createElement('button');
         btnDel.type = 'button';
-        btnDel.className = 'usuario-icon-btn usuario-icon-btn--danger';
+        btnDel.className = 'usuarios-page__icon-button usuarios-page__icon-button--danger';
         btnDel.title = 'Eliminar usuario';
         btnDel.textContent = '✕';
         btnDel.addEventListener('click', async () => {
