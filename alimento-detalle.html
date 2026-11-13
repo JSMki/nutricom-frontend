@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Detalle del alimento - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/alimento-detalle.css">
+</head>
+<body class="food-detail-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="food-detail-page__main">
+        <a class="food-detail-page__back" href="./alimentos.html">← Volver a alimentos</a>
+        <section class="food-detail-page__card" id="food-detail">
+            <p class="food-detail-page__eyebrow">Inventario de alimentos</p>
+            <h1 class="food-detail-page__title">Cargando alimento...</h1>
+            <p class="food-detail-page__message" id="food-detail-message" role="status" hidden></p>
+            <div class="food-detail-page__content" id="food-detail-content" hidden></div>
+            <div class="food-detail-page__actions" id="food-detail-actions" hidden>
+                <a class="food-detail-page__button food-detail-page__button--secondary" href="./alimentos.html">Regresar al listado</a>
+                <a class="food-detail-page__button food-detail-page__button--primary" id="food-detail-edit" href="./alimento-form.html">Editar alimento</a>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="./src/js/alimento-detalle.js"></script>
+</body>
+</html>
