@@ -1,54 +1,53 @@
-// Lógica segura para el menú móvil y el modal de registro
-
 document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.querySelector('#menuToggle');
-    const navMenu = document.querySelector('#navMenu');
+  // 1. Control del menú móvil (hamburguesa)
+  const menuToggle = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
 
-    if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-    }
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', () => {
+      navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+    });
+  }
 
-    const registerModal = document.querySelector('#registerModal');
-    const openModalBtns = document.querySelectorAll('[data-open-modal]');
-    const closeModalBtn = document.querySelector('#closeModal');
-    const registerForm = document.querySelector('#registerForm');
+  // 2. Control del modal de registro con efecto blur
+  const modal = document.getElementById('registerModal');
+  const openModalButtons = document.querySelectorAll('[data-open-modal]');
+  const closeModalButton = document.getElementById('closeModal');
+  const registerForm = document.getElementById('registerForm');
 
-    function abrirModal() {
-        if (registerModal) {
-            registerModal.classList.add('active');
-        }
-    }
-
-    function cerrarModal() {
-        if (registerModal) {
-            registerModal.classList.remove('active');
-        }
-    }
-
-    openModalBtns.forEach(btn => {
-        btn.addEventListener('click', abrirModal);
+  if (modal) {
+    // Abrir modal al hacer clic en los botones de "Get Started" o "Sign Up Now"
+    openModalButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        modal.classList.add('active');
+      });
     });
 
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', cerrarModal);
+    // Cerrar modal con el botón de la "X"
+    if (closeModalButton) {
+      closeModalButton.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
     }
 
-    if (registerModal) {
-        registerModal.addEventListener('click', (e) => {
-            if (e.target === registerModal) {
-                cerrarModal();
-            }
-        });
-    }
+    // Cerrar modal si hacen clic fuera de la tarjeta (en el fondo oscuro)
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+  }
 
-    if (registerForm) {
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('¡Registro exitoso!');
-            cerrarModal();
-            registerForm.reset();
-        });
-    }
+  // 3. Manejo seguro del formulario de registro
+  if (registerForm) {
+    registerForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const nombre = document.getElementById('nombre')?.value || '';
+      alert(`¡Gracias por registrarte, ${nombre}! Pronto nos pondremos en contacto.`);
+      if (modal) {
+        modal.classList.remove('active');
+      }
+      registerForm.reset();
+    });
+  }
 });

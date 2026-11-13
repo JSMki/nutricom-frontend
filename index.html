@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="./src/css/index.css" />
   </head>
   <body>
-    <!-- Header moderno y adaptable -->
     <header class="main-header">
       <div class="nav-brand">
         <h1>Nutricom</h1>
@@ -19,15 +18,14 @@
           <li><a href="./home.html">Home</a></li>
         </ul>
       </nav>
-      <!-- Botón hamburguesa para móvil -->
-      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
     </header>
 
     <main>
       <section class="hero">
         <h2>Your Health, Our Priority</h2>
         <p>Discover the best nutrition plans tailored for you.</p>
-        <button class="btn-primary" data-open-modal>Get Started</button>
+        <button type="button" class="btn-primary" data-open-modal>Get Started</button>
       </section>
 
       <section class="features">
@@ -53,7 +51,7 @@
 
       <section class="cta">
         <h2>Ready to Transform Your Health?</h2>
-        <button class="btn-secondary" data-open-modal>Sign Up Now</button>
+        <button type="button" class="btn-secondary" data-open-modal>Sign Up Now</button>
       </section>
     </main>
 
@@ -61,32 +59,30 @@
       <p>&copy; 2026 Nutricom. All rights reserved.</p>
     </footer>
 
-    <!-- VENTANA EMERGENTE (MODAL) DE REGISTRO CON EFECTO BLUR -->
     <div class="modal-overlay" id="registerModal">
-        <div class="modal-card">
-            <button class="modal-close" id="closeModal">&times;</button>
-            <h2>Crea tu cuenta en Nutricom</h2>
-            <p class="modal-sub">Regístrate sin salir de la página principal.</p>
+      <div class="modal-card">
+        <button type="button" class="modal-close" id="closeModal" aria-label="Cerrar modal">&times;</button>
+        <h2>Crea tu cuenta en Nutricom</h2>
+        <p class="modal-sub">Regístrate sin salir de la página principal.</p>
 
-            <form id="registerForm">
-                <div class="form-group">
-                    <label for="nombre">Nombre completo</label>
-                    <input type="text" id="nombre" placeholder="Tu nombre" required>
-                </div>
-                <div class="form-group">
-                    <label for="regCorreo">Correo electrónico</label>
-                    <input type="email" id="regCorreo" placeholder="correo@ejemplo.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="regPass">Contraseña</label>
-                    <input type="password" id="regPass" placeholder="••••••••••••" required>
-                </div>
-                <button type="submit" class="btn-submit">Registrarse</button>
-            </form>
-        </div>
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label for="regCorreo">Correo electrónico</label>
+            <input type="email" id="regCorreo" placeholder="correo@ejemplo.com" required />
+          </div>
+          <div class="form-group">
+            <label for="regPass">Contraseña</label>
+            <input type="password" id="regPass" placeholder="••••••••••••" required />
+          </div>
+          <button type="submit" class="btn-submit">Registrarse</button>
+        </form>
+      </div>
     </div>
 
-    <!-- Script modular apuntando al archivo correcto (index.js) -->
     <script type="module" src="./src/js/index.js"></script>
   </body>
 </html>
