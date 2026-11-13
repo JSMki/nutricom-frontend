@@ -528,6 +528,9 @@
 }
 
 .foods-modal {
+  position: fixed;
+  inset: 0;
+  margin: auto;
   width: min(680px, calc(100vw - 32px));
   max-width: none;
   max-height: min(90vh, 820px);
