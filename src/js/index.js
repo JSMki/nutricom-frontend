@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (menuToggle && navMenu) {
     menuToggle.addEventListener('click', () => {
-      navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+      const isOpen = navMenu.classList.toggle('landing-nav--open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
     });
   }
 
@@ -14,26 +16,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const openModalButtons = document.querySelectorAll('[data-open-modal]');
   const closeModalButton = document.getElementById('closeModal');
   const registerForm = document.getElementById('registerForm');
+  const closeRegistrationModal = () => {
+    modal.classList.remove('landing-modal--open');
+    modal.hidden = true;
+  };
 
   if (modal) {
     // Abrir modal al hacer clic en los botones de "Get Started" o "Sign Up Now"
     openModalButtons.forEach(button => {
       button.addEventListener('click', () => {
-        modal.classList.add('active');
+        modal.hidden = false;
+        modal.classList.add('landing-modal--open');
       });
     });
 
     // Cerrar modal con el botón de la "X"
     if (closeModalButton) {
       closeModalButton.addEventListener('click', () => {
-        modal.classList.remove('active');
+        closeRegistrationModal();
       });
     }
 
     // Cerrar modal si hacen clic fuera de la tarjeta (en el fondo oscuro)
     modal.addEventListener('click', (event) => {
       if (event.target === modal) {
-        modal.classList.remove('active');
+        closeRegistrationModal();
       }
     });
   }
@@ -45,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const nombre = document.getElementById('nombre')?.value || '';
       alert(`¡Gracias por registrarte, ${nombre}! Pronto nos pondremos en contacto.`);
       if (modal) {
-        modal.classList.remove('active');
+        closeRegistrationModal();
       }
       registerForm.reset();
     });

@@ -5,7 +5,7 @@
   box-sizing: border-box;
 }
 
-body {
+.landing-page {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f9fbf9;
@@ -14,7 +14,7 @@ body {
 }
 
 /* Header y Navegación */
-.main-header {
+.landing-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,13 +26,13 @@ body {
   z-index: 100;
 }
 
-.nav-brand h1 {
+.landing-header__brand-name {
   margin: 0;
   font-size: 20px;
   color: #2e7d32;
 }
 
-.nav-menu ul {
+.landing-nav__list {
   list-style: none;
   display: flex;
   gap: 25px;
@@ -40,19 +40,19 @@ body {
   padding: 0;
 }
 
-.nav-menu a {
+.landing-nav__link {
   text-decoration: none;
   color: #555555;
   font-weight: 500;
   transition: color 0.2s;
 }
 
-.nav-menu a:hover,
-.nav-menu a.active {
+.landing-nav__link:hover,
+.landing-nav__link--active {
   color: #2e7d32;
 }
 
-.menu-toggle {
+.landing-header__menu-toggle {
   display: none;
   background: none;
   border: none;
@@ -62,13 +62,13 @@ body {
 }
 
 /* Secciones principales */
-main {
+.landing-main {
   padding: 40px 20px;
   max-width: 1100px;
   margin: 0 auto;
 }
 
-.hero {
+.landing-hero {
   text-align: center;
   padding: 60px 20px;
   background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
@@ -76,26 +76,26 @@ main {
   margin-bottom: 40px;
 }
 
-.hero h2 {
+.landing-hero__title {
   font-size: 36px;
   color: #1b5e20;
   margin-top: 0;
 }
 
-.hero p {
+.landing-hero__description {
   font-size: 18px;
   color: #388e3c;
   margin-bottom: 25px;
 }
 
-.features {
+.landing-features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 25px;
   margin-bottom: 50px;
 }
 
-.feature {
+.landing-features__item {
   background: #ffffff;
   padding: 30px;
   border-radius: 8px;
@@ -103,12 +103,12 @@ main {
   border-top: 4px solid #2e7d32;
 }
 
-.feature h3 {
+.landing-features__item-title {
   margin-top: 0;
   color: #2e7d32;
 }
 
-.testimonials {
+.landing-testimonials {
   background: #ffffff;
   padding: 40px;
   border-radius: 8px;
@@ -117,19 +117,19 @@ main {
   text-align: center;
 }
 
-.testimonials h2 {
+.landing-testimonials__title {
   color: #1b5e20;
   margin-bottom: 25px;
 }
 
-.testimonials blockquote {
+.landing-testimonials__quote {
   font-style: italic;
   color: #555;
   margin: 15px 0;
   font-size: 16px;
 }
 
-.cta {
+.landing-cta {
   text-align: center;
   padding: 50px 20px;
   background-color: #2e7d32;
@@ -138,13 +138,13 @@ main {
   margin-bottom: 40px;
 }
 
-.cta h2 {
+.landing-cta__title {
   margin-top: 0;
   color: #ffffff;
 }
 
 /* Botones */
-.btn-primary, .btn-secondary, .btn-submit {
+.landing-button {
   background-color: #2e7d32;
   color: white;
   border: none;
@@ -155,22 +155,23 @@ main {
   transition: background-color 0.2s;
 }
 
-.btn-primary:hover, .btn-submit:hover {
+.landing-button--primary:hover,
+.landing-button--submit:hover {
   background-color: #1b5e20;
 }
 
-.btn-secondary {
+.landing-button--secondary {
   background-color: #ffffff;
   color: #2e7d32;
   font-weight: bold;
 }
 
-.btn-secondary:hover {
+.landing-button--secondary:hover {
   background-color: #e8f5e9;
 }
 
 /* Ventana Modal */
-.modal-overlay {
+.landing-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -179,16 +180,17 @@ main {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   display: none;
+  overflow-y: auto;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-.modal-overlay.active {
+.landing-modal--open {
   display: flex;
 }
 
-.modal-card {
+.landing-modal__card {
   background: white;
   padding: 30px;
   border-radius: 10px;
@@ -198,7 +200,7 @@ main {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-.modal-close {
+.landing-modal__close {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -209,29 +211,29 @@ main {
   color: #777;
 }
 
-.modal-card h2 {
+.landing-modal__title {
   margin-top: 0;
   color: #2e7d32;
 }
 
-.modal-sub {
+.landing-modal__description {
   color: #666;
   font-size: 14px;
   margin-bottom: 20px;
 }
 
-.form-group {
+.landing-form__field {
   margin-bottom: 15px;
 }
 
-.form-group label {
+.landing-form__label {
   display: block;
   margin-bottom: 5px;
   font-size: 14px;
   color: #333;
 }
 
-.form-group input {
+.landing-form__input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -239,13 +241,13 @@ main {
   font-size: 14px;
 }
 
-.btn-submit {
+.landing-button--submit {
   width: 100%;
   margin-top: 10px;
 }
 
 /* Footer */
-footer {
+.landing-footer {
   text-align: center;
   padding: 20px;
   color: #777;
@@ -255,10 +257,101 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .nav-menu {
+  .landing-header {
+    position: relative;
+    padding: 16px 20px;
+  }
+
+  .landing-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 101;
+    display: none;
+    padding: 8px 20px 16px;
+    border-bottom: 1px solid #eaeaea;
+    background: #ffffff;
+  }
+
+  .landing-nav--open {
+    display: block;
+  }
+
+  .landing-nav__list {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .landing-nav__link {
+    display: block;
+    padding: 10px 0;
+  }
+
+  .landing-header__menu-toggle {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+  }
+
+  .landing-main {
+    padding: 28px 16px;
+  }
+
+  .landing-hero {
+    padding: 42px 18px;
+  }
+
+  .landing-hero__title {
+    font-size: clamp(26px, 8vw, 36px);
+  }
+
+  .landing-testimonials {
+    padding: 28px 18px;
+  }
+
+  .landing-cta {
+    padding: 36px 18px;
+  }
+
+  .landing-modal {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .landing-modal__card {
+    margin: auto 0;
+    padding: 26px 20px;
+  }
+}
+
+@media (min-width: 769px) {
+  .landing-header__menu-toggle {
     display: none;
   }
-  .menu-toggle {
-    display: block;
+}
+
+@media (max-width: 420px) {
+  .landing-header {
+    padding: 12px 14px;
+  }
+
+  .landing-main {
+    padding: 20px 12px;
+  }
+
+  .landing-features {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .landing-features__item {
+    padding: 22px;
+  }
+
+  .landing-button {
+    max-width: 100%;
+    white-space: normal;
   }
 }
