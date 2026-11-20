@@ -13,6 +13,7 @@ let [alimentos, categorias] = await Promise.all([
     obtenerCategorias(),
 ]);
 
+const categoriasPorId = new Map(categorias.map(categoria => [String(categoria.id_categoria), categoria]));
 let paginaActual = 1;
 let alimentoSeleccionado = null;
 const searchInput = document.getElementById('foods-search');
@@ -27,6 +28,11 @@ const modalDetails = document.getElementById('foods-modal-details');
 const modalForm = document.getElementById('foods-modal-form');
 const modalDetailActions = document.getElementById('foods-modal-detail-actions');
 const modalError = document.getElementById('foods-modal-error');
+
+function obtenerCategoriaAlimento(alimento) {
+    if (alimento.id_categoria == null || alimento.id_categoria === '') return undefined;
+    return categoriasPorId.get(String(alimento.id_categoria));
+}
 
 function configurarSidebar() {
     const sidebarToggle = document.getElementById('toggle-sidebar-btn');
@@ -82,12 +88,11 @@ function crearCelda(texto) {
     return cell;
 }
 
-function crearFila(alimento, categoriasPorId) {
+function crearFila(alimento) {
     const row = document.createElement('tr');
     const foodCell = document.createElement('td');
     const foodName = document.createElement('span');
-    const foodIcon = document.createElement('span');
-    const category = categoriasPorId.get(alimento.id_categoria);
+    const category = obtenerCategoriaAlimento(alimento);
     const statusCell = document.createElement('td');
     const status = document.createElement('span');
     const actionsCell = document.createElement('td');
@@ -96,16 +101,7 @@ function crearFila(alimento, categoriasPorId) {
     const editButton = document.createElement('button');
 
     foodName.className = 'foods-page__food-name';
-    foodIcon.className = 'foods-page__food-icon';
-    foodIcon.setAttribute('aria-hidden', 'true');
-    foodIcon.textContent = ({
-        Frutas: '🍎',
-        Verduras: '🥕',
-        Cereales: '🌾',
-        Legumbres: '🫘',
-        Lácteos: '🥛',
-    })[category?.nombre_categoria] ?? '🥗';
-    foodName.append(foodIcon, document.createTextNode(alimento.nombre_alimento));
+    foodName.textContent = alimento.nombre_alimento;
     foodCell.append(foodName);
     row.append(
         foodCell,
@@ -190,11 +186,10 @@ function renderizar() {
     const totalPaginas = Math.max(1, Math.ceil(filtrados.length / pageSize));
     paginaActual = Math.min(paginaActual, totalPaginas);
     const inicio = (paginaActual - 1) * pageSize;
-    const categoriasPorId = new Map(categorias.map(categoria => [categoria.id_categoria, categoria]));
 
     tableBody.replaceChildren(...filtrados
         .slice(inicio, inicio + pageSize)
-        .map(alimento => crearFila(alimento, categoriasPorId)));
+        .map(alimento => crearFila(alimento)));
     emptyMessage.hidden = filtrados.length !== 0;
     renderizarPaginacion(filtrados.length);
 
@@ -262,7 +257,7 @@ function agregarCampoDetalle(etiqueta, valor) {
 
 function abrirDetalle(alimento) {
     alimentoSeleccionado = alimento;
-    const categoria = categorias.find(item => item.id_categoria === alimento.id_categoria);
+    const categoria = obtenerCategoriaAlimento(alimento);
     modalTitle.textContent = alimento.nombre_alimento;
     modalForm.hidden = true;
     modalDetailActions.hidden = false;

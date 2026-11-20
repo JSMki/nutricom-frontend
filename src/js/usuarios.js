@@ -6,6 +6,17 @@ import {
     crearSolicitudApoyo,
 } from './datos.js';
 
+// El perfil se carga desde la sesión en main.js
+const sidebarToggle = document.getElementById('toggle-sidebar-btn');
+sidebarToggle?.addEventListener('click', () => {
+    const collapsed = document.body.classList.toggle('home-layout--sidebar-collapsed');
+    sidebarToggle.setAttribute('aria-expanded', String(!collapsed));
+    sidebarToggle.setAttribute('aria-label', collapsed ? 'Expandir menú' : 'Contraer menú');
+    if (sidebarToggle.firstElementChild) {
+        sidebarToggle.firstElementChild.textContent = collapsed ? '›' : '‹';
+    }
+});
+
 // Directorio, renderizado de tabla y buscador en tiempo real
 let listaUsuarios = [];
 
