@@ -22,6 +22,8 @@ NutriComunidad es una aplicación web para apoyar la gestión comunitaria de ali
 | Resumen | [`home.html`](./home.html) | Dashboard con saludo, fecha, indicadores y menú lateral contraíble. |
 | Usuarios y beneficiarios | [`usuarios.html`](./usuarios.html) | Directorio con búsqueda, filtros, indicadores, creación de usuarios y solicitudes de apoyo. |
 | Solicitudes | [`nueva-solicitud.html`](./nueva-solicitud.html) | Envío de solicitudes de apoyo y consulta de sus estados. |
+| Mis pedidos | [`mis-pedidos.html`](./mis-pedidos.html) | Seguimiento y detalle de las solicitudes del beneficiario. |
+| Preferencias y alergias | [`preferencias-alergias.html`](./preferencias-alergias.html) | Administración local de preferencias alimentarias y alergias del beneficiario. |
 | Alimentos e inventario | [`alimentos.html`](./alimentos.html) | Catálogo con búsqueda, filtros, estadísticas, paginación y acciones para agregar, consultar y editar alimentos. |
 | Detalle de alimento | [`alimento-detalle.html`](./alimento-detalle.html) | Vista individual del alimento solicitado por su identificador. |
 | Formulario de alimento | [`alimento-form.html`](./alimento-form.html) | Formulario independiente para agregar o editar un alimento. Las acciones también se pueden realizar desde modales en el listado. |
@@ -53,16 +55,18 @@ El sidebar y el encabezado del dashboard se reutilizan como parciales en las pan
 ### Solicitudes de apoyo
 
 - Permite elegir alimentos del catálogo, filtrar por categoría, ajustar cantidades y enviar el motivo, integrantes y prioridad.
-- El frontend utiliza `POST /api/requests` a través de `src/js/api.js`.
-- El backend debe obtener `usuario_id` del token, filtrar el GET por usuario (salvo roles administrativos autorizados) y validar los campos y el estado. No debe aceptar `usuario_id` del cuerpo del POST como fuente de identidad.
-- El DDL para SQL Server se encuentra en [`sql/solicitudes.sql`](./sql/solicitudes.sql). Ajusta la clave foránea comentada a la tabla y tipo de dato real de usuarios.
-- Este repositorio no incluye el servidor ni su conexión a SQL Server; por ello la compilación comprueba el cliente, pero la persistencia requiere implementar esos dos endpoints en el backend.
+- Las solicitudes se guardan provisionalmente en `localStorage` mediante las funciones de `src/js/datos.js`. Los primeros datos incluyen ejemplos de pedidos para la pantalla “Mis pedidos”.
+- La persistencia es local a este navegador y se puede reemplazar más adelante al conectar la base de datos real.
 
-Contrato esperado para el backend:
+### Mis pedidos
 
-- `POST /api/requests` — recibe `{ "tipo": "Apoyo alimentario", "motivo": "...", "descripcion": "...", "integrantes": 1, "prioridad": "Baja", "alimentos": [{ "id_alimento": 1, "nombre_alimento": "...", "cantidad": 1, "unidad_medida": "Kilogramo" }] }`; el servidor obtiene `usuario_id` del token, asigna el estado `Pendiente` y la fecha y guarda el encabezado junto con sus alimentos.
-- `GET /api/requests` — se puede mantener para otras pantallas; debe responder solicitudes del usuario autenticado (o `{ "solicitudes": [...] }`).
-- Configura `VITE_API_URL` como la URL raíz del servidor, sin `/api` al final (por ejemplo, `http://localhost:8080`). El cliente agrega `/api/requests`.
+- Consulta las solicitudes provisionales guardadas en `localStorage`, con búsqueda por folio/contenido, filtro por estado y detalle de alimentos.
+- Los datos de Solicitudes y Mis pedidos se centralizan en `src/js/datos.js`.
+
+### Preferencias y alergias
+
+- Permite registrar y quitar preferencias alimentarias y declarar o retirar alergias del catálogo.
+- Los datos se guardan provisionalmente en `localStorage` mediante funciones de `src/js/datos.js`.
 
 ### Alimentos e inventario
 
@@ -123,6 +127,8 @@ Nutricom/
 ├── home.html
 ├── usuarios.html
 ├── nueva-solicitud.html
+├── mis-pedidos.html
+├── preferencias-alergias.html
 ├── alimentos.html
 ├── alimento-detalle.html
 ├── alimento-form.html
@@ -135,6 +141,8 @@ Nutricom/
 │   │   ├── home.css
 │   │   ├── usuarios.css
 │   │   ├── nueva-solicitud.css
+│   │   ├── mis-pedidos.css
+│   │   ├── preferencias-alergias.css
 │   │   ├── alimentos.css
 │   │   ├── alimento-detalle.css
 │   │   └── alimento-form.css
@@ -144,6 +152,8 @@ Nutricom/
 │   │   ├── home.js
 │   │   ├── usuarios.js
 │   │   ├── nueva-solicitud.js
+│   │   ├── mis-pedidos.js
+│   │   ├── preferencias-alergias.js
 │   │   ├── alimentos.js
 │   │   ├── alimento-detalle.js
 │   │   └── alimento-form.js
@@ -152,15 +162,15 @@ Nutricom/
 │       ├── homeheader.html
 │       └── footer.html
 ├── package.json
-├── vite.config.js
-└── sql/
-    └── solicitudes.sql
+└── vite.config.js
 ```
 
 ## Datos y servicios
 
 - `src/js/datos.js` contiene datos de prueba y funciones que usan el dashboard y los módulos.
 - El catálogo de Alimentos utiliza `localStorage`; los cambios son locales al navegador y no se comparten entre usuarios o dispositivos.
+- Las solicitudes de apoyo y sus alimentos también usan datos provisionales en `localStorage`, gestionados desde `src/js/datos.js`.
+- Las preferencias alimentarias y alergias del beneficiario se guardan en `localStorage`, gestionadas desde `src/js/datos.js`.
 - El módulo de Usuarios tiene una integración de frontend orientada a endpoints locales. Sin backend, algunas operaciones recurren a datos en memoria, que se pierden al recargar la página.
 - Las restricciones de acceso según el rol aún no están implementadas. Ocultar elementos en la interfaz no sustituye los controles de autorización del servidor.
 

@@ -1,0 +1,372 @@
+.bienestar-page__main {
+  display: grid;
+  align-content: start;
+  gap: 24px;
+}
+
+.bienestar-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bienestar-page__eyebrow {
+  margin-bottom: 4px;
+  color: var(--color-secondary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.bienestar-page__title {
+  color: var(--color-text-main);
+  font-size: clamp(24px, 2.4vw, 31px);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.25;
+}
+
+.bienestar-page__description {
+  margin-top: 4px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+.bienestar-page__section {
+  display: grid;
+  gap: 14px;
+}
+
+.bienestar-page__section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.bienestar-page__section-header h2 {
+  color: var(--color-text-main);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.bienestar-page__section-header p {
+  margin-top: 3px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
+
+.bienestar-page__add-button {
+  display: inline-flex;
+  min-height: 36px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-secondary);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+
+.bienestar-page__add-button:hover {
+  background: var(--color-primary);
+}
+
+.bienestar-page__add-button span {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.bienestar-page__preferences {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.bienestar-page__preference {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.bienestar-page__preference-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.bienestar-page__preference h3 {
+  color: var(--color-text-main);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.bienestar-page__preference p {
+  color: var(--color-text-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.bienestar-page__preference-applies {
+  padding-top: 7px;
+  border-top: 1px solid #edf1ee;
+  color: var(--color-secondary) !important;
+  font-size: 10px !important;
+  font-weight: 650;
+}
+
+.bienestar-page__remove-preference {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  background: #ffffff;
+  color: var(--color-text-muted);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.bienestar-page__remove-preference:hover {
+  border-color: #f0c3bf;
+  background: #fbeceb;
+  color: var(--color-danger);
+}
+
+.bienestar-page__allergy-count {
+  color: var(--color-text-muted);
+  font-size: 10px;
+}
+
+.bienestar-page__allergies {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.bienestar-page__allergy {
+  display: flex;
+  min-width: 0;
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.bienestar-page__allergy-name {
+  min-width: 0;
+  color: var(--color-text-main);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.bienestar-page__allergy-state {
+  display: grid;
+  justify-items: end;
+  gap: 4px;
+}
+
+.bienestar-page__allergy-state span {
+  color: var(--color-text-muted);
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.bienestar-page__allergy--declared .bienestar-page__allergy-state span {
+  color: var(--color-danger);
+  font-weight: 650;
+}
+
+.bienestar-page__allergy-action {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-secondary);
+  font-size: 9px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.bienestar-page__allergy-action:hover {
+  text-decoration: underline;
+}
+
+.bienestar-page__allergy-action--remove {
+  color: var(--color-text-muted);
+}
+
+.bienestar-page__empty,
+.bienestar-page__feedback {
+  grid-column: 1 / -1;
+  padding: 15px;
+  border: 1px dashed var(--color-border);
+  border-radius: 9px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+.bienestar-page__feedback {
+  border-color: #f0c3bf;
+  background: #fbeceb;
+  color: var(--color-danger);
+}
+
+.bienestar-dialog {
+  width: min(460px, calc(100% - 32px));
+  max-width: none;
+  max-height: min(85vh, 700px);
+  padding: 0;
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: 0 18px 48px rgb(0 0 0 / 20%);
+}
+
+.bienestar-dialog::backdrop {
+  background: rgb(16 63 50 / 48%);
+  backdrop-filter: blur(2px);
+}
+
+.bienestar-dialog__surface {
+  padding: 21px;
+}
+
+.bienestar-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 17px;
+}
+
+.bienestar-dialog__header h2 {
+  font-size: 17px;
+}
+
+.bienestar-dialog__close {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  background: #ffffff;
+  color: var(--color-text-muted);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.bienestar-dialog__form {
+  display: grid;
+  gap: 13px;
+}
+
+.bienestar-dialog__field {
+  display: grid;
+  gap: 6px;
+  color: var(--color-text-main);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.bienestar-dialog__field input,
+.bienestar-dialog__field textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--color-text-main);
+  font: inherit;
+  font-weight: 400;
+}
+
+.bienestar-dialog__field input {
+  height: 38px;
+  padding: 0 10px;
+}
+
+.bienestar-dialog__field textarea {
+  min-height: 80px;
+  padding: 10px;
+  resize: vertical;
+}
+
+.bienestar-dialog__feedback {
+  color: var(--color-danger);
+  font-size: 10px;
+}
+
+.bienestar-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.bienestar-dialog__cancel {
+  min-height: 36px;
+  padding: 0 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .bienestar-page__preferences {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bienestar-page__allergies {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .bienestar-page__preferences {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bienestar-page__allergies {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 400px) {
+  .bienestar-page__allergies {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bienestar-page__section-header {
+    align-items: flex-start;
+  }
+
+  .bienestar-page__section-header--allergies {
+    flex-direction: column;
+  }
+}
