@@ -9,6 +9,7 @@ const paginasPorRol = {
     home: rolesValidos,
     'nueva-solicitud': ['admin', 'beneficiario'],
     'mis-pedidos': ['beneficiario'],
+    'preferencias-alergias': ['beneficiario'],
     usuarios: ['admin'],
     usuario: ['admin'],
     alimentos: ['admin'],

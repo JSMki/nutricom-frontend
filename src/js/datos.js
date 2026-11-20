@@ -152,6 +152,106 @@ export async function actualizarAlimento(id, datos) {
     return { ...alimentoActualizado };
 }
 
+const claveBienestarBeneficiario = 'nutricom.bienestar-beneficiario';
+const preferenciasIniciales = [
+    { id: 1, nombre: 'Vegetariana', descripcion: 'Evitar carnes rojas', aplica_a: 'Dos integrantes' },
+    { id: 2, nombre: 'Baja en sodio', descripcion: 'Preferir alimentos sin sal añadida', aplica_a: 'Adulto mayor' },
+    { id: 3, nombre: 'Sin azúcar añadida', descripcion: 'Evitar bebidas azucaradas', aplica_a: 'Toda la familia' },
+];
+const alergiasDisponibles = [
+    { id: 1, nombre: 'Cacahuate' },
+    { id: 2, nombre: 'Lactosa' },
+    { id: 3, nombre: 'Gluten' },
+    { id: 4, nombre: 'Huevo' },
+    { id: 5, nombre: 'Mariscos' },
+    { id: 6, nombre: 'Soya' },
+    { id: 7, nombre: 'Frutos secos' },
+];
+const alergiasIniciales = [1];
+
+function cargarBienestarBeneficiario() {
+    const inicial = {
+        preferencias: preferenciasIniciales.map(preferencia => ({ ...preferencia })),
+        alergias: [...alergiasIniciales],
+    };
+    if (typeof localStorage === 'undefined') return inicial;
+
+    const guardado = localStorage.getItem(claveBienestarBeneficiario);
+    if (guardado === null) {
+        localStorage.setItem(claveBienestarBeneficiario, JSON.stringify(inicial));
+        return inicial;
+    }
+
+    const datos = JSON.parse(guardado);
+    if (!datos || !Array.isArray(datos.preferencias) || !Array.isArray(datos.alergias)) {
+        throw new Error('Las preferencias y alergias guardadas localmente tienen un formato inválido.');
+    }
+    return {
+        preferencias: datos.preferencias,
+        alergias: datos.alergias.map(Number).filter(Number.isInteger),
+    };
+}
+
+function guardarBienestarBeneficiario(datos) {
+    if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(claveBienestarBeneficiario, JSON.stringify(datos));
+    }
+}
+
+export async function obtenerPreferenciasBeneficiario() {
+    return cargarBienestarBeneficiario().preferencias.map(preferencia => ({ ...preferencia }));
+}
+
+export async function agregarPreferenciaBeneficiario(datos) {
+    const nombre = String(datos?.nombre ?? '').trim();
+    const descripcion = String(datos?.descripcion ?? '').trim();
+    const aplica_a = String(datos?.aplica_a ?? '').trim();
+    if (!nombre || !descripcion || !aplica_a) {
+        throw new Error('Completa el nombre, la descripción y a quién aplica la preferencia.');
+    }
+
+    const estado = cargarBienestarBeneficiario();
+    const id = estado.preferencias.reduce((maximo, item) => Math.max(maximo, Number(item.id) || 0), 0) + 1;
+    const preferencia = { id, nombre, descripcion, aplica_a };
+    const actualizado = { ...estado, preferencias: [preferencia, ...estado.preferencias] };
+    guardarBienestarBeneficiario(actualizado);
+    return { ...preferencia };
+}
+
+export async function eliminarPreferenciaBeneficiario(id) {
+    const estado = cargarBienestarBeneficiario();
+    const preferencias = estado.preferencias.filter(preferencia => Number(preferencia.id) !== Number(id));
+    if (preferencias.length === estado.preferencias.length) {
+        throw new Error(`No se encontró la preferencia con ID ${id}.`);
+    }
+    guardarBienestarBeneficiario({ ...estado, preferencias });
+}
+
+export async function obtenerAlergiasBeneficiario() {
+    const estado = cargarBienestarBeneficiario();
+    const declaradas = new Set(estado.alergias);
+    return alergiasDisponibles.map(alergia => ({
+        ...alergia,
+        declarada: declaradas.has(alergia.id),
+    }));
+}
+
+export async function actualizarAlergiaBeneficiario(id, declarada) {
+    const alergia = alergiasDisponibles.find(item => item.id === Number(id));
+    if (!alergia) {
+        throw new Error(`No se encontró la alergia con ID ${id}.`);
+    }
+    if (typeof declarada !== 'boolean') {
+        throw new Error('Indica si la alergia debe declararse o quitarse.');
+    }
+
+    const estado = cargarBienestarBeneficiario();
+    const alergias = declarada
+        ? [...new Set([...estado.alergias, alergia.id])]
+        : estado.alergias.filter(alergiaId => alergiaId !== alergia.id);
+    guardarBienestarBeneficiario({ ...estado, alergias });
+}
+
 const API_BASE_URL = 'http://localhost:8080/api';
 
 let usuariosExtrasMemoria = [

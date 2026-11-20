@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Mis preferencias y alergias - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/home.css">
+    <link rel="stylesheet" href="./src/css/preferencias-alergias.css">
+</head>
+<body class="home-layout bienestar-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main bienestar-page__main">
+        <header class="bienestar-page__header">
+            <div>
+                <p class="bienestar-page__eyebrow">BIENESTAR Y PRIVACIDAD</p>
+                <h1 class="bienestar-page__title">Mis preferencias y alergias</h1>
+                <p class="bienestar-page__description">Ayúdanos a preparar apoyos más adecuados para tu familia.</p>
+            </div>
+        </header>
+
+        <section class="bienestar-page__section" aria-labelledby="preferencias-title">
+            <header class="bienestar-page__section-header">
+                <div>
+                    <h2 id="preferencias-title">Preferencias alimentarias</h2>
+                    <p id="preferencias-count" aria-live="polite">Cargando preferencias...</p>
+                </div>
+                <button class="bienestar-page__add-button" id="preferencia-add" type="button">
+                    <span aria-hidden="true">＋</span> Agregar
+                </button>
+            </header>
+            <div class="bienestar-page__preferences" id="preferencias-list" aria-live="polite">
+                <p class="bienestar-page__empty">Cargando preferencias...</p>
+            </div>
+        </section>
+
+        <section class="bienestar-page__section" aria-labelledby="alergias-title">
+            <header class="bienestar-page__section-header bienestar-page__section-header--allergies">
+                <div>
+                    <h2 id="alergias-title">Alergias</h2>
+                    <p>Información importante para entregas</p>
+                </div>
+                <span class="bienestar-page__allergy-count" id="alergias-count" aria-live="polite">0 declaradas</span>
+            </header>
+            <div class="bienestar-page__allergies" id="alergias-list" aria-live="polite">
+                <p class="bienestar-page__empty">Cargando alergias...</p>
+            </div>
+        </section>
+
+        <p class="bienestar-page__feedback" id="bienestar-feedback" role="status" aria-live="polite" hidden></p>
+    </main>
+
+    <dialog class="bienestar-dialog" id="preferencia-dialog" aria-labelledby="preferencia-dialog-title">
+        <div class="bienestar-dialog__surface">
+            <header class="bienestar-dialog__header">
+                <div>
+                    <p class="bienestar-page__eyebrow">PERSONALIZA TU APOYO</p>
+                    <h2 id="preferencia-dialog-title">Agregar preferencia</h2>
+                </div>
+                <button class="bienestar-dialog__close" id="preferencia-dialog-close" type="button" aria-label="Cerrar">×</button>
+            </header>
+            <form class="bienestar-dialog__form" id="preferencia-form">
+                <label class="bienestar-dialog__field" for="preferencia-nombre">
+                    <span>Preferencia</span>
+                    <input id="preferencia-nombre" name="nombre" type="text" maxlength="80" placeholder="Ej. Vegetariana" required>
+                </label>
+                <label class="bienestar-dialog__field" for="preferencia-descripcion">
+                    <span>Descripción</span>
+                    <textarea id="preferencia-descripcion" name="descripcion" rows="3" maxlength="240" placeholder="¿Qué alimentos debemos preferir o evitar?" required></textarea>
+                </label>
+                <label class="bienestar-dialog__field" for="preferencia-aplica">
+                    <span>¿A quién aplica?</span>
+                    <input id="preferencia-aplica" name="aplica_a" type="text" maxlength="80" placeholder="Ej. Toda la familia" required>
+                </label>
+                <p class="bienestar-dialog__feedback" id="preferencia-form-feedback" role="alert" hidden></p>
+                <footer class="bienestar-dialog__actions">
+                    <button class="bienestar-dialog__cancel" id="preferencia-dialog-cancel" type="button">Cancelar</button>
+                    <button class="bienestar-page__add-button" type="submit">Guardar preferencia</button>
+                </footer>
+            </form>
+        </div>
+    </dialog>
+
+    <script type="module" src="./src/js/preferencias-alergias.js"></script>
+</body>
+</html>
