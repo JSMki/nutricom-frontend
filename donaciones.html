@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Nueva donación - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/home.css">
+    <link rel="stylesheet" href="./src/css/donaciones.css">
+</head>
+<body class="home-layout donaciones-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main donaciones-page__main">
+        <header class="donaciones-page__welcome">
+            <div>
+                <p class="donaciones-page__eyebrow">APOYO ENTRE COMERCIOS Y ORGANIZACIONES</p>
+                <h1 class="donaciones-page__title">Nueva donación</h1>
+                <p class="donaciones-page__description">Registra alimentos que un comercio ofrece a una organización.</p>
+            </div>
+            <button class="home-action home-action--primary donaciones-page__create" id="donacion-abrir" type="button">
+                <span aria-hidden="true">＋</span> Registrar donación
+            </button>
+        </header>
+
+        <section class="donaciones-page__summary" aria-label="Resumen de donaciones">
+            <article class="donaciones-page__summary-card">
+                <span>Donaciones registradas</span>
+                <strong id="donacion-total">0</strong>
+            </article>
+            <article class="donaciones-page__summary-card">
+                <span>Pendientes</span>
+                <strong id="donacion-pendientes">0</strong>
+            </article>
+            <article class="donaciones-page__summary-card">
+                <span>Con organización asignada</span>
+                <strong id="donacion-asignadas">0</strong>
+            </article>
+        </section>
+
+        <section class="donaciones-page__card" aria-labelledby="donacion-lista-titulo">
+            <header class="donaciones-page__card-header">
+                <div>
+                    <h2 id="donacion-lista-titulo">Registro de donaciones</h2>
+                    <p>Consulta el comercio, la organización receptora y los alimentos incluidos.</p>
+                </div>
+                <div class="donaciones-page__filters">
+                    <label class="donaciones-page__search">
+                        <span class="sr-only">Buscar donación</span>
+                        <input id="donacion-buscar" type="search" placeholder="Buscar comercio u organización..." autocomplete="off">
+                    </label>
+                    <label>
+                        <span class="sr-only">Filtrar por estado</span>
+                        <select id="donacion-filtro-estado">
+                            <option value="">Todos los estados</option>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="aceptada">Aceptada</option>
+                            <option value="completada">Completada</option>
+                            <option value="cancelada">Cancelada</option>
+                        </select>
+                    </label>
+                </div>
+            </header>
+
+            <div class="donaciones-page__table-scroll">
+                <table class="donaciones-page__table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Folio</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Comercio</th>
+                            <th scope="col">Organización receptora</th>
+                            <th scope="col">Cantidad total</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col"><span class="sr-only">Detalle</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="donacion-tabla"></tbody>
+                </table>
+                <p class="donaciones-page__empty" id="donacion-vacia" hidden>No hay donaciones que coincidan con la búsqueda.</p>
+            </div>
+            <p class="donaciones-page__table-note">La cantidad total suma los valores registrados; el detalle conserva la unidad de cada alimento.</p>
+        </section>
+    </main>
+
+    <dialog class="donacion-dialog" id="donacion-dialog" aria-labelledby="donacion-dialog-titulo">
+        <div class="donacion-dialog__surface">
+            <header class="donacion-dialog__header">
+                <div>
+                    <p class="donaciones-page__eyebrow" id="donacion-dialog-eyebrow">NUEVO REGISTRO</p>
+                    <h2 id="donacion-dialog-titulo">Registrar donación</h2>
+                </div>
+                <button class="donacion-dialog__close" id="donacion-dialog-cerrar" type="button" aria-label="Cerrar">×</button>
+            </header>
+
+            <form id="donacion-form" class="donacion-form" novalidate>
+                <div class="donacion-form__grid">
+                    <label class="donacion-form__field">
+                        <span>Comercio donante <span aria-hidden="true">*</span></span>
+                        <select id="donacion-comercio" name="id_comercio" required>
+                            <option value="">Selecciona un comercio</option>
+                        </select>
+                    </label>
+                    <label class="donacion-form__field">
+                        <span>Organización receptora</span>
+                        <select id="donacion-organizacion" name="id_organizacion">
+                            <option value="">Sin asignar — pendiente de reclamo</option>
+                        </select>
+                    </label>
+                    <label class="donacion-form__field">
+                        <span>Fecha de donación <span aria-hidden="true">*</span></span>
+                        <input id="donacion-fecha" name="fecha_donacion" type="date" required>
+                    </label>
+                    <label class="donacion-form__field donacion-form__field--wide">
+                        <span>Observaciones</span>
+                        <textarea name="observaciones" rows="2" maxlength="500" placeholder="Detalles para coordinar la donación (opcional)."></textarea>
+                    </label>
+                </div>
+
+                <section class="donacion-form__items" aria-labelledby="donacion-items-titulo">
+                    <div class="donacion-form__items-header">
+                        <div>
+                            <h3 id="donacion-items-titulo">Alimentos donados</h3>
+                            <p>Agrega cada alimento y su cantidad; corresponde a DETALLE_DONACIONES.</p>
+                        </div>
+                        <div class="donacion-form__item-actions">
+                            <button class="donacion-form__add-item" id="donacion-agregar-alimento" type="button">＋ Agregar a la donación</button>
+                            <button class="donacion-form__add-item donacion-form__add-item--catalog" id="donacion-crear-alimento" type="button">＋ Crear alimento nuevo</button>
+                        </div>
+                    </div>
+                    <div class="donacion-form__lines" id="donacion-lineas"></div>
+                </section>
+
+                <p class="donacion-form__error" id="donacion-error" role="alert" hidden></p>
+                <footer class="donacion-form__actions" id="donacion-form-actions">
+                    <button class="donacion-form__button donacion-form__button--secondary" id="donacion-cancelar" type="button">Cancelar</button>
+                    <button class="donacion-form__button donacion-form__button--primary" id="donacion-guardar" type="submit">Guardar donación</button>
+                </footer>
+            </form>
+
+            <section class="donacion-detail" id="donacion-detail" hidden>
+                <dl class="donacion-detail__fields" id="donacion-detail-fields"></dl>
+                <h3>Alimentos incluidos</h3>
+                <ul class="donacion-detail__items" id="donacion-detail-items"></ul>
+                <footer class="donacion-form__actions">
+                    <button class="donacion-form__button donacion-form__button--primary" id="donacion-detail-cerrar" type="button">Cerrar</button>
+                </footer>
+            </section>
+        </div>
+    </dialog>
+
+    <dialog class="donacion-dialog donacion-dialog--food" id="donacion-food-dialog" aria-labelledby="donacion-food-title">
+        <div class="donacion-dialog__surface">
+            <header class="donacion-dialog__header">
+                <div>
+                    <p class="donaciones-page__eyebrow">CATÁLOGO DE ALIMENTOS</p>
+                    <h2 id="donacion-food-title">Agregar alimento nuevo</h2>
+                </div>
+                <button class="donacion-dialog__close" id="donacion-food-close" type="button" aria-label="Cerrar">×</button>
+            </header>
+            <form class="donacion-form" id="donacion-food-form" novalidate>
+                <div class="donacion-form__grid">
+                    <label class="donacion-form__field">
+                        <span>Nombre del alimento <span aria-hidden="true">*</span></span>
+                        <input name="nombre_alimento" type="text" maxlength="120" required>
+                    </label>
+                    <label class="donacion-form__field">
+                        <span>Categoría <span aria-hidden="true">*</span></span>
+                        <select name="id_categoria" id="donacion-food-category" required>
+                            <option value="">Selecciona una categoría</option>
+                        </select>
+                    </label>
+                    <label class="donacion-form__field">
+                        <span>Unidad de medida <span aria-hidden="true">*</span></span>
+                        <select name="unidad_medida" required>
+                            <option value="">Selecciona una unidad</option>
+                            <option value="Kilogramo">Kilogramo</option>
+                            <option value="Gramo">Gramo</option>
+                            <option value="Litro">Litro</option>
+                            <option value="Mililitro">Mililitro</option>
+                            <option value="Pieza">Pieza</option>
+                            <option value="Porción">Porción</option>
+                        </select>
+                    </label>
+                    <label class="donacion-form__field">
+                        <span>Calorías por porción <span aria-hidden="true">*</span></span>
+                        <input name="calorias_porcion" type="number" min="0" step="0.01" required>
+                    </label>
+                    <label class="donacion-form__field">
+                        <span>Proteínas (g) <span aria-hidden="true">*</span></span>
+                        <input name="proteinas" type="number" min="0" step="0.01" required>
+                    </label>
+                    <label class="donacion-form__field">
+                        <span>Carbohidratos (g) <span aria-hidden="true">*</span></span>
+                        <input name="carbohidratos" type="number" min="0" step="0.01" required>
+                    </label>
+                    <label class="donacion-form__field">
+                        <span>Grasas (g) <span aria-hidden="true">*</span></span>
+                        <input name="grasas" type="number" min="0" step="0.01" required>
+                    </label>
+                    <label class="donacion-form__field donacion-form__field--wide">
+                        <span>Descripción</span>
+                        <textarea name="descripcion" rows="2" maxlength="500"></textarea>
+                    </label>
+                </div>
+                <p class="donacion-form__error" id="donacion-food-error" role="alert" hidden></p>
+                <footer class="donacion-form__actions">
+                    <button class="donacion-form__button donacion-form__button--secondary" id="donacion-food-cancel" type="button">Cancelar</button>
+                    <button class="donacion-form__button donacion-form__button--primary" id="donacion-food-save" type="submit">Guardar y seleccionar</button>
+                </footer>
+            </form>
+        </div>
+    </dialog>
+
+    <script type="module" src="./src/js/donaciones.js"></script>
+</body>
+</html>

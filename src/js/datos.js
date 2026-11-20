@@ -9,9 +9,7 @@ const beneficiarios = [
     { id: 2, nombre: "Carlos Pérez", numero_integrantes: 4 }
 ];
 
-const donaciones = [
-    { id: 1, cantidad: 200, estado: "pendiente" }
-];
+let donaciones = [];
 
 const usuarios = [
     { id: 1, nombre: "Ana Rodríguez", correo: "ana@nutricomunidad.org", rol: "admin", nombreRol: "Administradora" },
@@ -41,18 +39,87 @@ export async function obtenerResumenDashboard() {
     return { kilosRecuperados, productosPorCaducar, familiasBeneficiadas, donacionesPendientes };
 }
 
-const alimentosIniciales = [
-    { id_alimento: 1, nombre_alimento: "Manzana gala", descripcion: "Manzana fresca.", unidad_medida: "Pieza", calorias_porcion: 52, proteinas: 0.3, carbohidratos: 14, grasas: 0.2, estado: "disponible" },
-    { id_alimento: 2, nombre_alimento: "Jitomate saladette", descripcion: "Jitomate fresco.", unidad_medida: "Kilogramo", calorias_porcion: 18, proteinas: 0.9, carbohidratos: 3.9, grasas: 0.2, estado: "agotado" },
-    { id_alimento: 3, nombre_alimento: "Arroz blanco", descripcion: "Arroz de grano largo.", unidad_medida: "Kilogramo", calorias_porcion: 130, proteinas: 2.7, carbohidratos: 28, grasas: 0.3, estado: "disponible" },
-    { id_alimento: 4, nombre_alimento: "Frijol negro", descripcion: "Frijol seco.", unidad_medida: "Kilogramo", calorias_porcion: 132, proteinas: 8.9, carbohidratos: 23.7, grasas: 0.5, estado: "disponible" },
-    { id_alimento: 5, nombre_alimento: "Leche entera", descripcion: "Leche de vaca entera.", unidad_medida: "Litro", calorias_porcion: 61, proteinas: 3.2, carbohidratos: 4.8, grasas: 3.3, estado: "agotado" },
-    { id_alimento: 6, nombre_alimento: "Plátano", descripcion: "Plátano fresco.", unidad_medida: "Pieza", calorias_porcion: 89, proteinas: 1.1, carbohidratos: 22.8, grasas: 0.3, estado: "disponible" },
-    { id_alimento: 7, nombre_alimento: "Zanahoria", descripcion: "Zanahoria fresca.", unidad_medida: "Kilogramo", calorias_porcion: 41, proteinas: 0.9, carbohidratos: 9.6, grasas: 0.2, estado: "disponible" },
-    { id_alimento: 8, nombre_alimento: "Avena", descripcion: "Avena en hojuelas.", unidad_medida: "Kilogramo", calorias_porcion: 389, proteinas: 16.9, carbohidratos: 66.3, grasas: 6.9, estado: "disponible" },
-    { id_alimento: 9, nombre_alimento: "Lenteja", descripcion: "Lenteja seca.", unidad_medida: "Kilogramo", calorias_porcion: 116, proteinas: 9, carbohidratos: 20.1, grasas: 0.4, estado: "disponible" },
-    { id_alimento: 10, nombre_alimento: "Yogur natural", descripcion: "Yogur natural sin azúcar.", unidad_medida: "Litro", calorias_porcion: 61, proteinas: 3.5, carbohidratos: 4.7, grasas: 3.3, estado: "disponible" }
+const categorias = [
+    { id_categoria: 1, nombre_categoria: "Frutas", descripcion: "Frutas frescas y de temporada.", estado: "activa" },
+    { id_categoria: 2, nombre_categoria: "Verduras", descripcion: "Verduras y hortalizas.", estado: "activa" },
+    { id_categoria: 3, nombre_categoria: "Cereales", descripcion: "Granos y cereales básicos.", estado: "activa" },
+    { id_categoria: 4, nombre_categoria: "Legumbres", descripcion: "Leguminosas secas.", estado: "activa" },
+    { id_categoria: 5, nombre_categoria: "Lácteos", descripcion: "Leche y productos lácteos.", estado: "activa" }
 ];
+
+const alimentosIniciales = [
+    { id_alimento: 1, id_categoria: 1, nombre_alimento: "Manzana gala", descripcion: "Manzana fresca.", unidad_medida: "Pieza", calorias_porcion: 52, proteinas: 0.3, carbohidratos: 14, grasas: 0.2, estado: "disponible" },
+    { id_alimento: 2, id_categoria: 2, nombre_alimento: "Jitomate saladette", descripcion: "Jitomate fresco.", unidad_medida: "Kilogramo", calorias_porcion: 18, proteinas: 0.9, carbohidratos: 3.9, grasas: 0.2, estado: "agotado" },
+    { id_alimento: 3, id_categoria: 3, nombre_alimento: "Arroz blanco", descripcion: "Arroz de grano largo.", unidad_medida: "Kilogramo", calorias_porcion: 130, proteinas: 2.7, carbohidratos: 28, grasas: 0.3, estado: "disponible" },
+    { id_alimento: 4, id_categoria: 4, nombre_alimento: "Frijol negro", descripcion: "Frijol seco.", unidad_medida: "Kilogramo", calorias_porcion: 132, proteinas: 8.9, carbohidratos: 23.7, grasas: 0.5, estado: "disponible" },
+    { id_alimento: 5, id_categoria: 5, nombre_alimento: "Leche entera", descripcion: "Leche de vaca entera.", unidad_medida: "Litro", calorias_porcion: 61, proteinas: 3.2, carbohidratos: 4.8, grasas: 3.3, estado: "agotado" },
+    { id_alimento: 6, id_categoria: 1, nombre_alimento: "Plátano", descripcion: "Plátano fresco.", unidad_medida: "Pieza", calorias_porcion: 89, proteinas: 1.1, carbohidratos: 22.8, grasas: 0.3, estado: "disponible" },
+    { id_alimento: 7, id_categoria: 2, nombre_alimento: "Zanahoria", descripcion: "Zanahoria fresca.", unidad_medida: "Kilogramo", calorias_porcion: 41, proteinas: 0.9, carbohidratos: 9.6, grasas: 0.2, estado: "disponible" },
+    { id_alimento: 8, id_categoria: 3, nombre_alimento: "Avena", descripcion: "Avena en hojuelas.", unidad_medida: "Kilogramo", calorias_porcion: 389, proteinas: 16.9, carbohidratos: 66.3, grasas: 6.9, estado: "disponible" },
+    { id_alimento: 9, id_categoria: 4, nombre_alimento: "Lenteja", descripcion: "Lenteja seca.", unidad_medida: "Kilogramo", calorias_porcion: 116, proteinas: 9, carbohidratos: 20.1, grasas: 0.4, estado: "disponible" },
+    { id_alimento: 10, id_categoria: 5, nombre_alimento: "Yogur natural", descripcion: "Yogur natural sin azúcar.", unidad_medida: "Litro", calorias_porcion: 61, proteinas: 3.5, carbohidratos: 4.7, grasas: 3.3, estado: "disponible" }
+];
+
+const comercios = [
+    { id_comercio: 1, nombre_comercial: "Abarrotes La Esperanza", razon_social: "Abarrotes La Esperanza S.A.", tipo_comercio: "Abarrotes" },
+    { id_comercio: 2, nombre_comercial: "Frutas Don Luis", razon_social: "Luis Hernández", tipo_comercio: "Frutería" }
+];
+
+const organizaciones = [
+    { id_organizacion: 1, nombre_organizacion: "Comedor Comunitario San Miguel", tipo_organizacion: "Comedor comunitario", responsable: "María López", estado: "activa" },
+    { id_organizacion: 2, nombre_organizacion: "Banco de Alimentos NutriCom", tipo_organizacion: "Banco de alimentos", responsable: "Jorge Pérez", estado: "activa" }
+];
+
+const donacionesIniciales = [
+    { id_donacion: 1, id_comercio: 1, id_organizacion: 1, fecha_donacion: "2026-11-18", cantidad_total: 50, estado: "pendiente", observaciones: "Donación de prueba para mostrar el seguimiento." }
+];
+
+const detallesDonacionesIniciales = [
+    { id_donacion: 1, id_alimento: 3, cantidad: 30 },
+    { id_donacion: 1, id_alimento: 4, cantidad: 20 }
+];
+
+const claveDonacionesGuardadas = "nutricom.donaciones";
+let detallesDonaciones = [];
+
+function cargarDonaciones() {
+    if (typeof localStorage === "undefined") {
+        return {
+            donaciones: donacionesIniciales.map(donacion => ({ ...donacion })),
+            detalles: detallesDonacionesIniciales.map(detalle => ({ ...detalle }))
+        };
+    }
+
+    const guardados = localStorage.getItem(claveDonacionesGuardadas);
+    if (guardados === null) {
+        return {
+            donaciones: donacionesIniciales.map(donacion => ({ ...donacion })),
+            detalles: detallesDonacionesIniciales.map(detalle => ({ ...detalle }))
+        };
+    }
+
+    const datosGuardados = JSON.parse(guardados);
+    if (
+        !datosGuardados
+        || !Array.isArray(datosGuardados.donaciones)
+        || !Array.isArray(datosGuardados.detalles)
+    ) {
+        throw new Error("Las donaciones guardadas localmente tienen un formato inválido.");
+    }
+
+    return datosGuardados;
+}
+
+function guardarDonaciones(nuevasDonaciones, nuevosDetalles) {
+    if (typeof localStorage !== "undefined") {
+        localStorage.setItem(claveDonacionesGuardadas, JSON.stringify({
+            donaciones: nuevasDonaciones,
+            detalles: nuevosDetalles
+        }));
+    }
+}
+
+({ donaciones, detalles: detallesDonaciones } = cargarDonaciones());
 
 const claveAlimentosGuardados = "nutricom.alimentos";
 
@@ -71,7 +138,7 @@ function cargarAlimentosCatalogo() {
         throw new Error("Los alimentos guardados localmente tienen un formato inválido.");
     }
 
-    return alimentosParseados.map(({ id_categoria, ...alimento }) => alimento);
+    return alimentosParseados;
 }
 
 let alimentos = cargarAlimentosCatalogo();
@@ -93,6 +160,7 @@ function normalizarDatosAlimento(datos) {
     }
 
     const alimento = {
+        id_categoria: Number(datos.id_categoria),
         nombre_alimento: String(datos.nombre_alimento ?? "").trim(),
         descripcion: String(datos.descripcion ?? "").trim(),
         unidad_medida: String(datos.unidad_medida ?? "").trim(),
@@ -103,6 +171,9 @@ function normalizarDatosAlimento(datos) {
         estado: String(datos.estado ?? "").trim()
     };
 
+    if (!categorias.some(categoria => categoria.id_categoria === alimento.id_categoria)) {
+        throw new Error("Selecciona una categoría válida para el alimento.");
+    }
     if (!alimento.nombre_alimento || !alimento.unidad_medida) {
         throw new Error("El nombre y la unidad de medida son obligatorios.");
     }
@@ -115,6 +186,10 @@ function normalizarDatosAlimento(datos) {
     }
 
     return alimento;
+}
+
+export async function obtenerCategorias() {
+    return categorias.map(categoria => ({ ...categoria }));
 }
 
 export async function obtenerAlimentos() {
@@ -199,6 +274,111 @@ export async function obtenerRecetasEconomicas() {
 export async function obtenerAlimento(id) {
     const alimento = alimentos.find(item => item.id_alimento === Number(id));
     return alimento ? { ...alimento } : null;
+}
+
+export async function obtenerComercios() {
+    return comercios.map(comercio => ({ ...comercio }));
+}
+
+export async function obtenerOrganizaciones() {
+    return organizaciones
+        .filter(organizacion => organizacion.estado === "activa")
+        .map(organizacion => ({ ...organizacion }));
+}
+
+export async function obtenerDonaciones() {
+    return donaciones.map(donacion => ({
+        ...donacion,
+        nombre_comercial: comercios.find(comercio => comercio.id_comercio === donacion.id_comercio)?.nombre_comercial ?? "Comercio no disponible",
+        nombre_organizacion: organizaciones.find(organizacion => organizacion.id_organizacion === donacion.id_organizacion)?.nombre_organizacion ?? null,
+        detalles: detallesDonaciones
+            .filter(detalle => detalle.id_donacion === donacion.id_donacion)
+            .map(detalle => {
+                const alimento = alimentos.find(item => item.id_alimento === detalle.id_alimento);
+                return {
+                    ...detalle,
+                    nombre_alimento: alimento?.nombre_alimento ?? "Alimento no disponible",
+                    unidad_medida: alimento?.unidad_medida ?? "Unidad"
+                };
+            })
+    }));
+}
+
+export async function crearDonacion(datos) {
+    if (!datos || typeof datos !== "object") {
+        throw new Error("Los datos de la donación no son válidos.");
+    }
+
+    const id_comercio = Number(datos.id_comercio);
+    const id_organizacion = datos.id_organizacion === "" || datos.id_organizacion == null
+        ? null
+        : Number(datos.id_organizacion);
+    const fecha_donacion = String(datos.fecha_donacion ?? "").trim();
+    const observaciones = String(datos.observaciones ?? "").trim();
+
+    if (!comercios.some(comercio => comercio.id_comercio === id_comercio)) {
+        throw new Error("Selecciona un comercio válido.");
+    }
+    if (id_organizacion !== null && !organizaciones.some(organizacion => organizacion.id_organizacion === id_organizacion)) {
+        throw new Error("Selecciona una organización válida o deja la donación sin asignar.");
+    }
+    const [anio, mes, dia] = fecha_donacion.split("-").map(Number);
+    const fechaValidada = new Date(Date.UTC(anio, mes - 1, dia));
+    if (
+        !/^\d{4}-\d{2}-\d{2}$/.test(fecha_donacion)
+        || Number.isNaN(fechaValidada.getTime())
+        || fechaValidada.getUTCFullYear() !== anio
+        || fechaValidada.getUTCMonth() !== mes - 1
+        || fechaValidada.getUTCDate() !== dia
+    ) {
+        throw new Error("Selecciona una fecha de donación válida.");
+    }
+    if (!Array.isArray(datos.detalles) || datos.detalles.length === 0) {
+        throw new Error("Agrega al menos un alimento a la donación.");
+    }
+
+    const idsAlimentos = new Set();
+    const detallesValidados = datos.detalles.map(detalle => {
+        const id_alimento = Number(detalle.id_alimento);
+        const cantidad = Number(detalle.cantidad);
+        const alimento = alimentos.find(item => item.id_alimento === id_alimento);
+        if (!Number.isInteger(id_alimento) || !alimento || alimento.estado === "agotado") {
+            throw new Error("Selecciona un alimento válido y disponible en cada detalle.");
+        }
+        if (idsAlimentos.has(id_alimento)) {
+            throw new Error("No repitas el mismo alimento; ajusta su cantidad en una sola línea.");
+        }
+        if (!Number.isFinite(cantidad) || cantidad <= 0) {
+            throw new Error("La cantidad de cada alimento debe ser mayor que cero.");
+        }
+        idsAlimentos.add(id_alimento);
+        return { id_alimento, cantidad };
+    });
+
+    const cantidad_total = detallesValidados.reduce((total, detalle) => total + detalle.cantidad, 0);
+    const id_donacion = donaciones.reduce(
+        (maximo, donacion) => Math.max(maximo, Number(donacion.id_donacion) || 0),
+        0,
+    ) + 1;
+    const nuevaDonacion = {
+        id_donacion,
+        id_comercio,
+        id_organizacion,
+        fecha_donacion,
+        cantidad_total,
+        estado: "pendiente",
+        observaciones
+    };
+
+    const nuevasDonaciones = [nuevaDonacion, ...donaciones];
+    const nuevosDetalles = [
+        ...detallesValidados.map(detalle => ({ id_donacion, ...detalle })),
+        ...detallesDonaciones
+    ];
+    guardarDonaciones(nuevasDonaciones, nuevosDetalles);
+    donaciones = nuevasDonaciones;
+    detallesDonaciones = nuevosDetalles;
+    return (await obtenerDonaciones()).find(donacion => donacion.id_donacion === id_donacion);
 }
 
 export async function crearAlimento(datos) {

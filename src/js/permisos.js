@@ -18,6 +18,8 @@ const paginasPorRol = {
     'alimento-form': ['admin'],
     donaciones: ['admin'],
     recetas: ['admin', 'beneficiario'],
+    donaciones: ['admin', 'comercio'],
+    recetas: ['admin'],
 };
 
 export function normalizarRol(rol) {
