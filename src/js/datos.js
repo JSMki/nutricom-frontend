@@ -41,25 +41,17 @@ export async function obtenerResumenDashboard() {
     return { kilosRecuperados, productosPorCaducar, familiasBeneficiadas, donacionesPendientes };
 }
 
-const categorias = [
-    { id_categoria: 1, nombre_categoria: "Frutas", descripcion: "Frutas frescas y de temporada.", estado: "activa" },
-    { id_categoria: 2, nombre_categoria: "Verduras", descripcion: "Verduras y hortalizas.", estado: "activa" },
-    { id_categoria: 3, nombre_categoria: "Cereales", descripcion: "Granos y cereales básicos.", estado: "activa" },
-    { id_categoria: 4, nombre_categoria: "Legumbres", descripcion: "Leguminosas secas.", estado: "activa" },
-    { id_categoria: 5, nombre_categoria: "Lácteos", descripcion: "Leche y productos lácteos.", estado: "activa" }
-];
-
 const alimentosIniciales = [
-    { id_alimento: 1, id_categoria: 1, nombre_alimento: "Manzana gala", descripcion: "Manzana fresca.", unidad_medida: "Pieza", calorias_porcion: 52, proteinas: 0.3, carbohidratos: 14, grasas: 0.2, estado: "disponible" },
-    { id_alimento: 2, id_categoria: 2, nombre_alimento: "Jitomate saladette", descripcion: "Jitomate fresco.", unidad_medida: "Kilogramo", calorias_porcion: 18, proteinas: 0.9, carbohidratos: 3.9, grasas: 0.2, estado: "agotado" },
-    { id_alimento: 3, id_categoria: 3, nombre_alimento: "Arroz blanco", descripcion: "Arroz de grano largo.", unidad_medida: "Kilogramo", calorias_porcion: 130, proteinas: 2.7, carbohidratos: 28, grasas: 0.3, estado: "disponible" },
-    { id_alimento: 4, id_categoria: 4, nombre_alimento: "Frijol negro", descripcion: "Frijol seco.", unidad_medida: "Kilogramo", calorias_porcion: 132, proteinas: 8.9, carbohidratos: 23.7, grasas: 0.5, estado: "disponible" },
-    { id_alimento: 5, id_categoria: 5, nombre_alimento: "Leche entera", descripcion: "Leche de vaca entera.", unidad_medida: "Litro", calorias_porcion: 61, proteinas: 3.2, carbohidratos: 4.8, grasas: 3.3, estado: "agotado" },
-    { id_alimento: 6, id_categoria: 1, nombre_alimento: "Plátano", descripcion: "Plátano fresco.", unidad_medida: "Pieza", calorias_porcion: 89, proteinas: 1.1, carbohidratos: 22.8, grasas: 0.3, estado: "disponible" },
-    { id_alimento: 7, id_categoria: 2, nombre_alimento: "Zanahoria", descripcion: "Zanahoria fresca.", unidad_medida: "Kilogramo", calorias_porcion: 41, proteinas: 0.9, carbohidratos: 9.6, grasas: 0.2, estado: "disponible" },
-    { id_alimento: 8, id_categoria: 3, nombre_alimento: "Avena", descripcion: "Avena en hojuelas.", unidad_medida: "Kilogramo", calorias_porcion: 389, proteinas: 16.9, carbohidratos: 66.3, grasas: 6.9, estado: "disponible" },
-    { id_alimento: 9, id_categoria: 4, nombre_alimento: "Lenteja", descripcion: "Lenteja seca.", unidad_medida: "Kilogramo", calorias_porcion: 116, proteinas: 9, carbohidratos: 20.1, grasas: 0.4, estado: "disponible" },
-    { id_alimento: 10, id_categoria: 5, nombre_alimento: "Yogur natural", descripcion: "Yogur natural sin azúcar.", unidad_medida: "Litro", calorias_porcion: 61, proteinas: 3.5, carbohidratos: 4.7, grasas: 3.3, estado: "disponible" }
+    { id_alimento: 1, nombre_alimento: "Manzana gala", descripcion: "Manzana fresca.", unidad_medida: "Pieza", calorias_porcion: 52, proteinas: 0.3, carbohidratos: 14, grasas: 0.2, estado: "disponible" },
+    { id_alimento: 2, nombre_alimento: "Jitomate saladette", descripcion: "Jitomate fresco.", unidad_medida: "Kilogramo", calorias_porcion: 18, proteinas: 0.9, carbohidratos: 3.9, grasas: 0.2, estado: "agotado" },
+    { id_alimento: 3, nombre_alimento: "Arroz blanco", descripcion: "Arroz de grano largo.", unidad_medida: "Kilogramo", calorias_porcion: 130, proteinas: 2.7, carbohidratos: 28, grasas: 0.3, estado: "disponible" },
+    { id_alimento: 4, nombre_alimento: "Frijol negro", descripcion: "Frijol seco.", unidad_medida: "Kilogramo", calorias_porcion: 132, proteinas: 8.9, carbohidratos: 23.7, grasas: 0.5, estado: "disponible" },
+    { id_alimento: 5, nombre_alimento: "Leche entera", descripcion: "Leche de vaca entera.", unidad_medida: "Litro", calorias_porcion: 61, proteinas: 3.2, carbohidratos: 4.8, grasas: 3.3, estado: "agotado" },
+    { id_alimento: 6, nombre_alimento: "Plátano", descripcion: "Plátano fresco.", unidad_medida: "Pieza", calorias_porcion: 89, proteinas: 1.1, carbohidratos: 22.8, grasas: 0.3, estado: "disponible" },
+    { id_alimento: 7, nombre_alimento: "Zanahoria", descripcion: "Zanahoria fresca.", unidad_medida: "Kilogramo", calorias_porcion: 41, proteinas: 0.9, carbohidratos: 9.6, grasas: 0.2, estado: "disponible" },
+    { id_alimento: 8, nombre_alimento: "Avena", descripcion: "Avena en hojuelas.", unidad_medida: "Kilogramo", calorias_porcion: 389, proteinas: 16.9, carbohidratos: 66.3, grasas: 6.9, estado: "disponible" },
+    { id_alimento: 9, nombre_alimento: "Lenteja", descripcion: "Lenteja seca.", unidad_medida: "Kilogramo", calorias_porcion: 116, proteinas: 9, carbohidratos: 20.1, grasas: 0.4, estado: "disponible" },
+    { id_alimento: 10, nombre_alimento: "Yogur natural", descripcion: "Yogur natural sin azúcar.", unidad_medida: "Litro", calorias_porcion: 61, proteinas: 3.5, carbohidratos: 4.7, grasas: 3.3, estado: "disponible" }
 ];
 
 const claveAlimentosGuardados = "nutricom.alimentos";
@@ -79,7 +71,7 @@ function cargarAlimentosCatalogo() {
         throw new Error("Los alimentos guardados localmente tienen un formato inválido.");
     }
 
-    return alimentosParseados;
+    return alimentosParseados.map(({ id_categoria, ...alimento }) => alimento);
 }
 
 let alimentos = cargarAlimentosCatalogo();
@@ -101,7 +93,6 @@ function normalizarDatosAlimento(datos) {
     }
 
     const alimento = {
-        id_categoria: Number(datos.id_categoria),
         nombre_alimento: String(datos.nombre_alimento ?? "").trim(),
         descripcion: String(datos.descripcion ?? "").trim(),
         unidad_medida: String(datos.unidad_medida ?? "").trim(),
@@ -112,9 +103,6 @@ function normalizarDatosAlimento(datos) {
         estado: String(datos.estado ?? "").trim()
     };
 
-    if (!categorias.some(categoria => categoria.id_categoria === alimento.id_categoria)) {
-        throw new Error("Selecciona una categoría válida para el alimento.");
-    }
     if (!alimento.nombre_alimento || !alimento.unidad_medida) {
         throw new Error("El nombre y la unidad de medida son obligatorios.");
     }
@@ -127,10 +115,6 @@ function normalizarDatosAlimento(datos) {
     }
 
     return alimento;
-}
-
-export async function obtenerCategorias() {
-    return categorias.map(categoria => ({ ...categoria }));
 }
 
 export async function obtenerAlimentos() {

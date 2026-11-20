@@ -3,18 +3,13 @@ import {
     actualizarAlimento,
     crearAlimento,
     obtenerAlimento,
-    obtenerCategorias,
 } from './datos.js';
 
 const params = new URLSearchParams(window.location.search);
 const id = params.get('id');
 const form = document.getElementById('food-form');
 const errorMessage = document.getElementById('food-form-error');
-const categorySelect = document.getElementById('food-category');
-const [categorias, alimento] = await Promise.all([
-    obtenerCategorias(),
-    id ? obtenerAlimento(id) : Promise.resolve(null),
-]);
+const alimento = id ? await obtenerAlimento(id) : null;
 
 const sidebarToggle = document.getElementById('toggle-sidebar-btn');
 sidebarToggle.addEventListener('click', () => {
@@ -24,15 +19,6 @@ sidebarToggle.addEventListener('click', () => {
     sidebarToggle.setAttribute('aria-label', collapsed ? 'Expandir menú' : 'Contraer menú');
     sidebarToggle.firstElementChild.textContent = collapsed ? '›' : '‹';
 });
-
-categorias
-    .filter(categoria => categoria.estado === 'activa')
-    .forEach(categoria => {
-        const option = document.createElement('option');
-        option.value = String(categoria.id_categoria);
-        option.textContent = categoria.nombre_categoria;
-        categorySelect.append(option);
-    });
 
 if (id && !alimento) {
     errorMessage.textContent = `No existe un alimento con el identificador "${id}".`;

@@ -1,12 +1,9 @@
 import './main.js';
-import { obtenerAlimento, obtenerCategorias } from './datos.js';
+import { obtenerAlimento } from './datos.js';
 
 const numero = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
 const id = new URLSearchParams(window.location.search).get('id');
-const [alimento, categorias] = await Promise.all([
-    id ? obtenerAlimento(id) : Promise.resolve(null),
-    obtenerCategorias(),
-]);
+const alimento = id ? await obtenerAlimento(id) : null;
 
 const sidebarToggle = document.getElementById('toggle-sidebar-btn');
 sidebarToggle.addEventListener('click', () => {
@@ -32,11 +29,7 @@ if (!alimento) {
     title.textContent = alimento.nombre_alimento;
     document.title = `${alimento.nombre_alimento} - NutriComunidad`;
 
-    const categoria = alimento.id_categoria == null || alimento.id_categoria === ''
-        ? undefined
-        : categorias.find(item => String(item.id_categoria) === String(alimento.id_categoria));
     const campos = [
-        ['Categoría', categoria?.nombre_categoria ?? 'Sin categoría'],
         ['Descripción', alimento.descripcion || 'Sin descripción'],
         ['Unidad de medida', alimento.unidad_medida],
         ['Calorías por porción', `${numero.format(alimento.calorias_porcion)} kcal`],

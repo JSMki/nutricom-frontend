@@ -3,21 +3,14 @@ import {
     actualizarAlimento,
     crearAlimento,
     obtenerAlimentos,
-    obtenerCategorias,
 } from './datos.js';
 
 const pageSize = 5;
 const numberFormat = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
-let [alimentos, categorias] = await Promise.all([
-    obtenerAlimentos(),
-    obtenerCategorias(),
-]);
-
-const categoriasPorId = new Map(categorias.map(categoria => [String(categoria.id_categoria), categoria]));
+let alimentos = await obtenerAlimentos();
 let paginaActual = 1;
 let alimentoSeleccionado = null;
 const searchInput = document.getElementById('foods-search');
-const categoryFilter = document.getElementById('foods-category-filter');
 const statusFilter = document.getElementById('foods-status-filter');
 const tableBody = document.getElementById('foods-table-body');
 const pagination = document.getElementById('foods-pagination');
@@ -28,11 +21,6 @@ const modalDetails = document.getElementById('foods-modal-details');
 const modalForm = document.getElementById('foods-modal-form');
 const modalDetailActions = document.getElementById('foods-modal-detail-actions');
 const modalError = document.getElementById('foods-modal-error');
-
-function obtenerCategoriaAlimento(alimento) {
-    if (alimento.id_categoria == null || alimento.id_categoria === '') return undefined;
-    return categoriasPorId.get(String(alimento.id_categoria));
-}
 
 function configurarSidebar() {
     const sidebarToggle = document.getElementById('toggle-sidebar-btn');
@@ -52,33 +40,17 @@ function configurarSidebar() {
     });
 }
 
-function cargarFiltroCategorias() {
-    categorias.forEach(categoria => {
-        const option = document.createElement('option');
-        option.value = String(categoria.id_categoria);
-        option.textContent = categoria.nombre_categoria;
-        categoryFilter.append(option);
-
-        if (categoria.estado === 'activa') {
-            const modalOption = option.cloneNode(true);
-            document.getElementById('foods-modal-category').append(modalOption);
-        }
-    });
-}
-
 function obtenerAlimentosFiltrados() {
     const texto = searchInput.value.trim().toLocaleLowerCase('es-MX');
-    const idCategoria = categoryFilter.value;
     const estado = statusFilter.value;
 
     return alimentos.filter(alimento => {
         const coincideTexto = !texto
             || alimento.nombre_alimento.toLocaleLowerCase('es-MX').includes(texto)
             || alimento.descripcion.toLocaleLowerCase('es-MX').includes(texto);
-        const coincideCategoria = !idCategoria || String(alimento.id_categoria) === idCategoria;
         const coincideEstado = !estado || alimento.estado === estado;
 
-        return coincideTexto && coincideCategoria && coincideEstado;
+        return coincideTexto && coincideEstado;
     });
 }
 
@@ -92,7 +64,6 @@ function crearFila(alimento) {
     const row = document.createElement('tr');
     const foodCell = document.createElement('td');
     const foodName = document.createElement('span');
-    const category = obtenerCategoriaAlimento(alimento);
     const statusCell = document.createElement('td');
     const status = document.createElement('span');
     const actionsCell = document.createElement('td');
@@ -105,7 +76,6 @@ function crearFila(alimento) {
     foodCell.append(foodName);
     row.append(
         foodCell,
-        crearCelda(category?.nombre_categoria ?? 'Sin categoría'),
         crearCelda(alimento.unidad_medida),
         crearCelda(`${numberFormat.format(alimento.calorias_porcion)} kcal`),
         crearCelda(`${numberFormat.format(alimento.proteinas)} g`),
@@ -194,7 +164,6 @@ function renderizar() {
     renderizarPaginacion(filtrados.length);
 
     const filtrosActivos = Number(Boolean(searchInput.value.trim()))
-        + Number(Boolean(categoryFilter.value))
         + Number(Boolean(statusFilter.value));
     document.getElementById('foods-filter-count').textContent =
         `${filtrosActivos} ${filtrosActivos === 1 ? 'filtro' : 'filtros'}`;
@@ -203,13 +172,9 @@ function renderizar() {
 function mostrarEstadisticas() {
     const disponibles = alimentos.filter(alimento => alimento.estado === 'disponible').length;
     const agotados = alimentos.filter(alimento => alimento.estado === 'agotado').length;
-    const categoriasActivas = categorias.filter(categoria => categoria.estado === 'activa').length;
-
     document.getElementById('foods-total').textContent = numberFormat.format(alimentos.length);
     document.getElementById('foods-available').textContent = numberFormat.format(disponibles);
     document.getElementById('foods-empty').textContent = numberFormat.format(agotados);
-    document.getElementById('foods-categories').textContent = numberFormat.format(categoriasActivas);
-
     const notice = document.getElementById('foods-notice');
     notice.hidden = agotados === 0;
     document.getElementById('foods-notice-title').textContent =
@@ -257,13 +222,11 @@ function agregarCampoDetalle(etiqueta, valor) {
 
 function abrirDetalle(alimento) {
     alimentoSeleccionado = alimento;
-    const categoria = obtenerCategoriaAlimento(alimento);
     modalTitle.textContent = alimento.nombre_alimento;
     modalForm.hidden = true;
     modalDetailActions.hidden = false;
     modalDetails.replaceChildren();
     [
-        ['Categoría', categoria?.nombre_categoria ?? 'Sin categoría'],
         ['Descripción', alimento.descripcion || 'Sin descripción'],
         ['Unidad de medida', alimento.unidad_medida],
         ['Calorías por porción', `${numberFormat.format(alimento.calorias_porcion)} kcal`],
@@ -332,16 +295,11 @@ function configurarModal() {
 }
 
 configurarSidebar();
-cargarFiltroCategorias();
 configurarModal();
 mostrarEstadisticas();
 renderizar();
 
 searchInput.addEventListener('input', () => {
-    paginaActual = 1;
-    renderizar();
-});
-categoryFilter.addEventListener('change', () => {
     paginaActual = 1;
     renderizar();
 });
