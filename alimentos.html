@@ -16,7 +16,7 @@
             <div class="foods-page__heading">
                 <p class="foods-page__eyebrow">Control de inventario</p>
                 <h1 class="foods-page__title">Alimentos e inventario</h1>
-                <p class="foods-page__description">Supervisa los alimentos, su inventario y su información nutricional.</p>
+                <p class="foods-page__description">Supervisa los alimentos, sus categorías y su información nutricional.</p>
             </div>
             <button class="foods-page__add-button" id="foods-add-button" type="button">
                 <span aria-hidden="true">＋</span>
@@ -37,6 +37,10 @@
                 <span class="foods-page__stat-label">Agotados</span>
                 <strong class="foods-page__stat-value foods-page__stat-value--empty" id="foods-empty">0</strong>
             </article>
+            <article class="foods-page__stat">
+                <span class="foods-page__stat-label">Categorías activas</span>
+                <strong class="foods-page__stat-value" id="foods-categories">0</strong>
+            </article>
         </section>
 
         <aside class="foods-page__notice" id="foods-notice" aria-live="polite" hidden>
@@ -56,6 +60,12 @@
                     <input id="foods-search" type="search" placeholder="Buscar alimento..." autocomplete="off">
                 </label>
                 <label class="foods-page__filter">
+                    <span class="sr-only">Filtrar por categoría</span>
+                    <select id="foods-category-filter">
+                        <option value="">Todas las categorías</option>
+                    </select>
+                </label>
+                <label class="foods-page__filter">
                     <span class="sr-only">Filtrar por estado</span>
                     <select id="foods-status-filter">
                         <option value="">Todos los estados</option>
@@ -71,6 +81,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Alimento</th>
+                            <th scope="col">Categoría</th>
                             <th scope="col">Unidad</th>
                             <th scope="col">Calorías / porción</th>
                             <th scope="col">Proteínas</th>
@@ -108,6 +119,12 @@
                     <label class="foods-modal__field">
                         <span>Nombre del alimento <span aria-hidden="true">*</span></span>
                         <input name="nombre_alimento" type="text" maxlength="120" required>
+                    </label>
+                    <label class="foods-modal__field">
+                        <span>Categoría <span aria-hidden="true">*</span></span>
+                        <select name="id_categoria" id="foods-modal-category" required>
+                            <option value="">Selecciona una categoría</option>
+                        </select>
                     </label>
                     <label class="foods-modal__field">
                         <span>Unidad de medida <span aria-hidden="true">*</span></span>
