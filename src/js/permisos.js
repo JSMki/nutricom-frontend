@@ -8,6 +8,7 @@ export const rolesValidos = [
 const paginasPorRol = {
     home: rolesValidos,
     'nueva-solicitud': ['admin', 'beneficiario'],
+    'mis-pedidos': ['beneficiario'],
     usuarios: ['admin'],
     usuario: ['admin'],
     alimentos: ['admin'],
