@@ -272,3 +272,5 @@ async function inicializar() {
         mostrarMensaje(error instanceof Error ? error.message : 'No se pudo cargar la donación.', 'error');
     }
 }
+
+await inicializar();
