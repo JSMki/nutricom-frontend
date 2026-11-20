@@ -226,6 +226,9 @@
 }
 
 .pedidos-detail {
+  position: fixed;
+  inset: 0;
+  margin: auto;
   width: min(520px, calc(100% - 32px));
   max-width: none;
   max-height: min(80vh, 700px);
