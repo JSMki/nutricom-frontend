@@ -47,7 +47,9 @@ if (!alimento) {
     title.textContent = alimento.nombre_alimento;
     document.title = `${alimento.nombre_alimento} - NutriComunidad`;
 
-    const categoria = categorias.find(item => item.id_categoria === alimento.id_categoria);
+    const categoria = alimento.id_categoria == null || alimento.id_categoria === ''
+        ? undefined
+        : categorias.find(item => String(item.id_categoria) === String(alimento.id_categoria));
     const campos = [
         ['Categoría', categoria?.nombre_categoria ?? 'Sin categoría'],
         ['Descripción', alimento.descripcion || 'Sin descripción'],

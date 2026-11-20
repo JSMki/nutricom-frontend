@@ -304,23 +304,9 @@
 }
 
 .foods-page__food-name {
-  display: flex;
-  align-items: center;
-  gap: 9px;
   color: var(--color-text-main);
   font-size: 9px;
   font-weight: 650;
-}
-
-.foods-page__food-icon {
-  display: grid;
-  width: 29px;
-  height: 29px;
-  flex: 0 0 auto;
-  place-items: center;
-  border-radius: 8px;
-  background: #f1f5f2;
-  font-size: 16px;
 }
 
 .foods-page__status {
