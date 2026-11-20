@@ -62,12 +62,14 @@ const alimentosIniciales = [
 
 const comercios = [
     { id_comercio: 1, nombre_comercial: "Abarrotes La Esperanza", razon_social: "Abarrotes La Esperanza S.A.", tipo_comercio: "Abarrotes" },
-    { id_comercio: 2, nombre_comercial: "Frutas Don Luis", razon_social: "Luis Hernández", tipo_comercio: "Frutería" }
+    { id_comercio: 2, nombre_comercial: "Frutas Don Luis", razon_social: "Luis Hernández", tipo_comercio: "Frutería" },
+    { id_comercio: 3, nombre_comercial: "Panadería El Trigal", razon_social: "Panadería El Trigal S. de R.L.", tipo_comercio: "Panadería", telefono: "5551234567", correo: "contacto@eltrigal.example", direccion: "Calle Reforma 24", colonia: "Centro" }
 ];
 
 const organizaciones = [
     { id_organizacion: 1, nombre_organizacion: "Comedor Comunitario San Miguel", tipo_organizacion: "Comedor comunitario", responsable: "María López", estado: "activa" },
-    { id_organizacion: 2, nombre_organizacion: "Banco de Alimentos NutriCom", tipo_organizacion: "Banco de alimentos", responsable: "Jorge Pérez", estado: "activa" }
+    { id_organizacion: 2, nombre_organizacion: "Banco de Alimentos NutriCom", tipo_organizacion: "Banco de alimentos", responsable: "Jorge Pérez", estado: "activa" },
+    { id_organizacion: 3, nombre_organizacion: "Centro Comunitario Las Flores", tipo_organizacion: "Centro comunitario", responsable: "Lucía Gómez", estado: "activa" }
 ];
 
 const donacionesIniciales = [
@@ -75,27 +77,84 @@ const donacionesIniciales = [
 ];
 
 const detallesDonacionesIniciales = [
-    { id_donacion: 1, id_alimento: 3, cantidad: 30 },
-    { id_donacion: 1, id_alimento: 4, cantidad: 20 }
+    { id_donacion: 1, id_alimento: 3, cantidad: 30, fecha_caducidad: "2027-02-20", fecha_consumo_preferente: null },
+    { id_donacion: 1, id_alimento: 4, cantidad: 20, fecha_caducidad: null, fecha_consumo_preferente: "2027-01-15" }
 ];
+
+const donacionesDisponiblesIniciales = [
+    { id_donacion: 248, id_comercio: 1, id_organizacion: null, fecha_donacion: "2026-11-19", cantidad_total: 36, estado: "disponible", observaciones: "Productos secos en buen estado." },
+    { id_donacion: 249, id_comercio: 2, id_organizacion: null, fecha_donacion: "2026-11-18", cantidad_total: 28, estado: "disponible", observaciones: "Fruta y verdura fresca." },
+    { id_donacion: 250, id_comercio: 3, id_organizacion: null, fecha_donacion: "2026-11-17", cantidad_total: 42, estado: "disponible", observaciones: "Pan del día y productos de despensa." },
+    { id_donacion: 251, id_comercio: 1, id_organizacion: null, fecha_donacion: "2026-11-16", cantidad_total: 31, estado: "disponible", observaciones: "Alimentos empacados y etiquetados." },
+    { id_donacion: 252, id_comercio: 2, id_organizacion: 1, fecha_donacion: "2026-11-15", cantidad_total: 18, estado: "recibida", observaciones: "Recibida por el comedor." },
+    { id_donacion: 253, id_comercio: 3, id_organizacion: null, fecha_donacion: "2026-11-14", cantidad_total: 12, estado: "cancelada", observaciones: "Cancelada por el comercio." }
+];
+
+const detalle_donaciones = [
+    { id_donacion: 248, id_alimento: 3, cantidad: 20, fecha_caducidad: "2027-02-20", fecha_consumo_preferente: null },
+    { id_donacion: 248, id_alimento: 4, cantidad: 10, fecha_caducidad: null, fecha_consumo_preferente: "2027-01-15" },
+    { id_donacion: 248, id_alimento: 8, cantidad: 6, fecha_caducidad: "2026-12-30", fecha_consumo_preferente: null },
+    { id_donacion: 249, id_alimento: 1, cantidad: 12, fecha_caducidad: "2026-11-25", fecha_consumo_preferente: null },
+    { id_donacion: 249, id_alimento: 6, cantidad: 10, fecha_caducidad: "2026-11-24", fecha_consumo_preferente: null },
+    { id_donacion: 249, id_alimento: 7, cantidad: 6, fecha_caducidad: "2026-11-27", fecha_consumo_preferente: null },
+    { id_donacion: 250, id_alimento: 8, cantidad: 18, fecha_caducidad: "2027-03-10", fecha_consumo_preferente: null },
+    { id_donacion: 250, id_alimento: 9, cantidad: 14, fecha_caducidad: null, fecha_consumo_preferente: "2027-02-01" },
+    { id_donacion: 250, id_alimento: 10, cantidad: 10, fecha_caducidad: "2026-11-26", fecha_consumo_preferente: null },
+    { id_donacion: 251, id_alimento: 3, cantidad: 12, fecha_caducidad: "2027-04-20", fecha_consumo_preferente: null },
+    { id_donacion: 251, id_alimento: 6, cantidad: 11, fecha_caducidad: "2026-11-26", fecha_consumo_preferente: null },
+    { id_donacion: 251, id_alimento: 9, cantidad: 8, fecha_caducidad: null, fecha_consumo_preferente: "2027-03-01" },
+    { id_donacion: 252, id_alimento: 1, cantidad: 8, fecha_caducidad: "2027-01-12", fecha_consumo_preferente: null },
+    { id_donacion: 252, id_alimento: 7, cantidad: 6, fecha_caducidad: "2027-01-10", fecha_consumo_preferente: null },
+    { id_donacion: 252, id_alimento: 8, cantidad: 4, fecha_caducidad: "2027-04-20", fecha_consumo_preferente: null },
+    { id_donacion: 253, id_alimento: 3, cantidad: 5, fecha_caducidad: "2027-02-20", fecha_consumo_preferente: null },
+    { id_donacion: 253, id_alimento: 4, cantidad: 4, fecha_caducidad: null, fecha_consumo_preferente: "2027-02-01" },
+    { id_donacion: 253, id_alimento: 10, cantidad: 3, fecha_caducidad: "2027-01-10", fecha_consumo_preferente: null }
+];
+
+const unidades_medida = [
+    { id_unidad: 1, nombre_unidad: "Kilogramo", abreviatura: "kg" },
+    { id_unidad: 2, nombre_unidad: "Gramo", abreviatura: "g" },
+    { id_unidad: 3, nombre_unidad: "Litro", abreviatura: "L" },
+    { id_unidad: 4, nombre_unidad: "Mililitro", abreviatura: "ml" },
+    { id_unidad: 5, nombre_unidad: "Pieza", abreviatura: "pieza" },
+    { id_unidad: 6, nombre_unidad: "Porción", abreviatura: "porción" }
+];
+
+let inventarios = [];
+let lotes = [];
+
+// TODO: Sustituir por la organización asociada al usuario autenticado cuando la API la proporcione.
+export const ORGANIZACION_ACTUAL = { id_organizacion: 1 };
 
 const claveDonacionesGuardadas = "nutricom.donaciones";
 let detallesDonaciones = [];
 
+function combinarPorClave(iniciales, guardados, obtenerClave) {
+    const registros = new Map(iniciales.map(registro => [obtenerClave(registro), { ...registro }]));
+    for (const registro of guardados) {
+        const clave = obtenerClave(registro);
+        registros.set(clave, { ...registros.get(clave), ...registro });
+    }
+    return [...registros.values()];
+}
+
 function cargarDonaciones() {
+    const donacionesBase = [...donacionesIniciales, ...donacionesDisponiblesIniciales];
+    const detallesBase = [...detallesDonacionesIniciales, ...detalle_donaciones];
+    const datosBase = {
+        donaciones: donacionesBase.map(donacion => ({ ...donacion })),
+        detalles: detallesBase.map(detalle => ({ ...detalle })),
+        inventarios: [],
+        lotes: []
+    };
+
     if (typeof localStorage === "undefined") {
-        return {
-            donaciones: donacionesIniciales.map(donacion => ({ ...donacion })),
-            detalles: detallesDonacionesIniciales.map(detalle => ({ ...detalle }))
-        };
+        return datosBase;
     }
 
     const guardados = localStorage.getItem(claveDonacionesGuardadas);
     if (guardados === null) {
-        return {
-            donaciones: donacionesIniciales.map(donacion => ({ ...donacion })),
-            detalles: detallesDonacionesIniciales.map(detalle => ({ ...detalle }))
-        };
+        return datosBase;
     }
 
     const datosGuardados = JSON.parse(guardados);
@@ -103,23 +162,50 @@ function cargarDonaciones() {
         !datosGuardados
         || !Array.isArray(datosGuardados.donaciones)
         || !Array.isArray(datosGuardados.detalles)
+        || (datosGuardados.inventarios !== undefined && !Array.isArray(datosGuardados.inventarios))
+        || (datosGuardados.lotes !== undefined && !Array.isArray(datosGuardados.lotes))
     ) {
         throw new Error("Las donaciones guardadas localmente tienen un formato inválido.");
     }
 
-    return datosGuardados;
+    return {
+        donaciones: combinarPorClave(
+            donacionesBase,
+            datosGuardados.donaciones,
+            donacion => donacion.id_donacion,
+        ),
+        detalles: combinarPorClave(
+            detallesBase,
+            datosGuardados.detalles,
+            detalle => `${detalle.id_donacion}:${detalle.id_alimento}`,
+        ),
+        inventarios: Array.isArray(datosGuardados.inventarios) ? datosGuardados.inventarios : [],
+        lotes: Array.isArray(datosGuardados.lotes) ? datosGuardados.lotes : []
+    };
 }
 
-function guardarDonaciones(nuevasDonaciones, nuevosDetalles) {
+function guardarDonaciones(
+    nuevasDonaciones,
+    nuevosDetalles,
+    nuevosInventarios = inventarios,
+    nuevosLotes = lotes,
+) {
     if (typeof localStorage !== "undefined") {
         localStorage.setItem(claveDonacionesGuardadas, JSON.stringify({
             donaciones: nuevasDonaciones,
-            detalles: nuevosDetalles
+            detalles: nuevosDetalles,
+            inventarios: nuevosInventarios,
+            lotes: nuevosLotes
         }));
     }
 }
 
-({ donaciones, detalles: detallesDonaciones } = cargarDonaciones());
+({
+    donaciones,
+    detalles: detallesDonaciones,
+    inventarios,
+    lotes
+} = cargarDonaciones());
 
 const claveAlimentosGuardados = "nutricom.alimentos";
 
@@ -293,15 +379,204 @@ export async function obtenerDonaciones() {
         nombre_organizacion: organizaciones.find(organizacion => organizacion.id_organizacion === donacion.id_organizacion)?.nombre_organizacion ?? null,
         detalles: detallesDonaciones
             .filter(detalle => detalle.id_donacion === donacion.id_donacion)
-            .map(detalle => {
-                const alimento = alimentos.find(item => item.id_alimento === detalle.id_alimento);
-                return {
-                    ...detalle,
-                    nombre_alimento: alimento?.nombre_alimento ?? "Alimento no disponible",
-                    unidad_medida: alimento?.unidad_medida ?? "Unidad"
-                };
-            })
+            .map(resolverDetalleDonacion)
     }));
+}
+
+function normalizarUnidad(texto) {
+    return String(texto ?? "")
+        .trim()
+        .toLocaleLowerCase("es-MX")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+}
+
+function obtenerUnidadAlimento(alimento) {
+    const id_unidad = Number(alimento?.id_unidad)
+        || unidades_medida.find(unidad =>
+            normalizarUnidad(unidad.nombre_unidad) === normalizarUnidad(alimento?.unidad_medida)
+            || normalizarUnidad(unidad.abreviatura) === normalizarUnidad(alimento?.unidad_medida)
+        )?.id_unidad;
+    return unidades_medida.find(unidad => unidad.id_unidad === id_unidad) ?? null;
+}
+
+function resolverDetalleDonacion(detalle) {
+    const alimento = alimentos.find(item => item.id_alimento === Number(detalle.id_alimento));
+    const unidad = obtenerUnidadAlimento(alimento);
+    const categoria = categorias.find(item => item.id_categoria === Number(alimento?.id_categoria));
+    return {
+        ...detalle,
+        id_unidad: unidad?.id_unidad ?? alimento?.id_unidad ?? null,
+        nombre_alimento: alimento?.nombre_alimento ?? "Alimento no disponible",
+        nombre_categoria: categoria?.nombre_categoria ?? "Sin categoría",
+        abreviatura: unidad?.abreviatura ?? "unidad",
+        unidad_medida: unidad?.abreviatura ?? alimento?.unidad_medida ?? "Unidad"
+    };
+}
+
+function resolverComercioDonacion(id_comercio) {
+    const comercio = comercios.find(item => item.id_comercio === Number(id_comercio));
+    return comercio
+        ? {
+            id_comercio: comercio.id_comercio,
+            nombre_comercial: comercio.nombre_comercial,
+            razon_social: comercio.razon_social ?? "",
+            tipo_comercio: comercio.tipo_comercio ?? "",
+            telefono: comercio.telefono ?? "",
+            correo: comercio.correo ?? "",
+            direccion: comercio.direccion ?? "",
+            colonia: comercio.colonia ?? ""
+        }
+        : null;
+}
+
+function resolverDonacion(donacion) {
+    if (!donacion) return null;
+    return {
+        ...donacion,
+        comercio: resolverComercioDonacion(donacion.id_comercio),
+        detalles: detallesDonaciones
+            .filter(detalle => Number(detalle.id_donacion) === Number(donacion.id_donacion))
+            .map(resolverDetalleDonacion)
+    };
+}
+
+export async function obtenerDonacionesDisponibles() {
+    return donaciones
+        .filter(donacion => donacion.estado === "disponible" && donacion.id_organizacion == null)
+        .map(resolverDonacion);
+}
+
+export async function obtenerDonacion(id_donacion) {
+    const donacion = donaciones.find(item => Number(item.id_donacion) === Number(id_donacion));
+    return resolverDonacion(donacion);
+}
+
+function validarFechaDetalle(fecha, etiqueta, hoy) {
+    if (!fecha) return null;
+    const valor = String(fecha).trim();
+    const [anio, mes, dia] = valor.split("-").map(Number);
+    const fechaParsed = new Date(Date.UTC(anio, mes - 1, dia));
+    if (
+        !/^\d{4}-\d{2}-\d{2}$/.test(valor)
+        || Number.isNaN(fechaParsed.getTime())
+        || fechaParsed.getUTCFullYear() !== anio
+        || fechaParsed.getUTCMonth() !== mes - 1
+        || fechaParsed.getUTCDate() !== dia
+    ) {
+        throw new Error(`La fecha de ${etiqueta} no es válida.`);
+    }
+    if (valor < hoy) {
+        throw new Error(`La fecha de ${etiqueta} no puede ser anterior a hoy.`);
+    }
+    return valor;
+}
+
+function obtenerFechaLocal() {
+    const hoy = new Date();
+    const anio = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dia = String(hoy.getDate()).padStart(2, "0");
+    return `${anio}-${mes}-${dia}`;
+}
+
+export async function reclamarDonacion(id_donacion, id_organizacion) {
+    const datosActuales = cargarDonaciones();
+    donaciones = datosActuales.donaciones;
+    detallesDonaciones = datosActuales.detalles;
+    inventarios = datosActuales.inventarios;
+    lotes = datosActuales.lotes;
+
+    const idDonacion = Number(id_donacion);
+    const idOrganizacion = Number(id_organizacion);
+    const donacion = donaciones.find(item => Number(item.id_donacion) === idDonacion);
+    if (!donacion) {
+        throw new Error("No se encontró la donación que intentas reclamar.");
+    }
+    if (donacion.estado !== "disponible" || donacion.id_organizacion != null) {
+        throw new Error("Esta donación ya no está disponible para reclamar.");
+    }
+    if (!Number.isInteger(idOrganizacion)
+        || !organizaciones.some(item => item.id_organizacion === idOrganizacion)) {
+        throw new Error("No se encontró una organización válida para recibir la donación.");
+    }
+
+    const detalles = detallesDonaciones.filter(detalle => Number(detalle.id_donacion) === idDonacion);
+    if (!detalles.length) {
+        throw new Error("La donación no tiene alimentos registrados y no puede reclamarse.");
+    }
+    const detallesValidados = detalles.map(detalle => {
+        const fecha_caducidad = detalle.fecha_caducidad || null;
+        const fecha_consumo_preferente = detalle.fecha_consumo_preferente || null;
+        const cantidad = Number(detalle.cantidad);
+        if (!Number.isFinite(cantidad) || cantidad <= 0) {
+            throw new Error("La cantidad de cada alimento debe ser mayor que cero.");
+        }
+        if (!fecha_caducidad && !fecha_consumo_preferente) {
+            throw new Error("Cada alimento debe tener fecha de caducidad o fecha de consumo preferente.");
+        }
+        return {
+            id_alimento: Number(detalle.id_alimento),
+            fecha_caducidad,
+            fecha_consumo_preferente,
+            cantidad
+        };
+    });
+
+    const hoy = obtenerFechaLocal();
+    const fecha_recepcion = hoy;
+    const fecha_actualizacion = new Date().toISOString();
+    const inventariosActualizados = inventarios.map(item => ({ ...item }));
+    const lotesActualizados = lotes.map(item => ({ ...item }));
+    let siguienteInventario = inventariosActualizados.reduce(
+        (maximo, item) => Math.max(maximo, Number(item.id_inventario) || 0),
+        0,
+    ) + 1;
+    let siguienteLote = lotesActualizados.reduce(
+        (maximo, item) => Math.max(maximo, Number(item.id_lote) || 0),
+        0,
+    ) + 1;
+
+    const folioDonacion = `DON-${String(idDonacion).padStart(4, "0")}`;
+    for (const [indice, detalle] of detallesValidados.entries()) {
+        let inventario = inventariosActualizados.find(item =>
+            Number(item.id_organizacion) === idOrganizacion
+            && Number(item.id_alimento) === detalle.id_alimento
+        );
+        if (!inventario) {
+            inventario = {
+                id_inventario: siguienteInventario++,
+                id_organizacion: idOrganizacion,
+                id_alimento: detalle.id_alimento,
+                cantidad_disponible: 0,
+                fecha_actualizacion,
+                estado: "disponible"
+            };
+            inventariosActualizados.push(inventario);
+        }
+        inventario.cantidad_disponible = Number(inventario.cantidad_disponible) + detalle.cantidad;
+        inventario.fecha_actualizacion = fecha_actualizacion;
+        inventario.estado = "disponible";
+        lotesActualizados.push({
+            id_lote: siguienteLote++,
+            id_inventario: inventario.id_inventario,
+            numero_lote: `${folioDonacion}-${String(indice + 1).padStart(2, "0")}`,
+            fecha_recepcion,
+            fecha_caducidad: detalle.fecha_caducidad,
+            fecha_consumo_preferente: detalle.fecha_consumo_preferente,
+            cantidad_inicial: detalle.cantidad,
+            cantidad_actual: detalle.cantidad
+        });
+    }
+
+    const donacionesActualizadas = donaciones.map(item => Number(item.id_donacion) === idDonacion
+        ? { ...item, id_organizacion: idOrganizacion, estado: "recibida" }
+        : item);
+    guardarDonaciones(donacionesActualizadas, detallesDonaciones, inventariosActualizados, lotesActualizados);
+    donaciones = donacionesActualizadas;
+    inventarios = inventariosActualizados;
+    lotes = lotesActualizados;
+    return resolverDonacion(donaciones.find(item => Number(item.id_donacion) === idDonacion));
 }
 
 export async function crearDonacion(datos) {
@@ -338,6 +613,7 @@ export async function crearDonacion(datos) {
     }
 
     const idsAlimentos = new Set();
+    const hoy = obtenerFechaLocal();
     const detallesValidados = datos.detalles.map(detalle => {
         const id_alimento = Number(detalle.id_alimento);
         const cantidad = Number(detalle.cantidad);
@@ -351,8 +627,17 @@ export async function crearDonacion(datos) {
         if (!Number.isFinite(cantidad) || cantidad <= 0) {
             throw new Error("La cantidad de cada alimento debe ser mayor que cero.");
         }
+        const fecha_caducidad = validarFechaDetalle(detalle.fecha_caducidad, "caducidad", hoy);
+        const fecha_consumo_preferente = validarFechaDetalle(
+            detalle.fecha_consumo_preferente,
+            "consumo preferente",
+            hoy,
+        );
+        if (!fecha_caducidad && !fecha_consumo_preferente) {
+            throw new Error("Indica la fecha de caducidad o la de consumo preferente para cada alimento.");
+        }
         idsAlimentos.add(id_alimento);
-        return { id_alimento, cantidad };
+        return { id_alimento, cantidad, fecha_caducidad, fecha_consumo_preferente };
     });
 
     const cantidad_total = detallesValidados.reduce((total, detalle) => total + detalle.cantidad, 0);
@@ -366,7 +651,7 @@ export async function crearDonacion(datos) {
         id_organizacion,
         fecha_donacion,
         cantidad_total,
-        estado: "pendiente",
+        estado: "disponible",
         observaciones
     };
 
@@ -378,7 +663,9 @@ export async function crearDonacion(datos) {
     guardarDonaciones(nuevasDonaciones, nuevosDetalles);
     donaciones = nuevasDonaciones;
     detallesDonaciones = nuevosDetalles;
-    return (await obtenerDonaciones()).find(donacion => donacion.id_donacion === id_donacion);
+    return (await obtenerDonaciones()).find(
+        donacion => Number(donacion.id_donacion) === Number(id_donacion),
+    );
 }
 
 export async function crearAlimento(datos) {

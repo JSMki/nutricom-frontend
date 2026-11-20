@@ -68,9 +68,13 @@ function configurarNavegacion(rol) {
     });
 
     const paginaActual = obtenerPaginaActual();
-    const destinoActivo = ['alimento-detalle', 'alimento-form'].includes(paginaActual)
-        ? 'alimentos'
-        : paginaActual;
+    const destinosPorDetalle = {
+        'alimento-detalle': 'alimentos',
+        'alimento-form': 'alimentos',
+        'detalle-donacion': 'donaciones-disponibles',
+        'reclamar-donacion': 'donaciones-disponibles',
+    };
+    const destinoActivo = destinosPorDetalle[paginaActual] ?? paginaActual;
     const enlaceActivo = document.querySelector(
         `.home-sidebar__link[href="./${destinoActivo}.html"]`,
     );

@@ -382,7 +382,7 @@
 
 .donacion-form__line {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 120px 34px;
+  grid-template-columns: minmax(150px, 1.2fr) minmax(90px, 0.55fr) repeat(2, minmax(145px, 1fr)) 34px;
   align-items: end;
   gap: 8px;
   padding: 10px;
@@ -397,6 +397,22 @@
   color: var(--color-text-muted);
   font-size: 9px;
   font-weight: 600;
+}
+
+.donacion-form__line .donacion-form__date-field {
+  min-width: 0;
+  color: var(--color-text-main);
+}
+
+.donacion-form__date-error {
+  min-height: 12px;
+  color: #a63e36;
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.donacion-form__line input[aria-invalid="true"] {
+  border-color: #a63e36;
 }
 
 .donacion-form__remove {
@@ -521,7 +537,12 @@
   }
 
   .donacion-form__line {
-    grid-template-columns: minmax(0, 1fr) 90px 34px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .donacion-form__remove {
+    grid-column: 2;
+    justify-self: end;
   }
 
   .donacion-dialog__surface {

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Donaciones disponibles - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/donaciones-disponibles.css">
+</head>
+<body class="home-layout donaciones-disponibles-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main donations-main">
+        <header class="donations-heading">
+            <div>
+                <p class="donations-eyebrow">APOYO ENTRE COMERCIOS Y ORGANIZACIONES</p>
+                <h1 class="donations-title">Donaciones disponibles</h1>
+                <p class="donations-description">Consulta los alimentos ofrecidos por los comercios y reclama lo que tu organización necesita.</p>
+            </div>
+        </header>
+
+        <section class="donations-toolbar" aria-label="Buscar y ordenar donaciones">
+            <label class="donations-search" for="donations-search">
+                <span>Buscar por comercio o alimento</span>
+                <input id="donations-search" type="search" placeholder="Ej. Abarrotes o arroz" autocomplete="off">
+            </label>
+            <label class="donations-sort" for="donations-sort">
+                <span>Ordenar por</span>
+                <select id="donations-sort">
+                    <option value="recent">Más recientes</option>
+                    <option value="quantity">Mayor cantidad</option>
+                </select>
+            </label>
+            <p class="donations-count" id="donations-count" aria-live="polite">Cargando donaciones...</p>
+        </section>
+
+        <section class="donations-grid" id="donations-grid" aria-label="Donaciones disponibles" aria-live="polite">
+            <p class="donations-message">Cargando donaciones...</p>
+        </section>
+    </main>
+
+    <script type="module" src="./src/js/donaciones-disponibles.js"></script>
+</body>
+</html>

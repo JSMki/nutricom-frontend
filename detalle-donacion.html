@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Detalle de donación - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/detalle-donacion.css">
+</head>
+<body class="home-layout donation-detail-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main detail-main">
+        <header class="detail-heading">
+            <div>
+                <p class="detail-eyebrow">DONACIONES</p>
+                <h1 class="detail-title">Detalle de donación</h1>
+                <p class="detail-description">Información del comercio y alimentos ofrecidos.</p>
+            </div>
+            <a class="detail-back" href="./donaciones-disponibles.html">Volver a disponibles</a>
+        </header>
+
+        <section class="detail-content" id="donation-detail" aria-live="polite">
+            <p class="detail-message">Cargando donación...</p>
+        </section>
+    </main>
+
+    <script type="module" src="./src/js/detalle-donacion.js"></script>
+</body>
+</html>
