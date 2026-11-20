@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Mis pedidos - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/home.css">
+    <link rel="stylesheet" href="./src/css/mis-pedidos.css">
+</head>
+<body class="home-layout pedidos-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main pedidos-page__main">
+        <header class="pedidos-page__header">
+            <div>
+                <p class="pedidos-page__eyebrow">APOYO ALIMENTARIO</p>
+                <h1 class="pedidos-page__title">Mis pedidos</h1>
+                <p class="pedidos-page__description">Consulta el avance y detalle de todas tus solicitudes.</p>
+            </div>
+            <a class="pedidos-page__new-link" href="./nueva-solicitud.html">
+                <span aria-hidden="true">＋</span>
+                Nueva solicitud
+            </a>
+        </header>
+
+        <section class="pedidos-page__card" aria-label="Listado de pedidos">
+            <div class="pedidos-page__toolbar">
+                <label class="pedidos-page__search" for="pedidos-search">
+                    <span class="sr-only">Buscar por folio o contenido</span>
+                    <input id="pedidos-search" type="search" placeholder="Buscar por folio o contenido">
+                </label>
+                <label class="pedidos-page__status-filter" for="pedidos-status">
+                    <span class="sr-only">Filtrar por estado</span>
+                    <select id="pedidos-status">
+                        <option value="">Todos los estados</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Aprobada">Aprobada</option>
+                        <option value="Entregada">Entregada</option>
+                        <option value="Rechazada">Rechazada</option>
+                    </select>
+                </label>
+                <span class="pedidos-page__filter-count" id="pedidos-filter-count">Filtros 0</span>
+            </div>
+
+            <div class="pedidos-page__table-scroll">
+                <table class="pedidos-page__table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Folio</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Prioridad</th>
+                            <th scope="col">Contenido</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col"><span class="sr-only">Detalle</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="pedidos-table-body">
+                        <tr><td class="pedidos-page__message" colspan="6">Cargando pedidos...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <footer class="pedidos-page__footer">
+                <span id="pedidos-results" aria-live="polite">Cargando</span>
+            </footer>
+        </section>
+    </main>
+
+    <dialog class="pedidos-detail" id="pedido-detail" aria-labelledby="pedido-detail-title">
+        <div class="pedidos-detail__surface">
+            <header class="pedidos-detail__header">
+                <div>
+                    <p class="pedidos-page__eyebrow">DETALLE DEL PEDIDO</p>
+                    <h2 id="pedido-detail-title">Pedido</h2>
+                </div>
+                <button class="pedidos-detail__close" id="pedido-detail-close" type="button" aria-label="Cerrar detalle">×</button>
+            </header>
+            <dl class="pedidos-detail__meta" id="pedido-detail-meta"></dl>
+            <section class="pedidos-detail__items-section" aria-labelledby="pedido-detail-items-title">
+                <h3 id="pedido-detail-items-title">Alimentos solicitados</h3>
+                <ul class="pedidos-detail__items" id="pedido-detail-items"></ul>
+            </section>
+        </div>
+    </dialog>
+
+    <script type="module" src="./src/js/mis-pedidos.js"></script>
+</body>
+</html>
