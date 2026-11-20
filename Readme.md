@@ -24,6 +24,7 @@ NutriComunidad es una aplicación web para apoyar la gestión comunitaria de ali
 | Solicitudes | [`nueva-solicitud.html`](./nueva-solicitud.html) | Envío de solicitudes de apoyo y consulta de sus estados. |
 | Mis pedidos | [`mis-pedidos.html`](./mis-pedidos.html) | Seguimiento y detalle de las solicitudes del beneficiario. |
 | Preferencias y alergias | [`preferencias-alergias.html`](./preferencias-alergias.html) | Administración local de preferencias alimentarias y alergias del beneficiario. |
+| Catálogo de alimentos | [`catalogo-alimentos.html`](./catalogo-alimentos.html) | Consulta de alimentos y sus valores nutricionales por porción. |
 | Alimentos e inventario | [`alimentos.html`](./alimentos.html) | Catálogo con búsqueda, filtros, estadísticas, paginación y acciones para agregar, consultar y editar alimentos. |
 | Detalle de alimento | [`alimento-detalle.html`](./alimento-detalle.html) | Vista individual del alimento solicitado por su identificador. |
 | Formulario de alimento | [`alimento-form.html`](./alimento-form.html) | Formulario independiente para agregar o editar un alimento. Las acciones también se pueden realizar desde modales en el listado. |
@@ -67,6 +68,11 @@ El sidebar y el encabezado del dashboard se reutilizan como parciales en las pan
 
 - Permite registrar y quitar preferencias alimentarias y declarar o retirar alergias del catálogo.
 - Los datos se guardan provisionalmente en `localStorage` mediante funciones de `src/js/datos.js`.
+
+### Catálogo de alimentos
+
+- Consulta los valores nutricionales del catálogo provisional, con filtros por categoría y unidad de medida.
+- Los alimentos se leen desde `src/js/datos.js`; las tarjetas muestran sus valores registrados y no utilizan emojis.
 
 ### Alimentos e inventario
 
@@ -129,6 +135,7 @@ Nutricom/
 ├── nueva-solicitud.html
 ├── mis-pedidos.html
 ├── preferencias-alergias.html
+├── catalogo-alimentos.html
 ├── alimentos.html
 ├── alimento-detalle.html
 ├── alimento-form.html
@@ -143,6 +150,7 @@ Nutricom/
 │   │   ├── nueva-solicitud.css
 │   │   ├── mis-pedidos.css
 │   │   ├── preferencias-alergias.css
+│   │   ├── catalogo-alimentos.css
 │   │   ├── alimentos.css
 │   │   ├── alimento-detalle.css
 │   │   └── alimento-form.css
@@ -154,6 +162,7 @@ Nutricom/
 │   │   ├── nueva-solicitud.js
 │   │   ├── mis-pedidos.js
 │   │   ├── preferencias-alergias.js
+│   │   ├── catalogo-alimentos.js
 │   │   ├── alimentos.js
 │   │   ├── alimento-detalle.js
 │   │   └── alimento-form.js

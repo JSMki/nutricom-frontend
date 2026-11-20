@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Catálogo de alimentos - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/home.css">
+    <link rel="stylesheet" href="./src/css/catalogo-alimentos.css">
+</head>
+<body class="home-layout catalog-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main catalog-page__main">
+        <header class="catalog-page__header">
+            <div>
+                <p class="catalog-page__eyebrow">INFORMACIÓN NUTRICIONAL</p>
+                <h1 class="catalog-page__title">Catálogo de alimentos</h1>
+                <p class="catalog-page__description">Conoce los alimentos disponibles y sus valores por porción.</p>
+            </div>
+        </header>
+
+        <section class="catalog-page__filters" aria-label="Filtros del catálogo">
+            <label class="catalog-page__filter" for="catalog-category">
+                <span class="sr-only">Filtrar por categoría</span>
+                <select id="catalog-category">
+                    <option value="">Todas las categorías</option>
+                    <option value="Frutas y verduras">Frutas y verduras</option>
+                    <option value="Granos">Granos</option>
+                    <option value="Lácteos">Lácteos</option>
+                </select>
+            </label>
+            <label class="catalog-page__filter" for="catalog-unit">
+                <span class="sr-only">Filtrar por unidad</span>
+                <select id="catalog-unit">
+                    <option value="">Todas las unidades</option>
+                </select>
+            </label>
+            <span class="catalog-page__count" id="catalog-count" aria-live="polite">Cargando alimentos...</span>
+        </section>
+
+        <section class="catalog-page__foods" id="catalog-foods" aria-label="Alimentos del catálogo" aria-live="polite">
+            <p class="catalog-page__message">Cargando catálogo...</p>
+        </section>
+    </main>
+
+    <script type="module" src="./src/js/catalogo-alimentos.js"></script>
+</body>
+</html>
