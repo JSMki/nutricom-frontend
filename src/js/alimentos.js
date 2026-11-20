@@ -1,17 +1,16 @@
+import './main.js';
 import {
     actualizarAlimento,
     crearAlimento,
     obtenerAlimentos,
     obtenerCategorias,
-    obtenerUsuarioActual,
 } from './datos.js';
 
 const pageSize = 5;
 const numberFormat = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
-let [alimentos, categorias, usuario] = await Promise.all([
+let [alimentos, categorias] = await Promise.all([
     obtenerAlimentos(),
     obtenerCategorias(),
-    obtenerUsuarioActual(),
 ]);
 
 let paginaActual = 1;
@@ -28,18 +27,6 @@ const modalDetails = document.getElementById('foods-modal-details');
 const modalForm = document.getElementById('foods-modal-form');
 const modalDetailActions = document.getElementById('foods-modal-detail-actions');
 const modalError = document.getElementById('foods-modal-error');
-
-function mostrarUsuario() {
-    document.getElementById('user-fullname').textContent = usuario.nombre;
-    document.getElementById('user-role').textContent = usuario.nombreRol;
-    document.getElementById('user-initials').textContent = usuario.nombre
-        .trim()
-        .split(/\s+/)
-        .slice(0, 2)
-        .map(nombre => nombre[0])
-        .join('')
-        .toLocaleUpperCase('es-MX');
-}
 
 function configurarSidebar() {
     const sidebarToggle = document.getElementById('toggle-sidebar-btn');
@@ -349,7 +336,6 @@ function configurarModal() {
     });
 }
 
-mostrarUsuario();
 configurarSidebar();
 cargarFiltroCategorias();
 configurarModal();

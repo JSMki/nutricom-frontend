@@ -1,29 +1,14 @@
-import { obtenerAlimento, obtenerCategorias, obtenerUsuarioActual } from './datos.js';
+import './main.js';
+import { obtenerAlimento, obtenerCategorias } from './datos.js';
 
 const numero = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 2 });
 const id = new URLSearchParams(window.location.search).get('id');
-const [alimento, categorias, usuario] = await Promise.all([
+const [alimento, categorias] = await Promise.all([
     id ? obtenerAlimento(id) : Promise.resolve(null),
     obtenerCategorias(),
-    obtenerUsuarioActual(),
 ]);
 
-document.getElementById('user-fullname').textContent = usuario.nombre;
-document.getElementById('user-role').textContent = usuario.nombreRol;
-document.getElementById('user-initials').textContent = usuario.nombre
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map(nombre => nombre[0])
-    .join('')
-    .toLocaleUpperCase('es-MX');
-
 const sidebarToggle = document.getElementById('toggle-sidebar-btn');
-const activeLink = document.querySelector('.home-sidebar__link[href="./alimentos.html"]');
-document.querySelectorAll('.home-sidebar__link[aria-current="page"]').forEach(link => {
-    link.removeAttribute('aria-current');
-});
-activeLink?.setAttribute('aria-current', 'page');
 sidebarToggle.addEventListener('click', () => {
     const collapsed = document.body.classList.toggle('home-layout--sidebar-collapsed');
     document.body.classList.toggle('food-detail-page--sidebar-collapsed', collapsed);

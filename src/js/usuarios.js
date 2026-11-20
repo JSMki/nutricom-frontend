@@ -1,40 +1,12 @@
+import './main.js';
 import {
-    obtenerUsuarioActual,
     obtenerDirectorioUsuarios,
     agregarUsuarioDirectorio,
     eliminarUsuarioDirectorio,
     crearSolicitudApoyo,
 } from './datos.js';
 
-// 1. Cargar sesión de usuario actual y barra lateral
-const usuarioActual = await obtenerUsuarioActual();
-const userFullname = document.getElementById('user-fullname');
-const userRole = document.getElementById('user-role');
-const userInitials = document.getElementById('user-initials');
-
-if (userFullname) userFullname.textContent = usuarioActual.nombre;
-if (userRole) userRole.textContent = usuarioActual.nombreRol || usuarioActual.rol;
-if (userInitials) {
-    userInitials.textContent = usuarioActual.nombre
-        .trim()
-        .split(/\s+/)
-        .slice(0, 2)
-        .map(n => n[0])
-        .join('')
-        .toLocaleUpperCase('es-MX');
-}
-
-const sidebarToggle = document.getElementById('toggle-sidebar-btn');
-sidebarToggle?.addEventListener('click', () => {
-    const collapsed = document.body.classList.toggle('home-layout--sidebar-collapsed');
-    sidebarToggle.setAttribute('aria-expanded', String(!collapsed));
-    sidebarToggle.setAttribute('aria-label', collapsed ? 'Expandir menú' : 'Contraer menú');
-    if (sidebarToggle.firstElementChild) {
-        sidebarToggle.firstElementChild.textContent = collapsed ? '›' : '‹';
-    }
-});
-
-// 2. Directorio, renderizado de tabla y buscador en tiempo real
+// Directorio, renderizado de tabla y buscador en tiempo real
 let listaUsuarios = [];
 
 function obtenerIniciales(nombre) {

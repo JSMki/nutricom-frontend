@@ -14,7 +14,7 @@ const donaciones = [
 ];
 
 const usuarios = [
-    { id: 1, nombre: "Ana Rodríguez", correo: "ana@nutricomunidad.org", rol: "administrador", nombreRol: "Administradora" },
+    { id: 1, nombre: "Ana Rodríguez", correo: "ana@nutricomunidad.org", rol: "admin", nombreRol: "Administradora" },
     { id: 2, nombre: "Carlos Pérez", correo: "carlos@nutricomunidad.org", rol: "coordinador", nombreRol: "Coordinador" },
     { id: 3, nombre: "Lucía Gómez", correo: "lucia@nutricomunidad.org", rol: "donante", nombreRol: "Donante" }
 ];
