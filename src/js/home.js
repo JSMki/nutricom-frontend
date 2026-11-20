@@ -1,27 +1,14 @@
-import { obtenerResumenDashboard, obtenerUsuarioActual } from './datos.js';
+import { usuarioAutenticado } from './main.js';
+import { obtenerResumenDashboard } from './datos.js';
 
-const [resumen, usuarioActual] = await Promise.all([
-    obtenerResumenDashboard(),
-    obtenerUsuarioActual(),
-]);
+const resumen = await obtenerResumenDashboard();
+const usuarioActual = usuarioAutenticado;
 const formatoNumero = new Intl.NumberFormat('es-MX');
 
 document.getElementById('kilos-recuperados').textContent = formatoNumero.format(resumen.kilosRecuperados);
 document.getElementById('familias-activas').textContent = formatoNumero.format(resumen.familiasBeneficiadas);
 document.getElementById('donaciones-pendientes').textContent = formatoNumero.format(resumen.donacionesPendientes);
 document.getElementById('productos-por-caducar').textContent = formatoNumero.format(resumen.productosPorCaducar);
-document.getElementById('user-fullname').textContent = usuarioActual.nombre;
-document.getElementById('user-role').textContent = usuarioActual.nombreRol;
-
-const iniciales = usuarioActual.nombre
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map(nombre => nombre[0])
-    .join('')
-    .toLocaleUpperCase('es-MX');
-document.getElementById('user-initials').textContent = iniciales;
-
 const ahora = new Date();
 const hora = ahora.getHours();
 const saludo = hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches';

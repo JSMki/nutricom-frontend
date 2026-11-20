@@ -117,6 +117,19 @@
     box-sizing: border-box;
 }
 
+.login-page__error {
+    margin: -4px 0 14px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #fbeaea;
+    color: #9b1c1c;
+    font-size: 12px;
+}
+
+.login-page__error[hidden] {
+    display: none;
+}
+
 .login-page__options {
     display: flex;
     justify-content: space-between;
@@ -149,6 +162,11 @@
 
 .login-page__submit:hover {
     background-color: #1a3328;
+}
+
+.login-page__submit:disabled {
+    cursor: wait;
+    opacity: 0.65;
 }
 
 /* Responsive */

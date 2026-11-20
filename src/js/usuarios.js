@@ -1,37 +1,13 @@
+import './main.js';
 import {
-    obtenerUsuarioActual,
     obtenerDirectorioUsuarios,
     agregarUsuarioDirectorio,
     eliminarUsuarioDirectorio,
     crearSolicitudApoyo,
 } from './datos.js';
 
-// 1. Cargar sesión de usuario actual y barra lateral
-const usuarioActual = await obtenerUsuarioActual();
-const userFullname = document.getElementById('user-fullname');
-const userRole = document.getElementById('user-role');
-const userInitials = document.getElementById('user-initials');
-
-if (userFullname) userFullname.textContent = usuarioActual.nombre;
-if (userRole) userRole.textContent = usuarioActual.nombreRol || usuarioActual.rol;
-if (userInitials) {
-    userInitials.textContent = usuarioActual.nombre
-        .trim()
-        .split(/\s+/)
-        .slice(0, 2)
-        .map(n => n[0])
-        .join('')
-        .toLocaleUpperCase('es-MX');
-}
-
+// El perfil se carga desde la sesión en main.js
 const sidebarToggle = document.getElementById('toggle-sidebar-btn');
-const currentLink = document.querySelector('.home-sidebar__link[href="./usuarios.html"]');
-
-document.querySelectorAll('.home-sidebar__link[aria-current="page"]').forEach(link => {
-    link.removeAttribute('aria-current');
-});
-currentLink?.setAttribute('aria-current', 'page');
-
 sidebarToggle?.addEventListener('click', () => {
     const collapsed = document.body.classList.toggle('home-layout--sidebar-collapsed');
     sidebarToggle.setAttribute('aria-expanded', String(!collapsed));
@@ -41,7 +17,7 @@ sidebarToggle?.addEventListener('click', () => {
     }
 });
 
-// 2. Directorio, renderizado de tabla y buscador en tiempo real
+// Directorio, renderizado de tabla y buscador en tiempo real
 let listaUsuarios = [];
 
 function obtenerIniciales(nombre) {

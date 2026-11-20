@@ -1,38 +1,17 @@
+import './main.js';
 import {
     actualizarAlimento,
     crearAlimento,
     obtenerAlimento,
-    obtenerCategorias,
-    obtenerUsuarioActual,
 } from './datos.js';
 
 const params = new URLSearchParams(window.location.search);
 const id = params.get('id');
 const form = document.getElementById('food-form');
 const errorMessage = document.getElementById('food-form-error');
-const categorySelect = document.getElementById('food-category');
-const [categorias, usuario, alimento] = await Promise.all([
-    obtenerCategorias(),
-    obtenerUsuarioActual(),
-    id ? obtenerAlimento(id) : Promise.resolve(null),
-]);
-
-document.getElementById('user-fullname').textContent = usuario.nombre;
-document.getElementById('user-role').textContent = usuario.nombreRol;
-document.getElementById('user-initials').textContent = usuario.nombre
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map(nombre => nombre[0])
-    .join('')
-    .toLocaleUpperCase('es-MX');
+const alimento = id ? await obtenerAlimento(id) : null;
 
 const sidebarToggle = document.getElementById('toggle-sidebar-btn');
-const activeLink = document.querySelector('.home-sidebar__link[href="./alimentos.html"]');
-document.querySelectorAll('.home-sidebar__link[aria-current="page"]').forEach(link => {
-    link.removeAttribute('aria-current');
-});
-activeLink?.setAttribute('aria-current', 'page');
 sidebarToggle.addEventListener('click', () => {
     const collapsed = document.body.classList.toggle('home-layout--sidebar-collapsed');
     document.body.classList.toggle('food-form-page--sidebar-collapsed', collapsed);
@@ -40,15 +19,6 @@ sidebarToggle.addEventListener('click', () => {
     sidebarToggle.setAttribute('aria-label', collapsed ? 'Expandir menú' : 'Contraer menú');
     sidebarToggle.firstElementChild.textContent = collapsed ? '›' : '‹';
 });
-
-categorias
-    .filter(categoria => categoria.estado === 'activa')
-    .forEach(categoria => {
-        const option = document.createElement('option');
-        option.value = String(categoria.id_categoria);
-        option.textContent = categoria.nombre_categoria;
-        categorySelect.append(option);
-    });
 
 if (id && !alimento) {
     errorMessage.textContent = `No existe un alimento con el identificador "${id}".`;

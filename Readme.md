@@ -51,13 +51,13 @@ El sidebar y el encabezado del dashboard se reutilizan como parciales en las pan
 
 ### Alimentos e inventario
 
-- Muestra alimentos con categoría, unidad de medida, calorías, proteínas, carbohidratos, estado y acciones.
-- Permite buscar por nombre o descripción y filtrar por categoría y estado.
+- Muestra alimentos con unidad de medida, calorías, proteínas, carbohidratos, estado y acciones.
+- Permite buscar por nombre o descripción y filtrar por estado.
 - Incluye estadísticas, paginación y un mensaje cuando no hay resultados.
 - Permite agregar alimentos, consultar su detalle y editar registros. Estas acciones se pueden abrir como modales sobre la lista.
 - Valida campos obligatorios y valores nutricionales no negativos.
 - Guarda los cambios en `localStorage`, de modo que persistan en el mismo navegador entre recargas.
-- Incluye categorías y alimentos iniciales de ejemplo.
+- Incluye alimentos iniciales de ejemplo.
 
 ## Tecnologías
 
