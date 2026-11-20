@@ -21,6 +21,7 @@ NutriComunidad es una aplicación web para apoyar la gestión comunitaria de ali
 | Iniciar sesión | [`login.html`](./login.html) | Formulario con validación HTML básica. Al enviarlo, navega al dashboard; no comprueba las credenciales contra un servidor. |
 | Resumen | [`home.html`](./home.html) | Dashboard con saludo, fecha, indicadores y menú lateral contraíble. |
 | Usuarios y beneficiarios | [`usuarios.html`](./usuarios.html) | Directorio con búsqueda, filtros, indicadores, creación de usuarios y solicitudes de apoyo. |
+| Solicitudes | [`nueva-solicitud.html`](./nueva-solicitud.html) | Envío de solicitudes de apoyo y consulta de sus estados. |
 | Alimentos e inventario | [`alimentos.html`](./alimentos.html) | Catálogo con búsqueda, filtros, estadísticas, paginación y acciones para agregar, consultar y editar alimentos. |
 | Detalle de alimento | [`alimento-detalle.html`](./alimento-detalle.html) | Vista individual del alimento solicitado por su identificador. |
 | Formulario de alimento | [`alimento-form.html`](./alimento-form.html) | Formulario independiente para agregar o editar un alimento. Las acciones también se pueden realizar desde modales en el listado. |
@@ -48,6 +49,20 @@ El sidebar y el encabezado del dashboard se reutilizan como parciales en las pan
 - Presenta indicadores de usuarios, personas activas e integrantes beneficiados.
 - Incluye formularios para agregar usuarios y enviar solicitudes de apoyo.
 - El frontend intenta comunicarse con endpoints locales de desarrollo y usa datos en memoria como alternativa cuando no hay conexión.
+
+### Solicitudes de apoyo
+
+- Permite elegir alimentos del catálogo, filtrar por categoría, ajustar cantidades y enviar el motivo, integrantes y prioridad.
+- El frontend utiliza `POST /api/requests` a través de `src/js/api.js`.
+- El backend debe obtener `usuario_id` del token, filtrar el GET por usuario (salvo roles administrativos autorizados) y validar los campos y el estado. No debe aceptar `usuario_id` del cuerpo del POST como fuente de identidad.
+- El DDL para SQL Server se encuentra en [`sql/solicitudes.sql`](./sql/solicitudes.sql). Ajusta la clave foránea comentada a la tabla y tipo de dato real de usuarios.
+- Este repositorio no incluye el servidor ni su conexión a SQL Server; por ello la compilación comprueba el cliente, pero la persistencia requiere implementar esos dos endpoints en el backend.
+
+Contrato esperado para el backend:
+
+- `POST /api/requests` — recibe `{ "tipo": "Apoyo alimentario", "motivo": "...", "descripcion": "...", "integrantes": 1, "prioridad": "Baja", "alimentos": [{ "id_alimento": 1, "nombre_alimento": "...", "cantidad": 1, "unidad_medida": "Kilogramo" }] }`; el servidor obtiene `usuario_id` del token, asigna el estado `Pendiente` y la fecha y guarda el encabezado junto con sus alimentos.
+- `GET /api/requests` — se puede mantener para otras pantallas; debe responder solicitudes del usuario autenticado (o `{ "solicitudes": [...] }`).
+- Configura `VITE_API_URL` como la URL raíz del servidor, sin `/api` al final (por ejemplo, `http://localhost:8080`). El cliente agrega `/api/requests`.
 
 ### Alimentos e inventario
 
@@ -107,6 +122,7 @@ Nutricom/
 ├── login.html
 ├── home.html
 ├── usuarios.html
+├── nueva-solicitud.html
 ├── alimentos.html
 ├── alimento-detalle.html
 ├── alimento-form.html
@@ -118,6 +134,7 @@ Nutricom/
 │   │   ├── login.css
 │   │   ├── home.css
 │   │   ├── usuarios.css
+│   │   ├── nueva-solicitud.css
 │   │   ├── alimentos.css
 │   │   ├── alimento-detalle.css
 │   │   └── alimento-form.css
@@ -126,6 +143,7 @@ Nutricom/
 │   │   ├── index.js
 │   │   ├── home.js
 │   │   ├── usuarios.js
+│   │   ├── nueva-solicitud.js
 │   │   ├── alimentos.js
 │   │   ├── alimento-detalle.js
 │   │   └── alimento-form.js
@@ -134,7 +152,9 @@ Nutricom/
 │       ├── homeheader.html
 │       └── footer.html
 ├── package.json
-└── vite.config.js
+├── vite.config.js
+└── sql/
+    └── solicitudes.sql
 ```
 
 ## Datos y servicios

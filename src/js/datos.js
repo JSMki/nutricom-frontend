@@ -174,7 +174,116 @@ let usuariosExtrasMemoria = [
     { id: 4, username: 'rgarcia', nombre: 'Roberto García Pérez', correo: 'roberto.g@email.com', integrantes: 2, colonia: 'La Esperanza', estado: 'Inactivo', color: 'blue' }
 ];
 
-let solicitudesColaMemoria = [];
+const claveSolicitudesGuardadas = 'nutricom.solicitudes';
+const solicitudesIniciales = [
+    {
+        id_solicitud: 184,
+        folio: 'SOL-0184',
+        fecha_solicitud: '2025-06-16',
+        motivo: 'Apoyo alimentario para mi familia.',
+        numero_integrantes: 4,
+        prioridad: 'Alta',
+        estado: 'Pendiente',
+        alimentos: [
+            { id_alimento: 2, nombre_alimento: 'Jitomate saladette', cantidad: 1, unidad_medida: 'Kilogramo' },
+            { id_alimento: 3, nombre_alimento: 'Arroz blanco', cantidad: 1, unidad_medida: 'Kilogramo' },
+            { id_alimento: 4, nombre_alimento: 'Frijol negro', cantidad: 1, unidad_medida: 'Kilogramo' },
+            { id_alimento: 1, nombre_alimento: 'Manzana gala', cantidad: 1, unidad_medida: 'Pieza' },
+        ],
+    },
+    {
+        id_solicitud: 139,
+        folio: 'SOL-0139',
+        fecha_solicitud: '2025-06-02',
+        motivo: 'Solicitud de despensa familiar.',
+        numero_integrantes: 5,
+        prioridad: 'Media',
+        estado: 'Aprobada',
+        alimentos: [
+            { id_alimento: 3, nombre_alimento: 'Arroz blanco', cantidad: 1, unidad_medida: 'Kilogramo' },
+            { id_alimento: 4, nombre_alimento: 'Frijol negro', cantidad: 1, unidad_medida: 'Kilogramo' },
+            { id_alimento: 5, nombre_alimento: 'Leche entera', cantidad: 1, unidad_medida: 'Litro' },
+            { id_alimento: 1, nombre_alimento: 'Manzana gala', cantidad: 1, unidad_medida: 'Pieza' },
+            { id_alimento: 6, nombre_alimento: 'Plátano', cantidad: 1, unidad_medida: 'Pieza' },
+            { id_alimento: 7, nombre_alimento: 'Zanahoria', cantidad: 1, unidad_medida: 'Kilogramo' },
+        ],
+    },
+    {
+        id_solicitud: 98,
+        folio: 'SOL-0098',
+        fecha_solicitud: '2025-05-12',
+        motivo: 'Apoyo para completar la despensa.',
+        numero_integrantes: 3,
+        prioridad: 'Baja',
+        estado: 'Entregada',
+        alimentos: [
+            { id_alimento: 3, nombre_alimento: 'Arroz blanco', cantidad: 1, unidad_medida: 'Kilogramo' },
+            { id_alimento: 4, nombre_alimento: 'Frijol negro', cantidad: 1, unidad_medida: 'Kilogramo' },
+            { id_alimento: 5, nombre_alimento: 'Leche entera', cantidad: 1, unidad_medida: 'Litro' },
+        ],
+    },
+    {
+        id_solicitud: 72,
+        folio: 'SOL-0072',
+        fecha_solicitud: '2025-04-28',
+        motivo: 'Solicitud de apoyo alimentario.',
+        numero_integrantes: 4,
+        prioridad: 'Media',
+        estado: 'Rechazada',
+        alimentos: [
+            { id_alimento: 2, nombre_alimento: 'Jitomate saladette', cantidad: 1, unidad_medida: 'Kilogramo' },
+            { id_alimento: 3, nombre_alimento: 'Arroz blanco', cantidad: 1, unidad_medida: 'Kilogramo' },
+            { id_alimento: 4, nombre_alimento: 'Frijol negro', cantidad: 1, unidad_medida: 'Kilogramo' },
+            { id_alimento: 5, nombre_alimento: 'Leche entera', cantidad: 1, unidad_medida: 'Litro' },
+            { id_alimento: 1, nombre_alimento: 'Manzana gala', cantidad: 1, unidad_medida: 'Pieza' },
+        ],
+    },
+];
+
+let solicitudesColaMemoria = solicitudesIniciales.map(solicitud => ({
+    ...solicitud,
+    alimentos: solicitud.alimentos.map(alimento => ({ ...alimento })),
+}));
+
+function copiarSolicitud(solicitud) {
+    return {
+        ...solicitud,
+        alimentos: Array.isArray(solicitud.alimentos)
+            ? solicitud.alimentos.map(alimento => ({ ...alimento }))
+            : [],
+    };
+}
+
+function obtenerSolicitudesGuardadas() {
+    if (typeof localStorage === 'undefined') {
+        return solicitudesColaMemoria.map(copiarSolicitud);
+    }
+
+    const guardadas = localStorage.getItem(claveSolicitudesGuardadas);
+    if (guardadas === null) {
+        const iniciales = solicitudesIniciales.map(copiarSolicitud);
+        localStorage.setItem(claveSolicitudesGuardadas, JSON.stringify(iniciales));
+        solicitudesColaMemoria = iniciales;
+        return iniciales.map(copiarSolicitud);
+    }
+
+    const parseadas = JSON.parse(guardadas);
+    if (!Array.isArray(parseadas)) {
+        throw new Error('Las solicitudes guardadas localmente tienen un formato inválido.');
+    }
+    return parseadas.map(copiarSolicitud);
+}
+
+function guardarSolicitudes(solicitudes) {
+    solicitudesColaMemoria = solicitudes.map(copiarSolicitud);
+    if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(claveSolicitudesGuardadas, JSON.stringify(solicitudesColaMemoria));
+    }
+}
+
+export async function obtenerSolicitudesApoyo() {
+    return obtenerSolicitudesGuardadas();
+}
 
 export async function obtenerDirectorioUsuarios() {
     try {
@@ -233,19 +342,65 @@ export async function eliminarUsuarioDirectorio(id) {
 }
 
 export async function crearSolicitudApoyo(solicitud) {
-    try {
-        const res = await fetch(`${API_BASE_URL}/requests`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(solicitud)
-        });
-        if (!res.ok) throw new Error('Backend no disponible');
-        return await res.json();
-    } catch (error) {
-        const folio = `SOL-${301 + solicitudesColaMemoria.length}`;
-        const nueva = { id: solicitudesColaMemoria.length + 1, folio, ...solicitud, fecha: '13 nov 2026', estado: 'Pendiente' };
-        solicitudesColaMemoria.unshift(nueva);
-        alert(`¡Solicitud ${folio} creada con éxito para ${solicitud.titular}! Encolada correctamente.`);
-        return nueva;
+    if (!solicitud || typeof solicitud !== 'object') {
+        throw new Error('Los datos de la solicitud no son válidos.');
     }
+
+    const tipo = String(solicitud.tipo ?? 'Apoyo alimentario').trim();
+    const motivo = String(solicitud.motivo ?? solicitud.descripcion ?? 'Solicitud de apoyo').trim();
+    const numero_integrantes = Number(solicitud.numero_integrantes ?? solicitud.integrantes ?? 1);
+    const prioridad = String(solicitud.prioridad ?? 'Baja').trim();
+    const prioridadesValidas = ['Baja', 'Media', 'Alta'];
+
+    if (!tipo || !motivo) {
+        throw new Error('El tipo de apoyo y el motivo son obligatorios.');
+    }
+    if (!Number.isInteger(numero_integrantes) || numero_integrantes < 1 || numero_integrantes > 30) {
+        throw new Error('El número de integrantes debe ser un entero entre 1 y 30.');
+    }
+    if (!prioridadesValidas.includes(prioridad)) {
+        throw new Error('Selecciona una prioridad válida.');
+    }
+
+    const alimentosSolicitud = Array.isArray(solicitud.alimentos)
+        ? solicitud.alimentos.map(alimento => {
+            const cantidad = Number(alimento.cantidad);
+            if (!Number.isInteger(cantidad) || cantidad < 1 || cantidad > 99) {
+                throw new Error('La cantidad de cada alimento debe ser un entero entre 1 y 99.');
+            }
+            return {
+                id_alimento: Number(alimento.id_alimento ?? alimento.id),
+                nombre_alimento: String(alimento.nombre_alimento ?? alimento.nombre ?? 'Alimento'),
+                cantidad,
+                unidad_medida: String(alimento.unidad_medida ?? alimento.unidad ?? 'Unidad'),
+            };
+        })
+        : [];
+    const solicitudes = obtenerSolicitudesGuardadas();
+    const id_solicitud = solicitudes.reduce(
+        (maximo, existente) => Math.max(maximo, Number(existente.id_solicitud ?? existente.id) || 0),
+        0,
+    ) + 1;
+    const hoy = new Date();
+    const fecha_solicitud = [
+        hoy.getFullYear(),
+        String(hoy.getMonth() + 1).padStart(2, '0'),
+        String(hoy.getDate()).padStart(2, '0'),
+    ].join('-');
+    const nuevaSolicitud = {
+        id_solicitud,
+        folio: `SOL-${String(id_solicitud).padStart(4, '0')}`,
+        fecha_solicitud,
+        tipo,
+        motivo,
+        descripcion: motivo,
+        numero_integrantes,
+        prioridad,
+        estado: 'Pendiente',
+        alimentos: alimentosSolicitud,
+    };
+
+    if (solicitud.titular) nuevaSolicitud.titular = String(solicitud.titular);
+    guardarSolicitudes([nuevaSolicitud, ...solicitudes]);
+    return copiarSolicitud(nuevaSolicitud);
 }

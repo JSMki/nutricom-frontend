@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Nueva solicitud - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/home.css">
+    <link rel="stylesheet" href="./src/css/nueva-solicitud.css">
+</head>
+<body class="home-layout solicitudes-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main solicitudes-page__main">
+        <header class="solicitudes-page__welcome">
+            <div>
+                <p class="solicitudes-page__eyebrow">NUEVO APOYO</p>
+                <h1 class="solicitudes-page__title">Nueva solicitud</h1>
+                <p class="solicitudes-page__description">Selecciona los alimentos que necesita tu familia.</p>
+            </div>
+        </header>
+
+        <form id="solicitud-form" class="solicitudes-page__layout">
+            <div class="solicitudes-page__content">
+                <section class="solicitudes-page__card solicitudes-page__details" aria-label="Detalles de la solicitud">
+                    <label class="solicitudes-page__field" for="solicitud-motivo">
+                        <span>Motivo</span>
+                        <textarea id="solicitud-motivo" name="motivo" rows="3" maxlength="1000" placeholder="Cuéntanos por qué necesitas este apoyo." required></textarea>
+                    </label>
+                    <label class="solicitudes-page__field" for="solicitud-integrantes">
+                        <span>Número de integrantes</span>
+                        <input id="solicitud-integrantes" name="integrantes" type="number" min="1" max="30" value="1" required>
+                    </label>
+                    <fieldset class="solicitudes-page__priority">
+                        <legend>Prioridad</legend>
+                        <div class="solicitudes-page__priority-options">
+                            <label class="solicitudes-page__priority-option">
+                                <input type="radio" name="prioridad" value="Baja" checked>
+                                <span>Baja</span>
+                            </label>
+                            <label class="solicitudes-page__priority-option">
+                                <input type="radio" name="prioridad" value="Media">
+                                <span>Media</span>
+                            </label>
+                            <label class="solicitudes-page__priority-option">
+                                <input type="radio" name="prioridad" value="Alta">
+                                <span>Alta</span>
+                            </label>
+                        </div>
+                    </fieldset>
+                </section>
+
+                <section class="solicitudes-page__catalog" aria-label="Catálogo de alimentos">
+                    <div class="solicitudes-page__categories" role="group" aria-label="Filtrar por categoría">
+                        <button class="solicitudes-page__category solicitudes-page__category--active" type="button" data-category="Todas" aria-pressed="true">Todas las categorías</button>
+                        <button class="solicitudes-page__category" type="button" data-category="Frutas y verduras" aria-pressed="false">Frutas y verduras</button>
+                        <button class="solicitudes-page__category" type="button" data-category="Granos" aria-pressed="false">Granos</button>
+                        <button class="solicitudes-page__category" type="button" data-category="Lácteos" aria-pressed="false">Lácteos</button>
+                    </div>
+                    <div class="solicitudes-page__foods" id="solicitud-alimentos" aria-live="polite">
+                        <p class="solicitudes-page__feedback">Cargando alimentos...</p>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="solicitudes-page__summary" aria-labelledby="solicitud-summary-title">
+                <div class="solicitudes-page__summary-count">
+                    <strong id="solicitud-food-count">0 ALIMENTOS</strong>
+                </div>
+                <h2 id="solicitud-summary-title">Tu solicitud</h2>
+                <div class="solicitudes-page__selected-foods" id="solicitud-seleccionados">
+                    <p class="solicitudes-page__summary-empty">Selecciona los alimentos que necesita tu familia.</p>
+                </div>
+                <div class="solicitudes-page__summary-footer">
+                    <strong id="solicitud-unit-count">0 unidades</strong>
+                    <button class="solicitudes-page__submit" id="solicitud-submit" type="submit" disabled>Enviar solicitud</button>
+                </div>
+                <p class="solicitudes-page__notice" id="solicitud-notice" role="status" aria-live="polite" hidden></p>
+            </aside>
+        </form>
+    </main>
+
+    <script type="module" src="./src/js/nueva-solicitud.js"></script>
+</body>
+</html>
