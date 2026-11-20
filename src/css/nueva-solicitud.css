@@ -1,0 +1,421 @@
+.solicitudes-page__main {
+  display: grid;
+  align-content: start;
+  gap: 20px;
+}
+
+.solicitudes-page__welcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.solicitudes-page__eyebrow {
+  margin-bottom: 4px;
+  color: var(--color-secondary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.solicitudes-page__title {
+  color: var(--color-text-main);
+  font-size: clamp(24px, 2.4vw, 31px);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.25;
+}
+
+.solicitudes-page__description {
+  margin-top: 4px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+.solicitudes-page__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  align-items: start;
+  gap: 18px;
+}
+
+.solicitudes-page__content {
+  display: grid;
+  min-width: 0;
+  gap: 16px;
+}
+
+.solicitudes-page__card,
+.solicitudes-page__summary {
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.solicitudes-page__details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  align-items: start;
+  gap: 15px 18px;
+  padding: 18px;
+}
+
+.solicitudes-page__field {
+  display: grid;
+  min-width: 0;
+  gap: 7px;
+  color: var(--color-text-main);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.solicitudes-page__field input,
+.solicitudes-page__field textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--color-text-main);
+  font: inherit;
+  font-weight: 400;
+}
+
+.solicitudes-page__field input {
+  height: 39px;
+  padding: 0 11px;
+}
+
+.solicitudes-page__field textarea {
+  min-height: 78px;
+  padding: 10px 11px;
+  resize: vertical;
+}
+
+.solicitudes-page__priority {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.solicitudes-page__priority legend {
+  margin-bottom: 7px;
+  color: var(--color-text-main);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.solicitudes-page__priority-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.solicitudes-page__priority-option {
+  position: relative;
+  cursor: pointer;
+}
+
+.solicitudes-page__priority-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.solicitudes-page__priority-option span {
+  display: grid;
+  min-width: 76px;
+  min-height: 32px;
+  place-items: center;
+  padding: 0 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.solicitudes-page__priority-option input:checked + span {
+  border-color: var(--color-secondary);
+  background: #e9f4ed;
+  color: var(--color-secondary);
+  font-weight: 650;
+}
+
+.solicitudes-page__priority-option input:focus-visible + span {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+.solicitudes-page__catalog {
+  min-width: 0;
+}
+
+.solicitudes-page__categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.solicitudes-page__category {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 99px;
+  background: #ffffff;
+  color: var(--color-text-muted);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.solicitudes-page__category--active {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.solicitudes-page__foods {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.solicitudes-page__food {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.solicitudes-page__food-info {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.solicitudes-page__food-info strong {
+  overflow: hidden;
+  color: var(--color-text-main);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.solicitudes-page__food-info span,
+.solicitudes-page__food-info small {
+  color: var(--color-text-muted);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.solicitudes-page__food-add {
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  border: 1px solid #cfe2d6;
+  border-radius: 8px;
+  background: #f2f8f4;
+  color: var(--color-secondary);
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.solicitudes-page__food-add:hover {
+  background: #e2f1e8;
+}
+
+.solicitudes-page__summary {
+  position: sticky;
+  top: 20px;
+  overflow: hidden;
+}
+
+.solicitudes-page__summary-count {
+  padding: 13px 17px;
+  border-bottom: 1px solid #edf1ee;
+  color: var(--color-secondary);
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+
+.solicitudes-page__summary h2 {
+  padding: 16px 17px 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.solicitudes-page__selected-foods {
+  display: grid;
+  gap: 0;
+  padding: 0 17px;
+}
+
+.solicitudes-page__summary-empty {
+  padding: 7px 0 17px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
+
+.solicitudes-page__selected-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 0;
+  border-top: 1px solid #edf1ee;
+}
+
+.solicitudes-page__selected-info {
+  display: grid;
+  gap: 2px;
+}
+
+.solicitudes-page__selected-info strong {
+  color: var(--color-text-main);
+  font-size: 11px;
+}
+
+.solicitudes-page__selected-info span {
+  color: var(--color-text-muted);
+  font-size: 10px;
+}
+
+.solicitudes-page__quantity {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.solicitudes-page__quantity button {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--color-text-main);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.solicitudes-page__quantity output {
+  min-width: 12px;
+  color: var(--color-text-main);
+  font-size: 11px;
+  text-align: center;
+}
+
+.solicitudes-page__summary-footer {
+  display: grid;
+  gap: 12px;
+  padding: 14px 17px 17px;
+  border-top: 1px solid #edf1ee;
+}
+
+.solicitudes-page__summary-footer > strong {
+  font-size: 11px;
+}
+
+.solicitudes-page__submit {
+  width: 100%;
+  min-height: 40px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-secondary);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+}
+
+.solicitudes-page__submit:hover:not(:disabled) {
+  background: var(--color-primary);
+}
+
+.solicitudes-page__submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.solicitudes-page__notice {
+  margin: 0 17px 17px;
+  padding: 10px 11px;
+  border-radius: 8px;
+  background: #e9f4ed;
+  color: var(--color-success);
+  font-size: 10px;
+}
+
+.solicitudes-page__notice--error {
+  background: #fbeceb;
+  color: var(--color-danger);
+}
+
+.solicitudes-page__feedback {
+  grid-column: 1 / -1;
+  padding: 14px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
+
+@media (max-width: 1000px) {
+  .solicitudes-page__layout {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 12px;
+  }
+
+  .solicitudes-page__food {
+    gap: 10px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 760px) {
+  .solicitudes-page__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .solicitudes-page__summary {
+    position: static;
+    grid-row: 1;
+  }
+
+  .solicitudes-page__details {
+    grid-template-columns: minmax(0, 1fr) minmax(130px, 180px);
+  }
+}
+
+@media (max-width: 520px) {
+  .solicitudes-page__details,
+  .solicitudes-page__foods {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .solicitudes-page__priority {
+    grid-column: auto;
+  }
+
+  .solicitudes-page__categories {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .solicitudes-page__category {
+    flex: 0 0 auto;
+  }
+}

@@ -41,3 +41,8 @@ export const api = {
     put: (ruta, datos) => request('PUT', ruta, datos),
     delete: (ruta) => request('DELETE', ruta),
 }
+
+export const solicitudesApi = {
+    listar: () => api.get('/api/requests'),
+    crear: (solicitud) => api.post('/api/requests', solicitud),
+}
