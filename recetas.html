@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Recetas económicas - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/home.css">
+    <link rel="stylesheet" href="./src/css/recetas.css">
+</head>
+<body class="home-layout recetas-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main recetas-page__main">
+        <header class="recetas-page__header">
+            <div>
+                <p class="recetas-page__eyebrow">COCINA DE APROVECHAMIENTO</p>
+                <h1 class="recetas-page__title">Recetas económicas</h1>
+                <p class="recetas-page__description">Ideas nutritivas creadas a partir de los alimentos disponibles.</p>
+            </div>
+        </header>
+
+        <section class="recetas-page__filters" aria-label="Filtros de recetas">
+            <div class="recetas-page__filter-list" role="group" aria-label="Filtrar recetas">
+                <button class="recetas-page__filter is-active" type="button" data-filter="todas" aria-pressed="true">Todas</button>
+                <button class="recetas-page__filter" type="button" data-filter="menor-80" aria-pressed="false">Menos de $80</button>
+                <button class="recetas-page__filter" type="button" data-filter="rapidas" aria-pressed="false">Listas en 30 min</button>
+                <button class="recetas-page__filter" type="button" data-filter="disponibles" aria-pressed="false">Ingredientes disponibles</button>
+            </div>
+            <p class="recetas-page__count" id="recipes-count" aria-live="polite">Cargando recetas...</p>
+        </section>
+
+        <section class="recetas-page__list" id="recipes-list" aria-label="Recetas económicas" aria-live="polite">
+            <p class="recetas-page__message">Cargando recetas...</p>
+        </section>
+    </main>
+
+    <dialog class="receta-detail" id="recipe-detail" aria-labelledby="recipe-detail-title">
+        <article class="receta-detail__surface">
+            <header class="receta-detail__header">
+                <div>
+                    <p class="recetas-page__eyebrow">RECETA ECONÓMICA</p>
+                    <h2 class="receta-detail__title" id="recipe-detail-title">Detalle de receta</h2>
+                </div>
+                <button class="receta-detail__close" id="recipe-detail-close" type="button" aria-label="Cerrar receta">×</button>
+            </header>
+            <p class="receta-detail__summary" id="recipe-detail-summary"></p>
+            <section class="receta-detail__section" aria-labelledby="recipe-ingredients-title">
+                <h3 id="recipe-ingredients-title">Ingredientes</h3>
+                <ul class="receta-detail__ingredients" id="recipe-detail-ingredients"></ul>
+            </section>
+            <section class="receta-detail__section" aria-labelledby="recipe-preparation-title">
+                <h3 id="recipe-preparation-title">Preparación</h3>
+                <ol class="receta-detail__steps" id="recipe-detail-preparation"></ol>
+            </section>
+        </article>
+    </dialog>
+
+    <script type="module" src="./src/js/recetas.js"></script>
+</body>
+</html>
