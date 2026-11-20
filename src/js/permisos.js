@@ -14,7 +14,7 @@ const paginasPorRol = {
     alimentos: ['admin'],
     'alimento-detalle': ['admin'],
     'alimento-form': ['admin'],
-    donaciones: ['admin'],
+    donaciones: ['admin', 'comercio'],
     recetas: ['admin'],
 };
 

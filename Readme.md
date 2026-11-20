@@ -23,6 +23,7 @@ NutriComunidad es una aplicación web para apoyar la gestión comunitaria de ali
 | Usuarios y beneficiarios | [`usuarios.html`](./usuarios.html) | Directorio con búsqueda, filtros, indicadores, creación de usuarios y solicitudes de apoyo. |
 | Solicitudes | [`nueva-solicitud.html`](./nueva-solicitud.html) | Envío de solicitudes de apoyo y consulta de sus estados. |
 | Alimentos e inventario | [`alimentos.html`](./alimentos.html) | Catálogo con búsqueda, filtros, estadísticas, paginación y acciones para agregar, consultar y editar alimentos. |
+| Nueva donación | [`donaciones.html`](./donaciones.html) | Registro de donaciones de comercios a organizaciones con alimentos y cantidades. |
 | Detalle de alimento | [`alimento-detalle.html`](./alimento-detalle.html) | Vista individual del alimento solicitado por su identificador. |
 | Formulario de alimento | [`alimento-form.html`](./alimento-form.html) | Formulario independiente para agregar o editar un alimento. Las acciones también se pueden realizar desde modales en el listado. |
 
@@ -73,6 +74,15 @@ Contrato esperado para el backend:
 - Valida campos obligatorios y valores nutricionales no negativos.
 - Guarda los cambios en `localStorage`, de modo que persistan en el mismo navegador entre recargas.
 - Incluye categorías y alimentos iniciales de ejemplo.
+
+### Donaciones
+
+- Permite registrar un comercio donante, una organización receptora opcional, fecha, observaciones y varios alimentos con sus cantidades.
+- Si el alimento no existe en el catálogo, permite agregarlo desde el formulario con categoría, unidad e información nutricional; queda guardado en el catálogo y seleccionado para la donación.
+- Conserva la relación entre `DONACIONES` y `DETALLE_DONACIONES`; si no se asigna organización, la donación queda pendiente de reclamo.
+- Incluye resumen, búsqueda, filtro por estado y consulta de los detalles de cada donación.
+- Los comercios, organizaciones, donaciones y detalles usan datos de prueba en `datos.js` y `localStorage`; todavía no se conectan con endpoints del backend.
+- La pantalla está disponible para `admin` y `comercio`. El backend debe validar los permisos y asociar cada comercio autenticado a su registro real.
 
 ## Tecnologías
 
