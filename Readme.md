@@ -25,6 +25,7 @@ NutriComunidad es una aplicación web para apoyar la gestión comunitaria de ali
 | Mis pedidos | [`mis-pedidos.html`](./mis-pedidos.html) | Seguimiento y detalle de las solicitudes del beneficiario. |
 | Preferencias y alergias | [`preferencias-alergias.html`](./preferencias-alergias.html) | Administración local de preferencias alimentarias y alergias del beneficiario. |
 | Catálogo de alimentos | [`catalogo-alimentos.html`](./catalogo-alimentos.html) | Consulta de alimentos y sus valores nutricionales por porción. |
+| Recetas económicas | [`recetas.html`](./recetas.html) | Consulta de recetas con filtros por costo, tiempo e ingredientes disponibles. |
 | Alimentos e inventario | [`alimentos.html`](./alimentos.html) | Catálogo con búsqueda, filtros, estadísticas, paginación y acciones para agregar, consultar y editar alimentos. |
 | Nueva donación | [`donaciones.html`](./donaciones.html) | Registro de donaciones de comercios a organizaciones con alimentos y cantidades. |
 | Detalle de alimento | [`alimento-detalle.html`](./alimento-detalle.html) | Vista individual del alimento solicitado por su identificador. |
@@ -74,6 +75,12 @@ El sidebar y el encabezado del dashboard se reutilizan como parciales en las pan
 
 - Consulta los valores nutricionales del catálogo provisional, con filtros por categoría y unidad de medida.
 - Los alimentos se leen desde `src/js/datos.js`; las tarjetas muestran sus valores registrados y no utilizan emojis.
+
+### Recetas económicas
+
+- Muestra recetas de ejemplo con costo, tiempo, porciones y disponibilidad de ingredientes.
+- Permite filtrar por costo menor a $80 MXN, preparación de hasta 30 minutos e ingredientes disponibles.
+- Cada receta incluye una vista de detalle con ingredientes e instrucciones. Los datos provisionales se obtienen desde `src/js/datos.js`.
 
 ### Alimentos e inventario
 
@@ -146,6 +153,7 @@ Nutricom/
 ├── mis-pedidos.html
 ├── preferencias-alergias.html
 ├── catalogo-alimentos.html
+├── recetas.html
 ├── alimentos.html
 ├── alimento-detalle.html
 ├── alimento-form.html
@@ -161,6 +169,7 @@ Nutricom/
 │   │   ├── mis-pedidos.css
 │   │   ├── preferencias-alergias.css
 │   │   ├── catalogo-alimentos.css
+│   │   ├── recetas.css
 │   │   ├── alimentos.css
 │   │   ├── alimento-detalle.css
 │   │   └── alimento-form.css
@@ -173,6 +182,7 @@ Nutricom/
 │   │   ├── mis-pedidos.js
 │   │   ├── preferencias-alergias.js
 │   │   ├── catalogo-alimentos.js
+│   │   ├── recetas.js
 │   │   ├── alimentos.js
 │   │   ├── alimento-detalle.js
 │   │   └── alimento-form.js

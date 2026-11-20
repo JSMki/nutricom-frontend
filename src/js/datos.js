@@ -196,6 +196,81 @@ export async function obtenerAlimentos() {
     return alimentos.map(alimento => ({ ...alimento }));
 }
 
+const recetasEconomicas = [
+    {
+        id: 1,
+        nombre: 'Ensalada tibia de verduras',
+        imagen: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80',
+        textoAlternativo: 'Ensalada de verduras frescas',
+        tiempoMinutos: 25,
+        porciones: 4,
+        costoEstimado: 68,
+        ingredientes: [
+            { nombre: 'Jitomate', cantidad: '2 piezas', disponible: false },
+            { nombre: 'Zanahoria', cantidad: '2 piezas', disponible: true },
+            { nombre: 'Calabacita', cantidad: '1 pieza', disponible: true },
+            { nombre: 'Cebolla', cantidad: '1/2 pieza', disponible: true },
+            { nombre: 'Limón', cantidad: '2 piezas', disponible: true },
+            { nombre: 'Aceite vegetal', cantidad: '1 cucharada', disponible: true },
+        ],
+        preparacion: [
+            'Lava y corta las verduras en piezas pequeñas.',
+            'Calienta el aceite y cocina las verduras hasta que estén suaves.',
+            'Agrega limón al gusto y sirve tibia.',
+        ],
+    },
+    {
+        id: 2,
+        nombre: 'Sopa nutritiva de temporada',
+        imagen: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80',
+        textoAlternativo: 'Tazón de sopa nutritiva',
+        tiempoMinutos: 35,
+        porciones: 6,
+        costoEstimado: 82,
+        ingredientes: [
+            { nombre: 'Zanahoria', cantidad: '2 piezas', disponible: true },
+            { nombre: 'Papa', cantidad: '2 piezas', disponible: true },
+            { nombre: 'Calabacita', cantidad: '1 pieza', disponible: true },
+            { nombre: 'Cebolla', cantidad: '1/2 pieza', disponible: true },
+            { nombre: 'Caldo de verduras', cantidad: '1 litro', disponible: true },
+        ],
+        preparacion: [
+            'Lava, pela y corta las verduras en cubos.',
+            'Coloca las verduras y el caldo en una olla.',
+            'Cocina a fuego medio hasta que las verduras estén suaves.',
+        ],
+    },
+    {
+        id: 3,
+        nombre: 'Tortitas de arroz y frijol',
+        imagen: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80',
+        textoAlternativo: 'Tortitas preparadas para servir',
+        tiempoMinutos: 30,
+        porciones: 5,
+        costoEstimado: 54,
+        ingredientes: [
+            { nombre: 'Arroz cocido', cantidad: '2 tazas', disponible: true },
+            { nombre: 'Frijol negro cocido', cantidad: '1 taza', disponible: true },
+            { nombre: 'Avena', cantidad: '1/2 taza', disponible: true },
+            { nombre: 'Cebolla', cantidad: '1/4 pieza', disponible: true },
+            { nombre: 'Huevo', cantidad: '1 pieza', disponible: false },
+        ],
+        preparacion: [
+            'Machaca los frijoles y mézclalos con el arroz.',
+            'Incorpora la avena, el huevo y la cebolla picada.',
+            'Forma tortitas y cocínalas en un sartén hasta que estén doradas.',
+        ],
+    },
+];
+
+export async function obtenerRecetasEconomicas() {
+    return recetasEconomicas.map(receta => ({
+        ...receta,
+        ingredientes: receta.ingredientes.map(ingrediente => ({ ...ingrediente })),
+        preparacion: [...receta.preparacion],
+    }));
+}
+
 export async function obtenerAlimento(id) {
     const alimento = alimentos.find(item => item.id_alimento === Number(id));
     return alimento ? { ...alimento } : null;
