@@ -25,6 +25,13 @@ if (userInitials) {
 }
 
 const sidebarToggle = document.getElementById('toggle-sidebar-btn');
+const currentLink = document.querySelector('.home-sidebar__link[href="./usuarios.html"]');
+
+document.querySelectorAll('.home-sidebar__link[aria-current="page"]').forEach(link => {
+    link.removeAttribute('aria-current');
+});
+currentLink?.setAttribute('aria-current', 'page');
+
 sidebarToggle?.addEventListener('click', () => {
     const collapsed = document.body.classList.toggle('home-layout--sidebar-collapsed');
     sidebarToggle.setAttribute('aria-expanded', String(!collapsed));
