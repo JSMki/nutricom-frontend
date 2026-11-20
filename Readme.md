@@ -24,7 +24,7 @@ NutriComunidad es una aplicación web para apoyar la gestión comunitaria de ali
 | Solicitudes | [`nueva-solicitud.html`](./nueva-solicitud.html) | Envío de solicitudes de apoyo y consulta de sus estados. |
 | Mis pedidos | [`mis-pedidos.html`](./mis-pedidos.html) | Seguimiento y detalle de las solicitudes del beneficiario. |
 | Preferencias y alergias | [`preferencias-alergias.html`](./preferencias-alergias.html) | Administración local de preferencias alimentarias y alergias del beneficiario. |
-| Catálogo de alimentos | [`catalogo-alimentos.html`](./catalogo-alimentos.html) | Consulta de alimentos y sus valores nutricionales por porción. |
+| Catálogo de alimentos | [`catalogo-alimentos.html`](./catalogo-alimentos.html) | Consulta en lista de alimentos y sus valores nutricionales, con búsqueda, filtros por categoría y unidad, y detalle nutricional. |
 | Recetas económicas | [`recetas.html`](./recetas.html) | Consulta de recetas con filtros por costo, tiempo e ingredientes disponibles. |
 | Alimentos e inventario | [`alimentos.html`](./alimentos.html) | Catálogo con búsqueda, filtros, estadísticas, paginación y acciones para agregar, consultar y editar alimentos. |
 | Nueva donación | [`donaciones.html`](./donaciones.html) | Registro de donaciones de comercios a organizaciones con alimentos y cantidades. |
@@ -73,7 +73,7 @@ El sidebar y el encabezado del dashboard se reutilizan como parciales en las pan
 
 ### Catálogo de alimentos
 
-- Consulta los valores nutricionales del catálogo provisional, con filtros por categoría y unidad de medida.
+- Consulta en formato de lista los valores nutricionales del catálogo provisional, con búsqueda, filtros por categoría y unidad de medida y un detalle nutricional por alimento.
 - Los alimentos se leen desde `src/js/datos.js`; las tarjetas muestran sus valores registrados y no utilizan emojis.
 
 ### Recetas económicas

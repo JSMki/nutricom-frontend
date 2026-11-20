@@ -2,9 +2,14 @@ import './main.js';
 import { obtenerAlimentos } from './datos.js';
 
 const listaAlimentos = document.getElementById('catalog-foods');
+const busqueda = document.getElementById('catalog-search');
 const filtroCategoria = document.getElementById('catalog-category');
 const filtroUnidad = document.getElementById('catalog-unit');
 const contador = document.getElementById('catalog-count');
+const dialogoDetalle = document.getElementById('catalog-detail');
+const detalleCategoria = document.getElementById('catalog-detail-category');
+const detalleTitulo = document.getElementById('catalog-detail-title');
+const detalleContenido = document.getElementById('catalog-detail-content');
 const formatoNumero = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 1 });
 let alimentos = [];
 
@@ -47,6 +52,31 @@ function crearElemento(etiqueta, clase, texto) {
     return elemento;
 }
 
+function agregarCampoDetalle(etiqueta, valor) {
+    const campo = document.createElement('div');
+    const termino = crearElemento('dt', '', etiqueta);
+    const detalle = crearElemento('dd', '', valor || 'Sin información');
+    campo.append(termino, detalle);
+    detalleContenido.appendChild(campo);
+}
+
+function mostrarDetalle(alimento) {
+    detalleCategoria.textContent = obtenerCategoria(alimento).toLocaleUpperCase('es-MX');
+    detalleTitulo.textContent = obtenerNombre(alimento);
+    detalleContenido.replaceChildren();
+    agregarCampoDetalle('Descripción', alimento.descripcion);
+    agregarCampoDetalle('Unidad de medida', alimento.unidad_medida || 'Unidad');
+    agregarCampoDetalle('Calorías por porción', `${formatoNumero.format(Number(alimento.calorias_porcion) || 0)} kcal`);
+    agregarCampoDetalle('Proteínas', `${formatoNumero.format(Number(alimento.proteinas) || 0)} g`);
+    agregarCampoDetalle('Carbohidratos', `${formatoNumero.format(Number(alimento.carbohidratos) || 0)} g`);
+    agregarCampoDetalle('Grasas', `${formatoNumero.format(Number(alimento.grasas) || 0)} g`);
+    agregarCampoDetalle(
+        'Estado',
+        alimento.estado === 'disponible' ? 'Disponible' : alimento.estado === 'agotado' ? 'Agotado' : alimento.estado,
+    );
+    dialogoDetalle.showModal();
+}
+
 function inicializarUnidades() {
     const unidades = [...new Set(alimentos.map(alimento => alimento.unidad_medida).filter(Boolean))]
         .sort((a, b) => a.localeCompare(b, 'es-MX'));
@@ -58,9 +88,9 @@ function inicializarUnidades() {
     }
 }
 
-function crearTarjeta(alimento) {
-    const tarjeta = document.createElement('article');
-    tarjeta.className = 'catalog-page__food';
+function crearFila(alimento) {
+    const fila = document.createElement('article');
+    fila.className = 'catalog-page__food';
 
     const encabezado = document.createElement('header');
     encabezado.className = 'catalog-page__food-header';
@@ -69,7 +99,18 @@ function crearTarjeta(alimento) {
         crearElemento('p', 'catalog-page__food-category', obtenerCategoria(alimento)),
         crearElemento('h2', '', obtenerNombre(alimento)),
     );
-    encabezado.append(tituloGrupo, crearElemento('span', 'catalog-page__food-unit', alimento.unidad_medida || 'Unidad'));
+    encabezado.append(
+        tituloGrupo,
+        crearElemento('span', 'catalog-page__food-unit', alimento.unidad_medida || 'Unidad'),
+    );
+    const botonDetalle = document.createElement('button');
+    botonDetalle.className = 'catalog-page__detail-button';
+    botonDetalle.type = 'button';
+    botonDetalle.setAttribute('aria-label', `Ver detalle de ${obtenerNombre(alimento)}`);
+    botonDetalle.title = 'Ver detalle del alimento';
+    botonDetalle.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+    botonDetalle.addEventListener('click', () => mostrarDetalle(alimento));
+    encabezado.appendChild(botonDetalle);
 
     const nutrientes = [
         ['kcal', alimento.calorias_porcion],
@@ -89,14 +130,22 @@ function crearTarjeta(alimento) {
         nutricion.appendChild(dato);
     }
 
-    tarjeta.append(encabezado, nutricion);
-    return tarjeta;
+    fila.append(encabezado, nutricion);
+    return fila;
 }
 
 function renderizar() {
+    const termino = normalizar(busqueda.value);
     const categoriaSeleccionada = filtroCategoria.value;
     const unidadSeleccionada = filtroUnidad.value;
     const filtrados = alimentos.filter(alimento =>
+        (!termino || normalizar([
+            obtenerNombre(alimento),
+            alimento.descripcion,
+            obtenerCategoria(alimento),
+            alimento.unidad_medida,
+        ].join(' ')).includes(termino))
+        &&
         (!categoriaSeleccionada || obtenerCategoria(alimento) === categoriaSeleccionada)
         && (!unidadSeleccionada || alimento.unidad_medida === unidadSeleccionada)
     );
@@ -108,7 +157,7 @@ function renderizar() {
         );
         return;
     }
-    listaAlimentos.replaceChildren(...filtrados.map(crearTarjeta));
+    listaAlimentos.replaceChildren(...filtrados.map(crearFila));
 }
 
 function mostrarError(error) {
@@ -122,8 +171,13 @@ function mostrarError(error) {
     );
 }
 
+busqueda.addEventListener('input', renderizar);
 filtroCategoria.addEventListener('change', renderizar);
 filtroUnidad.addEventListener('change', renderizar);
+document.getElementById('catalog-detail-close').addEventListener('click', () => dialogoDetalle.close());
+dialogoDetalle.addEventListener('click', evento => {
+    if (evento.target === dialogoDetalle) dialogoDetalle.close();
+});
 
 try {
     alimentos = await obtenerAlimentos();
