@@ -77,6 +77,13 @@
                 <button class="pedidos-detail__close" id="pedido-detail-close" type="button" aria-label="Cerrar detalle">×</button>
             </header>
             <dl class="pedidos-detail__meta" id="pedido-detail-meta"></dl>
+            <section class="pedidos-detail__delivery-section" aria-labelledby="pedido-detail-delivery-title">
+                <h3 id="pedido-detail-delivery-title">Detalles de entrega</h3>
+                <dl class="pedidos-detail__delivery" id="pedido-detail-delivery"></dl>
+                <p class="pedidos-detail__delivery-empty" id="pedido-detail-delivery-empty" hidden>
+                    Aún no hay una entrega registrada para esta solicitud.
+                </p>
+            </section>
             <section class="pedidos-detail__items-section" aria-labelledby="pedido-detail-items-title">
                 <h3 id="pedido-detail-items-title">Alimentos solicitados</h3>
                 <ul class="pedidos-detail__items" id="pedido-detail-items"></ul>

@@ -22,6 +22,10 @@
         </header>
 
         <section class="catalog-page__filters" aria-label="Filtros del catálogo">
+            <label class="catalog-page__search" for="catalog-search">
+                <span class="sr-only">Buscar alimento</span>
+                <input id="catalog-search" type="search" placeholder="Buscar alimento">
+            </label>
             <label class="catalog-page__filter" for="catalog-category">
                 <span class="sr-only">Filtrar por categoría</span>
                 <select id="catalog-category">
@@ -44,6 +48,19 @@
             <p class="catalog-page__message">Cargando catálogo...</p>
         </section>
     </main>
+
+    <dialog class="catalog-detail" id="catalog-detail" aria-labelledby="catalog-detail-title">
+        <article class="catalog-detail__surface">
+            <header class="catalog-detail__header">
+                <div>
+                    <p class="catalog-page__eyebrow" id="catalog-detail-category">INFORMACIÓN NUTRICIONAL</p>
+                    <h2 class="catalog-detail__title" id="catalog-detail-title">Detalle del alimento</h2>
+                </div>
+                <button class="catalog-detail__close" id="catalog-detail-close" type="button" aria-label="Cerrar detalle">×</button>
+            </header>
+            <dl class="catalog-detail__content" id="catalog-detail-content"></dl>
+        </article>
+    </dialog>
 
     <script type="module" src="./src/js/catalogo-alimentos.js"></script>
 </body>
