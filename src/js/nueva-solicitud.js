@@ -1,6 +1,5 @@
 import { usuarioAutenticado } from './main.js';
-import { solicitudesApi } from './api.js';
-import { obtenerAlimentos } from './datos.js';
+import { crearSolicitudApoyo, obtenerAlimentos } from './datos.js';
 
 const formulario = document.getElementById('solicitud-form');
 const botonEnviar = document.getElementById('solicitud-submit');
@@ -253,7 +252,7 @@ formulario.addEventListener('submit', async evento => {
     botonEnviar.disabled = true;
     botonEnviar.textContent = 'Enviando...';
     try {
-        await solicitudesApi.crear(solicitud);
+        await crearSolicitudApoyo(solicitud);
         formulario.reset();
         cantidadesSeleccionadas.clear();
         renderizar();
