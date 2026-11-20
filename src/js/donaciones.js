@@ -27,6 +27,7 @@ const botonCrearAlimento = document.getElementById('donacion-crear-alimento');
 const botonGuardarAlimento = document.getElementById('donacion-food-save');
 const errorAlimento = document.getElementById('donacion-food-error');
 const sidebarToggle = document.getElementById('toggle-sidebar-btn');
+let contadorLineasDetalle = 0;
 
 const [comercios, organizaciones, categorias, catalogoAlimentos] = await Promise.all([
     obtenerComercios(),
@@ -126,7 +127,7 @@ function renderizarTabla() {
 function renderizarResumen() {
     document.getElementById('donacion-total').textContent = formatoNumero.format(donaciones.length);
     document.getElementById('donacion-pendientes').textContent = formatoNumero.format(
-        donaciones.filter(donacion => donacion.estado === 'pendiente').length,
+        donaciones.filter(donacion => donacion.estado === 'disponible').length,
     );
     document.getElementById('donacion-asignadas').textContent = formatoNumero.format(
         donaciones.filter(donacion => donacion.id_organizacion !== null).length,
@@ -165,6 +166,7 @@ function poblarSelectores() {
 function crearLineaDetalle() {
     const linea = document.createElement('div');
     linea.className = 'donacion-form__line';
+    const indiceLinea = ++contadorLineasDetalle;
 
     const campoAlimento = document.createElement('label');
     campoAlimento.append(document.createTextNode('Alimento'));
@@ -196,6 +198,37 @@ function crearLineaDetalle() {
     entradaCantidad.required = true;
     campoCantidad.append(entradaCantidad);
 
+    function crearCampoFecha(etiqueta, nombre) {
+        const campo = document.createElement('label');
+        campo.className = 'donacion-form__date-field';
+        const texto = document.createElement('span');
+        texto.textContent = etiqueta;
+        const entrada = document.createElement('input');
+        entrada.className = 'donacion-form__expiry-input';
+        entrada.name = nombre;
+        entrada.type = 'date';
+        entrada.min = obtenerFechaLocal();
+        const error = document.createElement('span');
+        error.className = 'donacion-form__date-error';
+        error.id = `donacion-${nombre}-${indiceLinea}-error`;
+        error.setAttribute('aria-live', 'polite');
+        entrada.setAttribute('aria-describedby', error.id);
+        entrada.addEventListener('input', () => {
+            if (linea.dataset.validationAttempted === 'true') validarFechasLinea(linea);
+        });
+        entrada.addEventListener('change', () => {
+            if (linea.dataset.validationAttempted === 'true') validarFechasLinea(linea);
+        });
+        campo.append(texto, entrada, error);
+        return campo;
+    }
+
+    const campoCaducidad = crearCampoFecha('Fecha de caducidad', 'fecha_caducidad');
+    const campoConsumoPreferente = crearCampoFecha(
+        'Fecha de consumo preferente',
+        'fecha_consumo_preferente',
+    );
+
     const botonQuitar = document.createElement('button');
     botonQuitar.className = 'donacion-form__remove';
     botonQuitar.type = 'button';
@@ -203,8 +236,42 @@ function crearLineaDetalle() {
     botonQuitar.setAttribute('aria-label', 'Quitar alimento');
     botonQuitar.addEventListener('click', () => linea.remove());
 
-    linea.append(campoAlimento, campoCantidad, botonQuitar);
+    linea.append(campoAlimento, campoCantidad, campoCaducidad, campoConsumoPreferente, botonQuitar);
     lineas.append(linea);
+}
+
+function validarFechasLinea(linea) {
+    const caducidad = linea.querySelector('[name="fecha_caducidad"]');
+    const consumo = linea.querySelector('[name="fecha_consumo_preferente"]');
+    const errorCaducidad = caducidad.parentElement.querySelector('.donacion-form__date-error');
+    const errorConsumo = consumo.parentElement.querySelector('.donacion-form__date-error');
+    const hayCaducidad = Boolean(caducidad.value);
+    const hayConsumo = Boolean(consumo.value);
+    const fechaMinima = obtenerFechaLocal();
+    let valido = true;
+
+    for (const [entrada, error, etiqueta] of [
+        [caducidad, errorCaducidad, 'caducidad'],
+        [consumo, errorConsumo, 'consumo preferente'],
+    ]) {
+        if (entrada.value && entrada.value < fechaMinima) {
+            error.textContent = `La fecha de ${etiqueta} no puede ser anterior a hoy.`;
+            entrada.setAttribute('aria-invalid', 'true');
+            valido = false;
+        } else {
+            error.textContent = '';
+            entrada.removeAttribute('aria-invalid');
+        }
+    }
+
+    if (!hayCaducidad && !hayConsumo) {
+        errorCaducidad.textContent = 'Indica al menos una de las dos fechas.';
+        errorConsumo.textContent = 'Indica al menos una de las dos fechas.';
+        caducidad.setAttribute('aria-invalid', 'true');
+        consumo.setAttribute('aria-invalid', 'true');
+        valido = false;
+    }
+    return valido;
 }
 
 function actualizarOpcionesAlimentos() {
@@ -318,7 +385,11 @@ function abrirDetalle(donacion) {
     const lista = document.getElementById('donacion-detail-items');
     lista.replaceChildren(...donacion.detalles.map(item => {
         const elemento = document.createElement('li');
-        elemento.textContent = `${item.nombre_alimento}: ${formatoNumero.format(item.cantidad)} ${item.unidad_medida}`;
+        const caducidad = item.fecha_caducidad ? formatearFecha(item.fecha_caducidad) : '—';
+        const consumo = item.fecha_consumo_preferente
+            ? formatearFecha(item.fecha_consumo_preferente)
+            : '—';
+        elemento.textContent = `${item.nombre_alimento}: ${formatoNumero.format(item.cantidad)} ${item.unidad_medida} · Caducidad: ${caducidad} · Consumo preferente: ${consumo}`;
         return elemento;
     }));
     dialogo.showModal();
@@ -328,6 +399,8 @@ function obtenerDetallesFormulario() {
     return [...lineas.querySelectorAll('.donacion-form__line')].map(linea => ({
         id_alimento: linea.querySelector('[name="id_alimento"]').value,
         cantidad: linea.querySelector('[name="cantidad"]').value,
+        fecha_caducidad: linea.querySelector('[name="fecha_caducidad"]').value || null,
+        fecha_consumo_preferente: linea.querySelector('[name="fecha_consumo_preferente"]').value || null,
     }));
 }
 
@@ -336,6 +409,14 @@ async function guardarFormulario(evento) {
     errorFormulario.hidden = true;
     errorFormulario.textContent = '';
 
+    const lineasDetalle = [...lineas.querySelectorAll('.donacion-form__line')];
+    for (const linea of lineasDetalle) {
+        linea.dataset.validationAttempted = 'true';
+    }
+    if (!lineasDetalle.map(validarFechasLinea).every(Boolean)) {
+        lineas.querySelector('[aria-invalid="true"]')?.focus();
+        return;
+    }
     if (!formulario.reportValidity()) return;
 
     botonGuardar.disabled = true;

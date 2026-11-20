@@ -28,6 +28,9 @@ NutriComunidad es una aplicación web para apoyar la gestión comunitaria de ali
 | Recetas económicas | [`recetas.html`](./recetas.html) | Consulta de recetas con filtros por costo, tiempo e ingredientes disponibles. |
 | Alimentos e inventario | [`alimentos.html`](./alimentos.html) | Catálogo con búsqueda, filtros, estadísticas, paginación y acciones para agregar, consultar y editar alimentos. |
 | Nueva donación | [`donaciones.html`](./donaciones.html) | Registro de donaciones de comercios a organizaciones con alimentos y cantidades. |
+| Donaciones disponibles | [`donaciones-disponibles.html`](./donaciones-disponibles.html) | Listado para organizaciones, con búsqueda, ordenamiento y tarjetas de donaciones reclamables. |
+| Detalle de donación | [`detalle-donacion.html`](./detalle-donacion.html) | Información del comercio, estado, observaciones y detalle de alimentos, categorías y unidades. |
+| Reclamar donación | [`reclamar-donacion.html`](./reclamar-donacion.html) | Confirma la recepción; las fechas declaradas por el comercio se copian al inventario y a los lotes. |
 | Detalle de alimento | [`alimento-detalle.html`](./alimento-detalle.html) | Vista individual del alimento solicitado por su identificador. |
 | Formulario de alimento | [`alimento-form.html`](./alimento-form.html) | Formulario independiente para agregar o editar un alimento. Las acciones también se pueden realizar desde modales en el listado. |
 
@@ -100,6 +103,8 @@ El sidebar y el encabezado del dashboard se reutilizan como parciales en las pan
 - Incluye resumen, búsqueda, filtro por estado y consulta de los detalles de cada donación.
 - Los comercios, organizaciones, donaciones y detalles usan datos de prueba en `datos.js` y `localStorage`; todavía no se conectan con endpoints del backend.
 - La pantalla está disponible para `admin` y `comercio`. El backend debe validar los permisos y asociar cada comercio autenticado a su registro real.
+- Las organizaciones pueden consultar las donaciones disponibles, revisar su detalle y confirmar su recepción. El comercio declara la fecha de caducidad o de consumo preferente por alimento; al confirmar, las fechas se copian a los lotes que se agregan al inventario local.
+- Los datos temporales incluyen ejemplos de donaciones disponibles, recibidas y canceladas. Se usa `id_organizacion` del usuario autenticado cuando existe; de lo contrario, se usa temporalmente la organización de ejemplo con ID 1.
 
 ## Tecnologías
 
@@ -155,6 +160,10 @@ Nutricom/
 ├── catalogo-alimentos.html
 ├── recetas.html
 ├── alimentos.html
+├── donaciones.html
+├── donaciones-disponibles.html
+├── detalle-donacion.html
+├── reclamar-donacion.html
 ├── alimento-detalle.html
 ├── alimento-form.html
 ├── src/
@@ -217,4 +226,4 @@ Nutricom/
 - El login no autentica ni verifica las credenciales.
 - Los datos de prueba de usuarios y solicitudes pueden ser volátiles cuando se guardan en memoria.
 - Los datos de Alimentos se guardan únicamente en el almacenamiento local del navegador.
-- La autorización real por rol debe implementarse y verificarse en el backend.
+- La interfaz filtra las rutas según el rol autenticado; el backend también debe validar permisos y relaciones de organización/comercio.

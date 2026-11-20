@@ -20,6 +20,9 @@ const paginasPorRol = {
     recetas: ['admin', 'beneficiario'],
     donaciones: ['admin', 'comercio'],
     recetas: ['admin'],
+    'donaciones-disponibles': ['organizacion'],
+    'detalle-donacion': ['organizacion'],
+    'reclamar-donacion': ['organizacion'],
 };
 
 export function normalizarRol(rol) {

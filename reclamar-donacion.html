@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Reclamar donación - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/reclamar-donacion.css">
+</head>
+<body class="home-layout claim-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main claim-main">
+        <header class="claim-heading">
+            <div>
+                <p class="claim-eyebrow">RECEPCIÓN DE ALIMENTOS</p>
+                <h1 class="claim-title">Confirmar recepción</h1>
+                <p class="claim-description">Revisa los alimentos y las fechas declaradas por el comercio antes de agregarlos al inventario de tu organización.</p>
+            </div>
+            <a class="claim-back" href="./donaciones-disponibles.html">
+                <span aria-hidden="true">←</span> Volver a disponibles
+            </a>
+        </header>
+
+        <section id="claim-content" aria-live="polite">
+            <p class="claim-message">Cargando donación...</p>
+        </section>
+        <p class="claim-feedback" id="claim-feedback" role="status" aria-live="polite" hidden></p>
+    </main>
+
+    <dialog class="claim-dialog" id="claim-confirmation" aria-labelledby="claim-dialog-title">
+        <form method="dialog" class="claim-dialog__content">
+            <div class="claim-dialog__header">
+                <span class="claim-dialog__icon" aria-hidden="true">✓</span>
+                <div>
+                    <p class="claim-eyebrow">CONFIRMACIÓN DE RECEPCIÓN</p>
+                    <h2 id="claim-dialog-title">¿Confirmas la recepción?</h2>
+                </div>
+            </div>
+            <p id="claim-dialog-copy">Al confirmar, la donación se asignará a tu organización y se actualizará el inventario.</p>
+            <section class="claim-dialog__summary" id="claim-dialog-summary" aria-label="Resumen de la donación"></section>
+            <div class="claim-dialog__actions">
+                <button class="claim-button claim-button--secondary" type="submit" value="cancel">Seguir revisando</button>
+                <button class="claim-button claim-button--primary" id="claim-confirm-button" type="button">
+                    <span>Confirmar recepción</span>
+                    <span aria-hidden="true">→</span>
+                </button>
+            </div>
+        </form>
+    </dialog>
+
+    <script type="module" src="./src/js/reclamar-donacion.js"></script>
+</body>
+</html>

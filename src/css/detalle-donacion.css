@@ -1,0 +1,244 @@
+@import './global.css';
+@import './home.css';
+
+.detail-main {
+  display: grid;
+  align-content: start;
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  gap: 18px;
+}
+
+.detail-heading,
+.claim-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.detail-back,
+.claim-back {
+  color: var(--color-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.detail-content {
+  display: grid;
+  width: 100%;
+  gap: 15px;
+}
+
+.detail-panel {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.detail-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.detail-folio {
+  margin-bottom: 4px;
+  color: var(--color-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.detail-panel__header h2 {
+  color: var(--color-text-main);
+  font-size: 20px;
+}
+
+.detail-section {
+  display: grid;
+  gap: 15px;
+  padding: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.detail-section:last-child {
+  border-bottom: 0;
+}
+
+.detail-section__title {
+  color: var(--color-text-main);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.detail-data-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.detail-data {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.detail-data dt {
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
+
+.detail-data dd {
+  overflow-wrap: anywhere;
+  color: var(--color-text-main);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.detail-observations {
+  color: var(--color-text-main);
+  font-size: 13px;
+}
+
+.detail-table-wrap {
+  overflow-x: auto;
+}
+
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.detail-table caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.detail-table th,
+.detail-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #edf1ee;
+  font-size: 12px;
+}
+
+.detail-table th {
+  color: var(--color-text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.detail-table td {
+  color: var(--color-text-main);
+}
+
+.detail-expiry {
+  display: inline-flex;
+  min-width: max-content;
+  padding: 5px 8px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.detail-expiry--expired {
+  background: #fff0ef;
+  color: #a63e36;
+}
+
+.detail-expiry--soon {
+  background: #fff8e8;
+  color: #76520d;
+}
+
+.detail-expiry--current {
+  background: #e8f4ec;
+  color: #226b46;
+}
+
+.detail-table__empty {
+  color: var(--color-text-muted) !important;
+  text-align: center;
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.detail-button--secondary,
+.claim-button--secondary {
+  border-color: var(--color-border);
+  background: #ffffff;
+  color: var(--color-text-main);
+}
+
+.detail-button--secondary:hover,
+.claim-button--secondary:hover {
+  background: #f3f6f4;
+}
+
+.detail-state {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 38px 20px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.detail-message {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+@media (max-width: 760px) {
+  .detail-data-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .detail-heading {
+    flex-direction: column;
+  }
+
+  .detail-data-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .detail-panel__header,
+  .detail-section {
+    padding: 16px;
+  }
+
+  .detail-table {
+    min-width: 820px;
+  }
+
+  .detail-actions {
+    justify-content: stretch;
+  }
+
+  .detail-actions .detail-button {
+    flex: 1 1 100%;
+  }
+}
