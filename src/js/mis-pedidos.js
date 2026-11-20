@@ -9,6 +9,8 @@ const contadorResultados = document.getElementById('pedidos-results');
 const modalDetalle = document.getElementById('pedido-detail');
 const detalleTitulo = document.getElementById('pedido-detail-title');
 const detalleMeta = document.getElementById('pedido-detail-meta');
+const detalleEntrega = document.getElementById('pedido-detail-delivery');
+const mensajeSinEntrega = document.getElementById('pedido-detail-delivery-empty');
 const detalleAlimentos = document.getElementById('pedido-detail-items');
 const numeroFormato = new Intl.NumberFormat('es-MX');
 let pedidos = [];
@@ -221,6 +223,16 @@ function abrirDetalle(pedido) {
     agregarDatoDetalle('Estado', estado);
     agregarDatoDetalle('Integrantes', valorDe(pedido, 'numero_integrantes', 'numeroIntegrantes', 'integrantes'));
     agregarDatoDetalle('Motivo', valorDe(pedido, 'motivo', 'descripcion'));
+    const entrega = valorDe(pedido, 'entrega', 'entrega_detalle', 'entregaDetalle');
+    detalleEntrega.replaceChildren();
+    mensajeSinEntrega.hidden = Boolean(entrega && typeof entrega === 'object');
+    if (entrega && typeof entrega === 'object') {
+        agregarDatoEntrega('Fecha de entrega', formatearFecha(valorDe(entrega, 'fecha_entrega', 'fechaEntrega')));
+        agregarDatoEntrega('Organización', valorDe(entrega, 'nombre_organizacion', 'nombreOrganizacion'));
+        agregarDatoEntrega('Responsable', valorDe(entrega, 'responsable'));
+        agregarDatoEntrega('Estado de entrega', valorDe(entrega, 'estado'));
+        agregarDatoEntrega('Observaciones', valorDe(entrega, 'observaciones'));
+    }
     detalleAlimentos.replaceChildren();
 
     if (!alimentos.length) {
@@ -242,6 +254,16 @@ function abrirDetalle(pedido) {
         }
     }
     modalDetalle.showModal();
+}
+
+function agregarDatoEntrega(etiqueta, valor) {
+    const contenedor = document.createElement('div');
+    const titulo = document.createElement('dt');
+    const dato = document.createElement('dd');
+    titulo.textContent = etiqueta;
+    dato.textContent = String(valor || '—');
+    contenedor.append(titulo, dato);
+    detalleEntrega.appendChild(contenedor);
 }
 
 async function cargarPedidos() {

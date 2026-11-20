@@ -514,6 +514,17 @@ let usuariosExtrasMemoria = [
 ];
 
 const claveSolicitudesGuardadas = 'nutricom.solicitudes';
+const entregasIniciales = [
+    {
+        id_entrega: 1,
+        id_solicitud: 98,
+        id_organizacion: 1,
+        fecha_entrega: '2025-05-14',
+        responsable: 'María López',
+        estado: 'Entregada',
+        observaciones: 'Apoyo entregado a la persona beneficiaria.',
+    },
+];
 const solicitudesIniciales = [
     {
         id_solicitud: 184,
@@ -621,7 +632,22 @@ function guardarSolicitudes(solicitudes) {
 }
 
 export async function obtenerSolicitudesApoyo() {
-    return obtenerSolicitudesGuardadas();
+    return obtenerSolicitudesGuardadas().map(solicitud => {
+        const entrega = entregasIniciales.find(
+            item => item.id_solicitud === Number(solicitud.id_solicitud ?? solicitud.id),
+        );
+        return {
+            ...solicitud,
+            entrega: entrega
+                ? {
+                    ...entrega,
+                    nombre_organizacion: organizaciones.find(
+                        organizacion => organizacion.id_organizacion === entrega.id_organizacion,
+                    )?.nombre_organizacion ?? 'Organización no disponible',
+                }
+                : null,
+        };
+    });
 }
 
 export async function obtenerDirectorioUsuarios() {

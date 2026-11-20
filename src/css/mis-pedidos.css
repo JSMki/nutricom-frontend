@@ -300,6 +300,45 @@
   font-weight: 650;
 }
 
+.pedidos-detail__delivery-section {
+  padding-top: 16px;
+  border-bottom: 1px solid #edf1ee;
+}
+
+.pedidos-detail__delivery-section h3 {
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.pedidos-detail__delivery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding-bottom: 16px;
+}
+
+.pedidos-detail__delivery div {
+  display: grid;
+  gap: 3px;
+}
+
+.pedidos-detail__delivery dt {
+  color: var(--color-text-muted);
+  font-size: 10px;
+}
+
+.pedidos-detail__delivery dd {
+  color: var(--color-text-main);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.pedidos-detail__delivery-empty {
+  padding-bottom: 16px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+}
+
 .pedidos-detail__items-section {
   padding-top: 16px;
 }
@@ -355,6 +394,10 @@
   }
 
   .pedidos-detail__meta {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pedidos-detail__delivery {
     grid-template-columns: minmax(0, 1fr);
   }
 }
