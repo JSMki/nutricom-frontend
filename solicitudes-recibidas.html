@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Solicitudes recibidas - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/solicitudes-recibidas.css">
+</head>
+<body class="home-layout solicitudes-recibidas-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main received-page__main">
+        <header class="received-page__header">
+            <div>
+                <p class="received-page__eyebrow">ATENCIÓN A BENEFICIARIOS</p>
+                <h1 class="received-page__title">Solicitudes recibidas</h1>
+                <p class="received-page__description">Revisa las solicitudes de apoyo, consulta sus detalles y decide si tu organización puede atenderlas.</p>
+            </div>
+        </header>
+
+        <section class="received-page__summary" aria-label="Resumen de solicitudes">
+            <article class="received-page__summary-card">
+                <span>Pendientes</span>
+                <strong id="requests-pending-count">0</strong>
+            </article>
+            <article class="received-page__summary-card">
+                <span>Aceptadas</span>
+                <strong id="requests-accepted-count">0</strong>
+            </article>
+            <article class="received-page__summary-card">
+                <span>Rechazadas</span>
+                <strong id="requests-rejected-count">0</strong>
+            </article>
+        </section>
+
+        <p class="received-page__assignment-note">
+            Las solicitudes pendientes se muestran a todas las organizaciones. La primera que acepte una solicitud queda a cargo de su entrega.
+        </p>
+
+        <section class="received-page__card" aria-label="Listado de solicitudes">
+            <div class="received-page__toolbar">
+                <label class="received-page__search" for="requests-search">
+                    <span class="sr-only">Buscar solicitud</span>
+                    <input id="requests-search" type="search" placeholder="Buscar por folio o beneficiario" autocomplete="off">
+                </label>
+                <label class="received-page__filter" for="requests-status">
+                    <span class="sr-only">Filtrar por estado</span>
+                    <select id="requests-status">
+                        <option value="">Todos los estados</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="aceptada">Aceptada</option>
+                        <option value="aprobada">Aprobada</option>
+                        <option value="rechazada">Rechazada</option>
+                        <option value="entregada">Entregada</option>
+                    </select>
+                </label>
+                <span class="received-page__count" id="requests-count" aria-live="polite">Cargando solicitudes...</span>
+            </div>
+            <div class="received-page__table-wrap">
+                <table class="received-page__table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Folio</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Beneficiario</th>
+                            <th scope="col">Integrantes</th>
+                            <th scope="col">Prioridad</th>
+                            <th scope="col">Alimentos</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col"><span class="sr-only">Acciones</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="requests-table-body">
+                        <tr><td class="received-page__message" colspan="8">Cargando solicitudes...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <p class="received-page__feedback" id="requests-feedback" role="status" aria-live="polite" hidden></p>
+    </main>
+
+    <dialog class="received-detail" id="request-detail" aria-labelledby="request-detail-title">
+        <div class="received-detail__surface">
+            <header class="received-detail__header">
+                <div>
+                    <p class="received-page__eyebrow">DETALLE DE SOLICITUD</p>
+                    <h2 id="request-detail-title">Solicitud</h2>
+                </div>
+                <button class="received-detail__close" id="request-detail-close" type="button" aria-label="Cerrar detalle">×</button>
+            </header>
+            <dl class="received-detail__meta" id="request-detail-meta"></dl>
+            <section class="received-detail__section" aria-labelledby="request-foods-title">
+                <h3 id="request-foods-title">Alimentos solicitados</h3>
+                <ul class="received-detail__foods" id="request-detail-foods"></ul>
+            </section>
+            <section class="received-detail__delivery" id="request-delivery-info" hidden>
+                <h3>Seguimiento de entrega</h3>
+                <p id="request-delivery-copy"></p>
+                <a class="received-detail__link" href="./entregas.html">Ir a entregas</a>
+            </section>
+            <p class="received-detail__feedback" id="request-detail-feedback" role="alert" hidden></p>
+            <section class="received-detail__reject" id="request-reject-confirm" hidden>
+                <p>¿Rechazar esta solicitud? El cambio quedará registrado y no se podrá aceptar después.</p>
+                <div>
+                    <button class="received-detail__button received-detail__button--secondary" id="request-reject-cancel" type="button">Volver</button>
+                    <button class="received-detail__button received-detail__button--danger" id="request-reject-confirm-button" type="button">Sí, rechazar</button>
+                </div>
+            </section>
+            <footer class="received-detail__actions" id="request-detail-actions">
+                <button class="received-detail__button received-detail__button--secondary" id="request-reject-button" type="button">Rechazar</button>
+                <button class="received-detail__button received-detail__button--primary" id="request-accept-button" type="button">Aceptar solicitud</button>
+            </footer>
+        </div>
+    </dialog>
+
+    <script type="module" src="./src/js/solicitudes-recibidas.js"></script>
+</body>
+</html>

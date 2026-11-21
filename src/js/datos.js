@@ -6,7 +6,10 @@ const alimentosResumen = [
 ];
 
 const beneficiarios = [
-    { id: 2, nombre: "Carlos Pérez", numero_integrantes: 4 }
+    { id_beneficiario: 1, nombre: "Elena", apellido: "Martínez", telefono: "5551234101", correo: "elena.martinez@example.com", numero_integrantes: 4, colonia: "Las Flores", direccion: "Calle Nardo 12" },
+    { id_beneficiario: 2, nombre: "Carlos", apellido: "Pérez", telefono: "5551234102", correo: "carlos.perez@example.com", numero_integrantes: 5, colonia: "San Miguel", direccion: "Av. Hidalgo 45" },
+    { id_beneficiario: 3, nombre: "Lucía", apellido: "Gómez", telefono: "5551234103", correo: "lucia.gomez@example.com", numero_integrantes: 3, colonia: "Centro", direccion: "Calle Reforma 8" },
+    { id_beneficiario: 4, nombre: "Roberto", apellido: "García", telefono: "5551234104", correo: "roberto.garcia@example.com", numero_integrantes: 2, colonia: "La Esperanza", direccion: "Calle Olivo 21" }
 ];
 
 let donaciones = [];
@@ -801,6 +804,7 @@ let usuariosExtrasMemoria = [
 ];
 
 const claveSolicitudesGuardadas = 'nutricom.solicitudes';
+const claveEntregasGuardadas = 'nutricom.entregas';
 const entregasIniciales = [
     {
         id_entrega: 1,
@@ -815,6 +819,7 @@ const entregasIniciales = [
 const solicitudesIniciales = [
     {
         id_solicitud: 184,
+        id_beneficiario: 1,
         folio: 'SOL-0184',
         fecha_solicitud: '2025-06-16',
         motivo: 'Apoyo alimentario para mi familia.',
@@ -830,6 +835,7 @@ const solicitudesIniciales = [
     },
     {
         id_solicitud: 139,
+        id_beneficiario: 2,
         folio: 'SOL-0139',
         fecha_solicitud: '2025-06-02',
         motivo: 'Solicitud de despensa familiar.',
@@ -847,6 +853,7 @@ const solicitudesIniciales = [
     },
     {
         id_solicitud: 98,
+        id_beneficiario: 3,
         folio: 'SOL-0098',
         fecha_solicitud: '2025-05-12',
         motivo: 'Apoyo para completar la despensa.',
@@ -861,6 +868,7 @@ const solicitudesIniciales = [
     },
     {
         id_solicitud: 72,
+        id_beneficiario: 4,
         folio: 'SOL-0072',
         fecha_solicitud: '2025-04-28',
         motivo: 'Solicitud de apoyo alimentario.',
@@ -881,6 +889,7 @@ let solicitudesColaMemoria = solicitudesIniciales.map(solicitud => ({
     ...solicitud,
     alimentos: solicitud.alimentos.map(alimento => ({ ...alimento })),
 }));
+let entregasColaMemoria = entregasIniciales.map(entrega => ({ ...entrega }));
 
 function copiarSolicitud(solicitud) {
     return {
@@ -918,23 +927,306 @@ function guardarSolicitudes(solicitudes) {
     }
 }
 
+function copiarEntrega(entrega) {
+    return { ...entrega };
+}
+
+function obtenerEntregasGuardadas() {
+    if (typeof localStorage === 'undefined') {
+        return entregasColaMemoria.map(copiarEntrega);
+    }
+
+    const guardadas = localStorage.getItem(claveEntregasGuardadas);
+    if (guardadas === null) {
+        entregasColaMemoria = entregasIniciales.map(copiarEntrega);
+        return entregasColaMemoria.map(copiarEntrega);
+    }
+
+    const parseadas = JSON.parse(guardadas);
+    if (!Array.isArray(parseadas)) {
+        throw new Error('Las entregas guardadas localmente tienen un formato inválido.');
+    }
+    const registros = new Map(entregasIniciales.map(entrega => [Number(entrega.id_entrega), copiarEntrega(entrega)]));
+    for (const entrega of parseadas) registros.set(Number(entrega.id_entrega), copiarEntrega(entrega));
+    entregasColaMemoria = [...registros.values()];
+    return entregasColaMemoria.map(copiarEntrega);
+}
+
+function guardarEntregas(entregas) {
+    entregasColaMemoria = entregas.map(copiarEntrega);
+    if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(claveEntregasGuardadas, JSON.stringify(entregasColaMemoria));
+    }
+}
+
+function obtenerBeneficiario(id_beneficiario) {
+    return beneficiarios.find(item => Number(item.id_beneficiario) === Number(id_beneficiario)) ?? null;
+}
+
+function resolverEntrega(entrega, solicitudes = obtenerSolicitudesGuardadas()) {
+    const solicitud = solicitudes.find(item =>
+        Number(item.id_solicitud ?? item.id) === Number(entrega.id_solicitud),
+    );
+    const organizacion = organizaciones.find(item =>
+        Number(item.id_organizacion) === Number(entrega.id_organizacion),
+    );
+    const beneficiario = obtenerBeneficiario(solicitud?.id_beneficiario);
+    return {
+        ...entrega,
+        solicitud: solicitud ? copiarSolicitud(solicitud) : null,
+        beneficiario,
+        nombre_beneficiario: beneficiario
+            ? `${beneficiario.nombre} ${beneficiario.apellido}`.trim()
+            : solicitud?.titular ?? 'Beneficiario no identificado',
+        nombre_organizacion: organizacion?.nombre_organizacion ?? 'Organización no disponible',
+    };
+}
+
+function obtenerFechaHoy() {
+    const hoy = new Date();
+    return `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
+}
+
+function validarFechaProgramacion(fecha) {
+    const valor = String(fecha ?? '').trim();
+    const [anio, mes, dia] = valor.split('-').map(Number);
+    const parsed = new Date(Date.UTC(anio, mes - 1, dia));
+    if (
+        !/^\d{4}-\d{2}-\d{2}$/.test(valor)
+        || Number.isNaN(parsed.getTime())
+        || parsed.getUTCFullYear() !== anio
+        || parsed.getUTCMonth() !== mes - 1
+        || parsed.getUTCDate() !== dia
+    ) {
+        throw new Error('Selecciona una fecha de entrega válida.');
+    }
+    if (valor < obtenerFechaHoy()) {
+        throw new Error('La fecha de entrega no puede ser anterior a hoy.');
+    }
+    return valor;
+}
+
 export async function obtenerSolicitudesApoyo() {
-    return obtenerSolicitudesGuardadas().map(solicitud => {
-        const entrega = entregasIniciales.find(
+    const entregas = obtenerEntregasGuardadas();
+    const solicitudes = obtenerSolicitudesGuardadas();
+    return solicitudes.map(solicitud => {
+        const entrega = entregas.find(
             item => item.id_solicitud === Number(solicitud.id_solicitud ?? solicitud.id),
         );
         return {
             ...solicitud,
             entrega: entrega
-                ? {
-                    ...entrega,
-                    nombre_organizacion: organizaciones.find(
-                        organizacion => organizacion.id_organizacion === entrega.id_organizacion,
-                    )?.nombre_organizacion ?? 'Organización no disponible',
-                }
+                ? resolverEntrega(entrega, solicitudes)
                 : null,
         };
     });
+}
+
+export async function obtenerSolicitudesRecibidas() {
+    const entregas = obtenerEntregasGuardadas();
+    return obtenerSolicitudesGuardadas()
+        .map(solicitud => {
+            const beneficiario = obtenerBeneficiario(solicitud.id_beneficiario);
+            const entrega = entregas.find(item =>
+                Number(item.id_solicitud) === Number(solicitud.id_solicitud ?? solicitud.id),
+            );
+            return {
+                ...copiarSolicitud(solicitud),
+                beneficiario,
+                nombre_beneficiario: beneficiario
+                    ? `${beneficiario.nombre} ${beneficiario.apellido}`.trim()
+                    : solicitud.titular ?? 'Beneficiario no identificado',
+                entrega: entrega ? resolverEntrega(entrega) : null,
+            };
+        })
+        .sort((a, b) => String(b.fecha_solicitud).localeCompare(String(a.fecha_solicitud)));
+}
+
+export async function aceptarSolicitud(id_solicitud, id_organizacion) {
+    const idSolicitud = Number(id_solicitud);
+    const idOrganizacion = Number(id_organizacion);
+    if (!organizaciones.some(item => Number(item.id_organizacion) === idOrganizacion)) {
+        throw new Error('No se encontró una organización válida para aceptar la solicitud.');
+    }
+
+    const solicitudes = obtenerSolicitudesGuardadas();
+    const solicitud = solicitudes.find(item => Number(item.id_solicitud ?? item.id) === idSolicitud);
+    if (!solicitud) throw new Error('No se encontró la solicitud.');
+    if (String(solicitud.estado).toLocaleLowerCase('es-MX') !== 'pendiente') {
+        throw new Error('La solicitud ya fue atendida y no se puede aceptar nuevamente.');
+    }
+    if (!Array.isArray(solicitud.alimentos) || solicitud.alimentos.length === 0) {
+        throw new Error('La solicitud no tiene alimentos y no puede aceptarse.');
+    }
+
+    const entregas = obtenerEntregasGuardadas();
+    if (entregas.some(item => Number(item.id_solicitud) === idSolicitud)) {
+        throw new Error('La solicitud ya tiene una entrega registrada.');
+    }
+    const id_entrega = entregas.reduce(
+        (maximo, item) => Math.max(maximo, Number(item.id_entrega) || 0),
+        0,
+    ) + 1;
+    const nuevaEntrega = {
+        id_entrega,
+        id_solicitud: idSolicitud,
+        id_organizacion: idOrganizacion,
+        fecha_entrega: null,
+        responsable: '',
+        estado: 'Pendiente',
+        observaciones: '',
+    };
+    const solicitudesActualizadas = solicitudes.map(item =>
+        Number(item.id_solicitud ?? item.id) === idSolicitud
+            ? { ...item, estado: 'Aceptada' }
+            : item,
+    );
+    guardarSolicitudes(solicitudesActualizadas);
+    guardarEntregas([nuevaEntrega, ...entregas]);
+    return resolverEntrega(nuevaEntrega, solicitudesActualizadas);
+}
+
+export async function rechazarSolicitud(id_solicitud) {
+    const idSolicitud = Number(id_solicitud);
+    const solicitudes = obtenerSolicitudesGuardadas();
+    const solicitud = solicitudes.find(item => Number(item.id_solicitud ?? item.id) === idSolicitud);
+    if (!solicitud) throw new Error('No se encontró la solicitud.');
+    if (String(solicitud.estado).toLocaleLowerCase('es-MX') !== 'pendiente') {
+        throw new Error('La solicitud ya fue atendida y no se puede rechazar nuevamente.');
+    }
+    const actualizadas = solicitudes.map(item =>
+        Number(item.id_solicitud ?? item.id) === idSolicitud
+            ? { ...item, estado: 'Rechazada' }
+            : item,
+    );
+    guardarSolicitudes(actualizadas);
+    return copiarSolicitud(actualizadas.find(item => Number(item.id_solicitud ?? item.id) === idSolicitud));
+}
+
+export async function obtenerEntregas(id_organizacion) {
+    const idOrganizacion = Number(id_organizacion);
+    return obtenerEntregasGuardadas()
+        .filter(entrega => Number(entrega.id_organizacion) === idOrganizacion)
+        .map(entrega => resolverEntrega(entrega))
+        .sort((a, b) => {
+            const estadoA = String(a.estado).toLocaleLowerCase('es-MX') === 'entregada' ? 1 : 0;
+            const estadoB = String(b.estado).toLocaleLowerCase('es-MX') === 'entregada' ? 1 : 0;
+            return estadoA - estadoB || String(a.fecha_entrega ?? '').localeCompare(String(b.fecha_entrega ?? ''));
+        });
+}
+
+export async function programarEntrega(id_entrega, id_organizacion, datos) {
+    const idEntrega = Number(id_entrega);
+    const idOrganizacion = Number(id_organizacion);
+    const entregas = obtenerEntregasGuardadas();
+    const entrega = entregas.find(item => Number(item.id_entrega) === idEntrega);
+    if (!entrega || Number(entrega.id_organizacion) !== idOrganizacion) {
+        throw new Error('No se encontró la entrega para esta organización.');
+    }
+    if (entrega.estado !== 'Pendiente') {
+        throw new Error('Solo se pueden programar entregas pendientes.');
+    }
+    const responsable = String(datos?.responsable ?? '').trim();
+    if (!responsable) throw new Error('Indica quién será responsable de la entrega.');
+    const fecha_entrega = validarFechaProgramacion(datos?.fecha_entrega);
+    const actualizada = {
+        ...entrega,
+        fecha_entrega,
+        responsable,
+        observaciones: String(datos?.observaciones ?? '').trim(),
+        estado: 'Programada',
+    };
+    guardarEntregas(entregas.map(item => item.id_entrega === idEntrega ? actualizada : item));
+    return resolverEntrega(actualizada);
+}
+
+export async function marcarEntregaEntregada(id_entrega, id_organizacion) {
+    const idEntrega = Number(id_entrega);
+    const idOrganizacion = Number(id_organizacion);
+    const entregas = obtenerEntregasGuardadas();
+    const entrega = entregas.find(item => Number(item.id_entrega) === idEntrega);
+    if (!entrega || Number(entrega.id_organizacion) !== idOrganizacion) {
+        throw new Error('No se encontró la entrega para esta organización.');
+    }
+    if (entrega.estado !== 'Programada') {
+        throw new Error('Solo se pueden completar entregas programadas.');
+    }
+    const solicitudes = obtenerSolicitudesGuardadas();
+    const solicitud = solicitudes.find(item =>
+        Number(item.id_solicitud ?? item.id) === Number(entrega.id_solicitud),
+    );
+    if (!solicitud || !Array.isArray(solicitud.alimentos) || solicitud.alimentos.length === 0) {
+        throw new Error('No se encontró el detalle de alimentos de la solicitud.');
+    }
+
+    const donacionesGuardadas = cargarDonaciones();
+    const inventarios = donacionesGuardadas.inventarios.map(item => ({ ...item }));
+    const lotes = donacionesGuardadas.lotes.map(item => ({ ...item }));
+    const hoy = obtenerFechaHoy();
+    const consumos = [];
+    for (const alimento of solicitud.alimentos) {
+        const id_alimento = Number(alimento.id_alimento ?? alimento.id);
+        const cantidad = Number(alimento.cantidad);
+        if (!Number.isFinite(cantidad) || cantidad <= 0) {
+            throw new Error('La cantidad solicitada de cada alimento debe ser mayor que cero.');
+        }
+        const inventario = inventarios.find(item =>
+            Number(item.id_organizacion) === idOrganizacion
+            && Number(item.id_alimento) === id_alimento,
+        );
+        if (!inventario || Number(inventario.cantidad_disponible) < cantidad) {
+            throw new Error(`Inventario insuficiente para ${alimento.nombre_alimento ?? 'un alimento'}; no se completó la entrega.`);
+        }
+        const lotesDisponibles = lotes
+            .filter(item => Number(item.id_inventario) === Number(inventario.id_inventario)
+                && Number(item.cantidad_actual) > 0
+                && (!item.fecha_caducidad || item.fecha_caducidad >= hoy))
+            .sort((a, b) => String(a.fecha_caducidad ?? a.fecha_consumo_preferente ?? '9999-12-31')
+                .localeCompare(String(b.fecha_caducidad ?? b.fecha_consumo_preferente ?? '9999-12-31')));
+        const totalLotes = lotesDisponibles.reduce((total, lote) => total + Number(lote.cantidad_actual), 0);
+        if (totalLotes < cantidad) {
+            throw new Error(`Los lotes disponibles de ${alimento.nombre_alimento ?? 'un alimento'} no alcanzan para completar la entrega.`);
+        }
+        let restante = cantidad;
+        const movimientos = [];
+        for (const lote of lotesDisponibles) {
+            if (restante <= 0) break;
+            const cantidadConsumida = Math.min(Number(lote.cantidad_actual), restante);
+            movimientos.push({ id_lote: lote.id_lote, cantidad: cantidadConsumida });
+            restante -= cantidadConsumida;
+        }
+        consumos.push({ inventario, id_alimento, cantidad, movimientos });
+    }
+
+    for (const consumo of consumos) {
+        consumo.inventario.cantidad_disponible = Number(consumo.inventario.cantidad_disponible) - consumo.cantidad;
+        consumo.inventario.fecha_actualizacion = new Date().toISOString();
+        consumo.inventario.estado = consumo.inventario.cantidad_disponible > 0 ? 'disponible' : 'agotado';
+        for (const movimiento of consumo.movimientos) {
+            const lote = lotes.find(item => item.id_lote === movimiento.id_lote);
+            lote.cantidad_actual = Number(lote.cantidad_actual) - movimiento.cantidad;
+        }
+    }
+    guardarDonaciones(
+        donacionesGuardadas.donaciones,
+        donacionesGuardadas.detalles,
+        inventarios,
+        lotes,
+    );
+
+    const entregaActualizada = {
+        ...entrega,
+        fecha_entrega: hoy,
+        estado: 'Entregada',
+    };
+    const solicitudesActualizadas = solicitudes.map(item =>
+        Number(item.id_solicitud ?? item.id) === Number(entrega.id_solicitud)
+            ? { ...item, estado: 'Entregada' }
+            : item,
+    );
+    guardarSolicitudes(solicitudesActualizadas);
+    guardarEntregas(entregas.map(item => item.id_entrega === idEntrega ? entregaActualizada : item));
+    return resolverEntrega(entregaActualizada, solicitudesActualizadas);
 }
 
 export async function obtenerDirectorioUsuarios() {
@@ -1052,6 +1344,10 @@ export async function crearSolicitudApoyo(solicitud) {
         alimentos: alimentosSolicitud,
     };
 
+    const id_beneficiario = Number(solicitud.id_beneficiario);
+    if (Number.isInteger(id_beneficiario) && id_beneficiario > 0) {
+        nuevaSolicitud.id_beneficiario = id_beneficiario;
+    }
     if (solicitud.titular) nuevaSolicitud.titular = String(solicitud.titular);
     guardarSolicitudes([nuevaSolicitud, ...solicitudes]);
     return copiarSolicitud(nuevaSolicitud);

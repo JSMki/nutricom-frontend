@@ -180,6 +180,11 @@
   color: #3664a3;
 }
 
+.pedidos-page__status--aceptada {
+  background: #e6effa;
+  color: #3664a3;
+}
+
 .pedidos-page__status--entregada {
   background: #e6f4ec;
   color: #247853;

@@ -23,6 +23,8 @@ const paginasPorRol = {
     'donaciones-disponibles': ['organizacion'],
     'detalle-donacion': ['organizacion'],
     'reclamar-donacion': ['organizacion'],
+    'solicitudes-recibidas': ['organizacion'],
+    entregas: ['organizacion'],
 };
 
 export function normalizarRol(rol) {
