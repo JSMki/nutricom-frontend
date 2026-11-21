@@ -73,6 +73,8 @@ function configurarNavegacion(rol) {
         'alimento-form': 'alimentos',
         'detalle-donacion': 'donaciones-disponibles',
         'reclamar-donacion': 'donaciones-disponibles',
+        'solicitudes-recibidas': 'solicitudes-recibidas',
+        entregas: 'entregas',
     };
     const destinoActivo = destinosPorDetalle[paginaActual] ?? paginaActual;
     const enlaceActivo = document.querySelector(

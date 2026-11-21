@@ -247,6 +247,8 @@ formulario.addEventListener('submit', async evento => {
         integrantes,
         prioridad: String(datos.get('prioridad')),
         alimentos: items,
+        id_beneficiario: usuarioAutenticado?.id_beneficiario,
+        titular: usuarioAutenticado?.nombre,
     };
 
     botonEnviar.disabled = true;

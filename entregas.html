@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#103f32">
+    <title>Entregas - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/entregas.css">
+</head>
+<body class="home-layout deliveries-page">
+    <include src="homesidebar.html"></include>
+    <include src="homeheader.html"></include>
+
+    <main class="home-main deliveries-page__main">
+        <header class="deliveries-page__header">
+            <div>
+                <p class="deliveries-page__eyebrow">SEGUIMIENTO DE APOYO</p>
+                <h1 class="deliveries-page__title">Entregas</h1>
+                <p class="deliveries-page__description">Programa las solicitudes aceptadas y registra cuándo se entregó el apoyo al beneficiario.</p>
+            </div>
+        </header>
+
+        <section class="deliveries-page__summary" aria-label="Resumen de entregas">
+            <article class="deliveries-page__summary-card">
+                <span>Por programar</span>
+                <strong id="deliveries-pending-count">0</strong>
+            </article>
+            <article class="deliveries-page__summary-card">
+                <span>Programadas</span>
+                <strong id="deliveries-scheduled-count">0</strong>
+            </article>
+            <article class="deliveries-page__summary-card">
+                <span>Entregadas</span>
+                <strong id="deliveries-completed-count">0</strong>
+            </article>
+        </section>
+
+        <section class="deliveries-page__card" aria-label="Listado de entregas">
+            <div class="deliveries-page__toolbar">
+                <label class="deliveries-page__search" for="deliveries-search">
+                    <span class="sr-only">Buscar entrega</span>
+                    <input id="deliveries-search" type="search" placeholder="Buscar por folio o beneficiario" autocomplete="off">
+                </label>
+                <label class="deliveries-page__filter" for="deliveries-status">
+                    <span class="sr-only">Filtrar por estado</span>
+                    <select id="deliveries-status">
+                        <option value="">Todos los estados</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="programada">Programada</option>
+                        <option value="entregada">Entregada</option>
+                    </select>
+                </label>
+                <span class="deliveries-page__count" id="deliveries-count" aria-live="polite">Cargando entregas...</span>
+            </div>
+            <div class="deliveries-page__table-wrap">
+                <table class="deliveries-page__table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Solicitud</th>
+                            <th scope="col">Beneficiario</th>
+                            <th scope="col">Fecha de entrega</th>
+                            <th scope="col">Responsable</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col"><span class="sr-only">Acciones</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="deliveries-table-body">
+                        <tr><td class="deliveries-page__message" colspan="6">Cargando entregas...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <p class="deliveries-page__feedback" id="deliveries-feedback" role="status" aria-live="polite" hidden></p>
+    </main>
+
+    <dialog class="delivery-detail" id="delivery-detail" aria-labelledby="delivery-detail-title">
+        <div class="delivery-detail__surface">
+            <header class="delivery-detail__header">
+                <div>
+                    <p class="deliveries-page__eyebrow">SEGUIMIENTO DE ENTREGA</p>
+                    <h2 id="delivery-detail-title">Entrega</h2>
+                </div>
+                <button class="delivery-detail__close" id="delivery-detail-close" type="button" aria-label="Cerrar detalle">×</button>
+            </header>
+            <dl class="delivery-detail__meta" id="delivery-detail-meta"></dl>
+            <section class="delivery-detail__section">
+                <h3>Alimentos de la solicitud</h3>
+                <ul class="delivery-detail__foods" id="delivery-detail-foods"></ul>
+            </section>
+            <p class="delivery-detail__feedback" id="delivery-detail-feedback" role="alert" hidden></p>
+            <form class="delivery-schedule" id="delivery-schedule" hidden>
+                <h3>Programar entrega</h3>
+                <label>
+                    <span>Fecha de entrega <span aria-hidden="true">*</span></span>
+                    <input id="delivery-date" name="fecha_entrega" type="date" required>
+                </label>
+                <label>
+                    <span>Responsable <span aria-hidden="true">*</span></span>
+                    <input id="delivery-responsible" name="responsable" type="text" maxlength="120" required>
+                </label>
+                <label>
+                    <span>Observaciones</span>
+                    <textarea name="observaciones" rows="2" maxlength="500"></textarea>
+                </label>
+                <button class="delivery-detail__button delivery-detail__button--primary" id="delivery-schedule-button" type="submit">Guardar programación</button>
+            </form>
+            <footer class="delivery-detail__actions" id="delivery-detail-actions">
+                <button class="delivery-detail__button delivery-detail__button--secondary" id="delivery-detail-dismiss" type="button">Cerrar</button>
+                <button class="delivery-detail__button delivery-detail__button--primary" id="delivery-mark-complete" type="button" hidden>Marcar como entregada</button>
+            </footer>
+        </div>
+    </dialog>
+
+    <dialog class="delivery-confirm" id="delivery-confirm" aria-labelledby="delivery-confirm-title">
+        <form method="dialog" class="delivery-confirm__surface">
+            <p class="deliveries-page__eyebrow">CONFIRMACIÓN</p>
+            <h2 id="delivery-confirm-title">¿Registrar entrega realizada?</h2>
+            <p>Al confirmar, se descontarán del inventario las cantidades solicitadas. Si no hay existencias suficientes, la entrega no se marcará como completada.</p>
+            <div class="delivery-confirm__actions">
+                <button class="delivery-detail__button delivery-detail__button--secondary" type="submit" value="cancel">Cancelar</button>
+                <button class="delivery-detail__button delivery-detail__button--primary" id="delivery-confirm-button" type="button">Confirmar entrega</button>
+            </div>
+        </form>
+    </dialog>
+
+    <script type="module" src="./src/js/entregas.js"></script>
+</body>
+</html>

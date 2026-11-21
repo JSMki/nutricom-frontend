@@ -116,7 +116,7 @@ function obtenerConteoContenido(pedido) {
 
 function claseEstado(estado) {
     const valor = normalizar(estado).normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    return ['pendiente', 'aprobada', 'entregada', 'rechazada'].includes(valor) ? valor : '';
+    return ['pendiente', 'aprobada', 'aceptada', 'entregada', 'rechazada'].includes(valor) ? valor : '';
 }
 
 function clasePrioridad(prioridad) {
