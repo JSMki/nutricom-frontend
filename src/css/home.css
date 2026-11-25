@@ -548,3 +548,28 @@
     text-align: left;
   }
 }
+
+@media (max-width: 360px) {
+  .home-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-welcome {
+    flex-direction: column;
+  }
+
+  .home-topbar {
+    min-height: 54px;
+  }
+
+  .home-topbar__user-info {
+    max-width: 150px;
+  }
+
+  .home-topbar__user-name,
+  .home-topbar__user-role {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
