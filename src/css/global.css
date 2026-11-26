@@ -52,6 +52,7 @@ body {
   color: var(--color-text-main);
   font-family: inherit;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 ul,
@@ -101,6 +102,96 @@ svg {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   clip-path: inset(50%);
+}
+
+main,
+section,
+article,
+aside,
+nav,
+form,
+.home-main {
+  min-width: 0;
+}
+
+[class*="__table-scroll"] {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 700px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  button,
+  input,
+  textarea,
+  select,
+  .home-action,
+  [class*="__button"] {
+    min-height: 44px;
+  }
+
+  .home-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .home-topbar__profile {
+    margin-left: auto;
+  }
+
+  .home-welcome,
+  .home-action,
+  [class*="__header-actions"] {
+    max-width: 100%;
+  }
+
+  [class*="__toolbar"],
+  [class*="__actions"],
+  [class*="__header-actions"],
+  [class*="__filters"] {
+    flex-wrap: wrap;
+  }
+
+  dialog,
+  [class*="modal"] {
+    max-width: calc(100vw - 24px);
+  }
+}
+
+@media (max-width: 360px) {
+  .home-main {
+    padding-inline: 12px;
+  }
+
+  .home-stats,
+  [class*="__summary"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-sidebar__toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .home-topbar__user-info {
+    max-width: 150px;
+  }
+
+  [class*="__form-row"],
+  [class*="__form-grid"],
+  [class*="__details"],
+  [class*="__meta"],
+  [class*="__delivery"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
