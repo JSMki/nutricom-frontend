@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f8f5">
+    <title>Crear cuenta - NutriComunidad</title>
+    <link rel="stylesheet" href="./src/css/registro.css">
+</head>
+<body class="signup-page">
+    <header class="signup-header">
+        <a class="signup-brand" href="./index.html" aria-label="NutriComunidad, inicio">
+            <span class="signup-brand__mark" aria-hidden="true">♧</span>
+            <span>NutriComunidad</span>
+        </a>
+        <a class="signup-header__back" href="./index.html">&larr; Volver al inicio</a>
+    </header>
+
+    <main class="signup-main">
+        <section class="signup-intro" aria-labelledby="signup-title">
+            <p class="signup-eyebrow">ÚNETE A LA COMUNIDAD</p>
+            <h1 class="signup-intro__title" id="signup-title">Crea una cuenta que se adapta a ti</h1>
+            <p class="signup-intro__description">Selecciona tu tipo de cuenta. Podrás completar y editar tu perfil después.</p>
+
+            <div class="signup-types" role="group" aria-label="Tipo de cuenta">
+                <button class="signup-type signup-type--selected" type="button" data-account-type="beneficiario" aria-pressed="true">
+                    <span class="signup-type__icon" aria-hidden="true">♧</span>
+                    <span class="signup-type__copy">
+                        <strong>Familia beneficiaria</strong>
+                        <small>Recibe apoyo y encuentra recetas para tu familia.</small>
+                    </span>
+                    <span class="signup-type__arrow" aria-hidden="true">›</span>
+                </button>
+                <button class="signup-type" type="button" data-account-type="comercio" aria-pressed="false">
+                    <span class="signup-type__icon" aria-hidden="true">♡</span>
+                    <span class="signup-type__copy">
+                        <strong>Comercio</strong>
+                        <small>Publica excedentes y mide el impacto de tus donaciones.</small>
+                    </span>
+                    <span class="signup-type__arrow" aria-hidden="true">›</span>
+                </button>
+                <button class="signup-type" type="button" data-account-type="organizacion" aria-pressed="false">
+                    <span class="signup-type__icon" aria-hidden="true">⬡</span>
+                    <span class="signup-type__copy">
+                        <strong>Organización</strong>
+                        <small>Recibe alimentos, gestiona inventario y coordina entregas.</small>
+                    </span>
+                    <span class="signup-type__arrow" aria-hidden="true">›</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="signup-card" aria-labelledby="signup-form-title">
+            <p class="signup-card__step">PASO 2 DE 2</p>
+            <h2 class="signup-card__title" id="signup-form-title">Datos de familia beneficiaria</h2>
+            <p class="signup-card__description">Todos los campos marcados son necesarios para crear tu cuenta.</p>
+
+            <form class="signup-form" id="form-registro">
+                <div class="signup-form__grid">
+                    <div class="signup-field">
+                        <label for="nombre">Nombre</label>
+                        <input id="nombre" name="nombre" type="text" autocomplete="given-name" placeholder="María" required>
+                    </div>
+                    <div class="signup-field">
+                        <label for="apellido">Apellido</label>
+                        <input id="apellido" name="apellido" type="text" autocomplete="family-name" placeholder="López García" required>
+                    </div>
+                    <div class="signup-field">
+                        <label for="telefono">Teléfono</label>
+                        <input id="telefono" name="telefono" type="tel" autocomplete="tel" placeholder="55 1234 5678" required>
+                    </div>
+                    <div class="signup-field" id="campo-integrantes">
+                        <label for="integrantes">Número de integrantes</label>
+                        <input id="integrantes" name="integrantes" type="number" min="1" max="30" value="1" required>
+                    </div>
+                    <div class="signup-field signup-field--conditional" id="campo-nombre-comercial" hidden>
+                        <label for="nombre-comercial">Nombre del comercio</label>
+                        <input id="nombre-comercial" name="nombreComercial" type="text" autocomplete="organization" placeholder="Comercio local">
+                    </div>
+                    <div class="signup-field signup-field--conditional" id="campo-tipo-comercio" hidden>
+                        <label for="tipo-comercio">Tipo de comercio</label>
+                        <input id="tipo-comercio" name="tipoComercio" type="text" placeholder="Abarrotes, panadería...">
+                    </div>
+                    <div class="signup-field signup-field--conditional" id="campo-nombre-organizacion" hidden>
+                        <label for="nombre-organizacion">Nombre de la organización</label>
+                        <input id="nombre-organizacion" name="nombreOrganizacion" type="text" autocomplete="organization" placeholder="Comedor comunitario">
+                    </div>
+                    <div class="signup-field signup-field--conditional" id="campo-tipo-organizacion" hidden>
+                        <label for="tipo-organizacion">Tipo de organización</label>
+                        <input id="tipo-organizacion" name="tipoOrganizacion" type="text" placeholder="Banco de alimentos, comedor...">
+                    </div>
+                    <div class="signup-field">
+                        <label for="colonia">Colonia</label>
+                        <input id="colonia" name="colonia" type="text" autocomplete="address-level3" placeholder="San Miguel" required>
+                    </div>
+                    <div class="signup-field">
+                        <label for="direccion">Dirección</label>
+                        <input id="direccion" name="direccion" type="text" autocomplete="street-address" placeholder="Calle y número" required>
+                    </div>
+                </div>
+
+                <fieldset class="signup-access">
+                    <legend>Datos de acceso</legend>
+                    <div class="signup-form__grid">
+                        <div class="signup-field">
+                            <label for="username">Nombre de usuario</label>
+                            <input id="username" name="username" type="text" autocomplete="username" placeholder="usuario" required>
+                        </div>
+                        <div class="signup-field">
+                            <label for="correo">Correo electrónico</label>
+                            <input id="correo" name="correo" type="email" autocomplete="email" placeholder="nombre@correo.com" required>
+                        </div>
+                        <div class="signup-field signup-field--full">
+                            <label for="contraseña">Contraseña</label>
+                            <input id="contraseña" name="contraseña" type="password" autocomplete="new-password" minlength="8" placeholder="Mínimo 8 caracteres" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <label class="signup-privacy">
+                    <input type="checkbox" name="aceptaPrivacidad" required>
+                    <span>Acepto el aviso de privacidad y los términos de uso.</span>
+                </label>
+
+                <p class="signup-feedback" id="registro-feedback" role="status" aria-live="polite" hidden></p>
+                <button class="signup-submit" type="submit">Crear cuenta <span aria-hidden="true">&rarr;</span></button>
+            </form>
+        </section>
+    </main>
+
+    <script type="module" src="./src/js/registro.js"></script>
+</body>
+</html>

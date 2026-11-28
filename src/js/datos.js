@@ -798,10 +798,136 @@ export async function actualizarAlergiaBeneficiario(id, declarada) {
 }
 
 const API_BASE_URL = 'http://localhost:8080/api';
+const claveCuentasRegistradas = 'nutricom.cuentas-registradas';
 
 let usuariosExtrasMemoria = [
     { id: 4, username: 'rgarcia', nombre: 'Roberto García Pérez', correo: 'roberto.g@email.com', integrantes: 2, colonia: 'La Esperanza', estado: 'Inactivo', color: 'blue' }
 ];
+
+function obtenerCuentasRegistradas() {
+    if (typeof localStorage === 'undefined') {
+        throw new Error('El registro de cuentas requiere almacenamiento local del navegador.');
+    }
+
+    const guardadas = localStorage.getItem(claveCuentasRegistradas);
+    if (guardadas === null) return [];
+
+    const cuentas = JSON.parse(guardadas);
+    if (!Array.isArray(cuentas)) {
+        throw new Error('Las cuentas registradas localmente tienen un formato inválido.');
+    }
+    return cuentas;
+}
+
+function obtenerPerfilesRegistrados() {
+    return obtenerCuentasRegistradas().map(cuenta => {
+        const { contraseña_hash, ...perfil } = cuenta;
+        return perfil;
+    });
+}
+
+async function hashContraseña(contraseña) {
+    if (!globalThis.crypto?.subtle) {
+        throw new Error('No se puede proteger la contraseña en este navegador. Abre el sitio en una conexión segura.');
+    }
+
+    const sal = crypto.getRandomValues(new Uint8Array(16));
+    const clave = await crypto.subtle.importKey(
+        'raw',
+        new TextEncoder().encode(contraseña),
+        'PBKDF2',
+        false,
+        ['deriveBits'],
+    );
+    const derivado = await crypto.subtle.deriveBits(
+        { name: 'PBKDF2', hash: 'SHA-256', salt: sal, iterations: 100_000 },
+        clave,
+        256,
+    );
+    const hexadecimal = bytes => Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+    return `pbkdf2-sha256$100000$${hexadecimal(sal)}$${hexadecimal(new Uint8Array(derivado))}`;
+}
+
+export async function registrarCuenta(datos) {
+    const tiposValidos = ['beneficiario', 'comercio', 'organizacion'];
+    const tipoCuenta = String(datos?.tipoCuenta ?? '').trim();
+    const nombre = String(datos?.nombre ?? '').trim();
+    const apellido = String(datos?.apellido ?? '').trim();
+    const telefono = String(datos?.telefono ?? '').trim();
+    const username = String(datos?.username ?? '').trim();
+    const correo = String(datos?.correo ?? '').trim().toLocaleLowerCase('es-MX');
+    const contraseña = String(datos?.contraseña ?? '');
+    const aceptaPrivacidad = datos?.aceptaPrivacidad === 'on' || datos?.aceptaPrivacidad === true;
+    const colonia = String(datos?.colonia ?? '').trim();
+    const direccion = String(datos?.direccion ?? '').trim();
+
+    if (!tiposValidos.includes(tipoCuenta)) throw new Error('Selecciona un tipo de cuenta válido.');
+    if (!nombre || !apellido || !telefono || !username || !correo || !colonia || !direccion) {
+        throw new Error('Completa todos los campos obligatorios.');
+    }
+    if (contraseña.length < 8) throw new Error('La contraseña debe tener al menos 8 caracteres.');
+    if (!aceptaPrivacidad) throw new Error('Acepta el aviso de privacidad y los términos de uso.');
+
+    const cuentas = obtenerCuentasRegistradas();
+    const correoExistente = [...usuarios, ...cuentas].some(
+        usuario => String(usuario.correo ?? '').toLocaleLowerCase('es-MX') === correo,
+    );
+    if (correoExistente) throw new Error('Ya existe una cuenta registrada con ese correo electrónico.');
+    const usernameNormalizado = username.toLocaleLowerCase('es-MX');
+    const usernameExistente = [...usuarios, ...usuariosExtrasMemoria, ...cuentas].some(usuario =>
+        String(usuario.username ?? usuario.correo?.split('@')[0] ?? '').toLocaleLowerCase('es-MX') === usernameNormalizado,
+    );
+    if (usernameExistente) {
+        throw new Error('Ese nombre de usuario ya está registrado.');
+    }
+
+    const extrasTipo = tipoCuenta === 'beneficiario'
+        ? {
+            integrantes: Number(datos.integrantes),
+            numero_integrantes: Number(datos.integrantes),
+        }
+        : tipoCuenta === 'comercio'
+            ? {
+                nombre_comercial: String(datos.nombreComercial ?? '').trim(),
+                tipo_comercio: String(datos.tipoComercio ?? '').trim(),
+            }
+            : {
+                nombre_organizacion: String(datos.nombreOrganizacion ?? '').trim(),
+                tipo_organizacion: String(datos.tipoOrganizacion ?? '').trim(),
+            };
+    if (Object.values(extrasTipo).some(valor => typeof valor === 'string' && !valor)
+        || ('integrantes' in extrasTipo && (!Number.isInteger(extrasTipo.integrantes) || extrasTipo.integrantes < 1 || extrasTipo.integrantes > 30))) {
+        throw new Error('Completa los datos de tu tipo de cuenta.');
+    }
+
+    const roles = {
+        beneficiario: 'Familia beneficiaria',
+        comercio: 'Comercio',
+        organizacion: 'Organización',
+    };
+    const cuenta = {
+        id: cuentas.reduce((maximo, usuario) => Math.max(maximo, Number(usuario.id) || 0), 1000) + 1,
+        username,
+        nombre: `${nombre} ${apellido}`,
+        apellido,
+        correo,
+        telefono,
+        colonia,
+        direccion,
+        rol: tipoCuenta,
+        role: tipoCuenta,
+        nombreRol: roles[tipoCuenta],
+        estado: 'Activo',
+        fecha_registro: new Date().toISOString(),
+        acepta_privacidad: true,
+        fecha_aceptacion_privacidad: new Date().toISOString(),
+        contraseña_hash: await hashContraseña(contraseña),
+        ...extrasTipo,
+    };
+    cuentas.unshift(cuenta);
+    localStorage.setItem(claveCuentasRegistradas, JSON.stringify(cuentas));
+    return obtenerPerfilesRegistrados()[0];
+}
 
 const claveSolicitudesGuardadas = 'nutricom.solicitudes';
 const claveEntregasGuardadas = 'nutricom.entregas';
@@ -1233,7 +1359,7 @@ export async function obtenerDirectorioUsuarios() {
     try {
         const res = await fetch(`${API_BASE_URL}/usuarios`);
         if (!res.ok) throw new Error('Backend no disponible');
-        return await res.json();
+        return [...await res.json(), ...obtenerPerfilesRegistrados()];
     } catch (error) {
         const colores = ['green', 'amber', 'rose', 'blue', 'purple'];
         const usuariosOriginalesMapeados = usuarios.map((u, index) => ({
@@ -1248,7 +1374,7 @@ export async function obtenerDirectorioUsuarios() {
             nombreRol: u.nombreRol
         }));
 
-        return [...usuariosOriginalesMapeados, ...usuariosExtrasMemoria];
+        return [...usuariosOriginalesMapeados, ...usuariosExtrasMemoria, ...obtenerPerfilesRegistrados()];
     }
 }
 

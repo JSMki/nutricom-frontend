@@ -145,6 +145,7 @@
 
 /* Botones */
 .landing-button {
+  display: inline-block;
   background-color: #2e7d32;
   color: white;
   border: none;
@@ -152,6 +153,7 @@
   font-size: 16px;
   border-radius: 6px;
   cursor: pointer;
+  text-decoration: none;
   transition: background-color 0.2s;
 }
 
